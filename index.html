@@ -69,13 +69,13 @@
         }
 
         .links-section {
-            padding: 0 10px; /* Add some padding to avoid content touching table borders */
+            padding: 0 10px;
         }
 
         .links-section h2 {
             font-size: 1.2rem;
             color: #003366;
-            margin: 5px 0; /* Very small margin */
+            margin: 5px 0;
             text-align: center;
         }
 
@@ -84,8 +84,8 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
-            gap: 4px; /* Reduced gap between items */
-            margin: 0; /* No extra margin */
+            gap: 4px;
+            margin: 0;
             font-size: 0.8rem;
         }
 
@@ -93,7 +93,7 @@
             color: #003366;
             text-decoration: none;
             border: 1px solid #003366;
-            padding: 3px 6px; /* Reduced padding */
+            padding: 3px 6px;
             border-radius: 5px;
             transition: background 0.3s ease, color 0.3s ease;
             font-size: 0.8rem;
@@ -113,8 +113,8 @@
         }
 
         .image-thumbnails img {
-            width: 200px;
-            height: auto;
+            width: auto;
+            max-height: 150px; /* Set a maximum height to match other thumbnails */
             cursor: pointer;
             border-radius: 5px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -210,7 +210,7 @@
         <!-- Thumbnail images with links to full-size versions -->
         <div class="image-thumbnails">
             <a href="#full-daily-jepx-system">
-                <img src="Daily_JEPX_System_30Days.png" alt="Daily JEPX System 30 Days">
+                <img src="Daily_JEPX_System_30Days.png" alt="Daily JEPX System 30 Days" style="max-height: 150px;"> <!-- Set max height to maintain aspect ratio -->
             </a>
             <a href="#full-daily-jepx-regions">
                 <img src="Daily_JEPX_9Regions_30Days.png" alt="Daily JEPX 9 Regions 30 Days">
