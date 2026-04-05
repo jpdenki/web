@@ -1,0 +1,1424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	Regression Analysis of Electric Power Market Price of JEPX
+</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="format-detection" content="telephone=no" /><meta name="robots" content="all" /><meta name="MSSmartTagsPreventParsing" content="True" /><meta http-equiv="MSThemeCompatible" content="Yes" /><link href="/favicon.ico" rel="shortcut icon" /><link href="/css/bootstrap.min.css" rel="stylesheet" /><link href="/css/font-awesome.min.css" rel="stylesheet" /><link href="/css/styletwo.css" rel="stylesheet" />
+    <script src="/js/jquery.js" type="text/javascript" ></script>
+    <script src="/js/modernizr.js" type="text/javascript"></script>   
+
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" /><link href="https://fonts.googleapis.com/css?family=Poppins:300,500,600,700,800" rel="stylesheet" />
+    <link rel="alternate" type="application/pdf" title="PDF Full-Text" href="https://www.scirp.org/pdf/JPEE_2014042210463972.pdf" />
+
+    
+    <link rel="alternate" type="text/html" title="HTML Full-Text" href="https://www.scirp.org/html/45088.html" />
+    
+    <link rel="canonical" href="https://www.scirp.org/journal/paperinformation?paperid=45088" />
+
+  
+
+<meta property="og:site_name" content="SCIRP" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.scirp.org/journal/paperinformation?paperid=45088" />
+<meta property="og:title" content="Regression Analysis of Electric Power Market Price of JEPX" />
+
+<meta property="og:image" content="https://file.scirp.org/image/jpee2015012717105085.jpg" />
+<meta property="og:image:secure_url" content="https://file.scirp.org/image/jpee2015012717105085.jpg" />
+
+
+
+
+
+ <script type="text/javascript">
+
+     var ajaxj = {
+         tryList: function () {
+             var xhrj = null;
+             for (var i = 0; i < arguments.length; i++) {
+                 var lambda = arguments[i];
+                 try { xhrj = lambda(); break; } catch (e) { }
+             }
+             return xhrj;
+         },
+         init: function () {
+             return this.tryList(
+         function () { return new ActiveXObject('MSXML2.XMLHttp.6.0'); },
+         function () { return new ActiveXObject('MSXML2.XMLHttp.3.0'); },
+         function () { return new XMLHttpRequest(); },
+         function () { return new ActiveXObject('MSXML2.XMLHttp.5.0'); },
+         function () { return new ActiveXObject('MSXML2.XMLHttp.4.0'); },
+         function () { return new ActiveXObject('Msxml2.XMLHTTP'); },
+         function () { return new ActiveXObject('MSXML.XMLHttp'); },
+         function () { return new ActiveXObject('Microsoft.XMLHTTP'); }
+         ) || null;
+         },
+         post: function (sUrl, sArgs, bAsync, fCallBack, errmsg) {
+             var xhrj = this.init();
+             xhrj.onreadystatechange = function () {
+                 if (xhrj.readyState == 4) {
+
+                     if (xhrj.responseText) {
+                         if (fCallBack.constructor == Function) { fCallBack(xhrj); }
+                     } else {
+
+                     }
+                 }
+             };
+             xhrj.open('POST', encodeURI(sUrl), bAsync);
+
+             xhrj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+             xhrj.send(sArgs);
+         },
+         get: function (sUrl, bAsync, fCallBack, errmsg) {
+             var xhrj = this.init();
+             xhrj.onreadystatechange = function () {
+                 if (xhrj.readyState == 4) {
+                     if (xhrj.responseText) {
+                         if (fCallBack.constructor == Function) { fCallBack(xhrj); }
+                     } else {
+
+                     }
+                 }
+             };
+             xhrj.open('GET', encodeURI(sUrl), bAsync);
+             xhrj.send('Null');
+         }
+     }
+
+     function RndNum(n) {
+         var rnd = "";
+         for (var i = 0; i < n; i++)
+             rnd += Math.floor(Math.random() * 10);
+         return rnd;
+     }
+
+     function SetNum(item) {
+         //var url = "/journal/senddownloadnum";
+         var url = "../journal/senddownloadnum";
+         var args = "paperid=" + item;
+         url = url + "?" + args + "&rand=" + RndNum(4);
+         window.setTimeout("show('" + url + "')", 3000);
+     }
+
+
+     function show(url) {
+         var callback = function (xhrj) { }
+         ajaxj.get(url, true, callback, "try");
+     }
+
+
+ </script>
+
+        <script type="text/javascript">
+            var ajax2 = {//xmlhttp request
+                tryList: function () {
+                    var xhr2 = null;
+                    for (var i = 0; i < arguments.length; i++) {
+                        var lambda = arguments[i];
+                        try { xhr2 = lambda(); break; } catch (e) { }
+                    }
+                    return xhr2;
+                },
+                init: function () {
+                    return this.tryList(
+                        function () { return new ActiveXObject('MSXML2.XMLHttp.6.0'); },
+                        function () { return new ActiveXObject('MSXML2.XMLHttp.3.0'); },
+                        function () { return new XMLHttpRequest(); },
+                        function () { return new ActiveXObject('MSXML2.XMLHttp.5.0'); },
+                        function () { return new ActiveXObject('MSXML2.XMLHttp.4.0'); },
+                        function () { return new ActiveXObject('Msxml2.XMLHTTP'); },
+                        function () { return new ActiveXObject('MSXML.XMLHttp'); },
+                        function () { return new ActiveXObject('Microsoft.XMLHTTP'); }
+                        ) || null;
+                },
+                post: function (sUrl, sArgs, bAsync, fCallBack, errmsg) {
+                    var xhr2 = this.init();
+                    xhr2.onreadystatechange = function () {
+                        if (xhr2.readyState == 4) {
+                            if (xhr2.responseText) {
+                                if (fCallBack.constructor == Function) { fCallBack(xhr2); }
+                            } else {
+                                //alert(errmsg);
+                            }
+                        }
+                    };
+                    xhr2.open('POST', encodeURI(sUrl), bAsync);
+                    xhr2.setRequestHeader('Content-Length', sArgs.length);
+                    xhr2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr2.send(sArgs);
+                },
+                get: function (sUrl, bAsync, fCallBack, errmsg) {
+                    var xhr2 = this.init();
+                    xhr2.onreadystatechange = function () {
+                        if (xhr2.readyState == 4) {
+                            if (xhr2.responseText) {
+                                if (fCallBack.constructor == Function) { fCallBack(xhr2); }
+                            } else {
+                                alert(errmsg);
+                            }
+                        }
+                    };
+                    xhr2.open('GET', encodeURI(sUrl), bAsync);
+                    xhr2.send('Null');
+                }
+            }
+
+
+
+
+            function SetSearchLink(item) {
+
+                var url = "../journal/recordsearchinformation";
+                var skid = $(":hidden[id$=HiddenField_SKID]").val();
+                var args = "skid=" + skid;
+                url = url + "?" + args + "&urllink=" + item;
+                window.setTimeout("showSearchUrl('" + url + "')", 300);
+            }
+
+            function showSearchUrl(url) {
+                var callback2 = function (xhr2) { }
+
+                ajax2.get(url, true, callback2, "try");
+            }
+
+        </script>
+
+
+     
+
+
+     <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","@id":"https://www.scirp.org/journal/paperinformation?paperid=45088","name":"Regression Analysis of Electric Power Market Price of JEPX","headline":"Regression Analysis of Electric Power Market Price of JEPX","url":"https://www.scirp.org/journal/paperinformation?paperid=45088","mainEntityOfPage":"https://www.scirp.org/journal/paperinformation?paperid=45088","image":"https://file.scirp.org/image/jpee2015012717105085.jpg","thumbnailUrl":"https://file.scirp.org/image/jpee2015012717105085.jpg","description":"The deregulation of electric power industries is introducing around the world and electric power markets are operated under the deregulation. Also in Japan, JEPX (Japan Electric Power Exchange) operates a day-ahead market since April 2005. We have already analyzed the electric power market prices in the several markets including JEPX by autoregressive models. We compose simple regression equations, of which a dependent variable is the market price and explanatory variables are the demand and the market price of 24 hours ago. In this paper, we analyze JEPX price data in summer seasons from 2007 to 2013. In this period, the JEPX price is affected by many social phenomena such as Lehman Shock and East Japan earthquake disasters. We compare the determination coefficient and the coefficients of regression and investigate the change of coefficients over the years.","abstract":"The deregulation of electric power industries is introducing around the world and electric power markets are operated under the deregulation. Also in Japan, JEPX (Japan Electric Power Exchange) operates a day-ahead market since April 2005. We have already analyzed the electric power market prices in the several markets including JEPX by autoregressive models. We compose simple regression equations, of which a dependent variable is the market price and explanatory variables are the demand and the market price of 24 hours ago. In this paper, we analyze JEPX price data in summer seasons from 2007 to 2013. In this period, the JEPX price is affected by many social phenomena such as Lehman Shock and East Japan earthquake disasters. We compare the determination coefficient and the coefficients of regression and investigate the change of coefficients over the years.","inLanguage":"en","isAccessibleForFree":true,"datePublished":"2014-04-22T00:00:00+00:00","copyrightYear":2014,"copyrightNotice":"(c) 2006-2025 by author(s) and Scientific Research Publishing Inc.","license":"https://creativecommons.org/licenses/by/4.0/","keywords":["Market Price; JEPX; Autoregressive Model; Bidding Volume; Change over the Years; ADF Test"],"identifier":[{"@type":"PropertyValue","propertyID":"DOI","value":"10.4236/jpee.2014.24065"},"http://dx.doi.org/10.4236/jpee.2014.24065"],"sameAs":["http://dx.doi.org/10.4236/jpee.2014.24065","https://file.scirp.org/pdf/jpee_2014042210463972.pdf"],"author":[{"@type":"Person","name":"Hajime  Miyauchi","affiliation":[{"@type":"Organization","name":"1Department of Frontier Technology for Energy and Devices, Graduate School of Science and Technology,\r\nKumamoto University, Kumamoto, Japan\r\n2Graduate School of Economics, Nagoya City University, Nagoya, Japan"}]},{"@type":"Person","name":"Tetsuya  Misawa","affiliation":[{"@type":"Organization","name":"1Department of Frontier Technology for Energy and Devices, Graduate School of Science and Technology,\r\nKumamoto University, Kumamoto, Japan\r\n2Graduate School of Economics, Nagoya City University, Nagoya, Japan"}]}],"publisher":{"@type":"Organization","name":"Scientific Research Publishing","alternateName":"SCIRP"},"provider":{"@type":"Organization","name":"Scientific Research Publishing","alternateName":"SCIRP"},"isPartOf":{"@type":"PublicationIssue","issueNumber":"4","isPartOf":{"@type":"PublicationVolume","volumeNumber":"2","isPartOf":{"@type":"Periodical","name":"Journal of Power and Energy Engineering","issn":["2327-588X","2327-5901"]}}},"pageStart":"483","pageEnd":"488","pagination":"483-488","encoding":[{"@type":"MediaObject","encodingFormat":"application/pdf","contentUrl":"https://file.scirp.org/pdf/jpee_2014042210463972.pdf"}],"citation":"Miyauchi, H.  and Misawa, T.   (2014) Regression Analysis of Electric Power Market Price of JEPX. Journal of Power and Energy Engineering, 2, 483-488. doi 10.4236/jpee.2014.24065."}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.scirp.org"},{"@type":"ListItem","position":2,"name":"Journal of Power and Energy Engineering","item":"https://www.scirp.org/journal/journalarticles?journalid=2433"},{"@type":"ListItem","position":3,"name":"Vol.2 No.4, April 2014","item":"https://www.scirp.org/journal/home?issueid=4678"},{"@type":"ListItem","position":4,"name":"Regression Analysis of Electric Power Market Price of JEPX","item":"https://www.scirp.org/journal/paperinformation?paperid=45088"}]}</script>
+<meta name="title" content="Regression Analysis of Electric Power Market Price of JEPX" />
+<meta name="keywords" content="Market Price,JEPX,Autoregressive Model,Bidding Volume,Change over the Years,ADF Test" />
+<meta name="description" content="Analyzing JEPX price data in summer seasons from 2007 to 2013, we investigate the impact of social phenomena on electric power market prices. Discover the change in coefficients and determination coefficient over the years." />
+<meta name="citation_journal_title" content="Journal of Power and Energy Engineering" />
+<meta name="citation_publisher" content="Scientific Research Publishing" />
+<meta name="citation_authors" content="Hajime Miyauchi;Tetsuya Misawa" />
+<meta name="citation_author" content="Hajime Miyauchi" />
+<meta name="citation_author" content="Tetsuya Misawa" />
+<meta name="citation_title" content="Regression Analysis of Electric Power Market Price of JEPX" />
+<meta name="citation_volume" content="2" />
+<meta name="citation_date" content="2014-04-22" />
+<meta name="citation_year" content="2014" />
+<meta name="citation_doi" content="10.4236/jpee.2014.24065" />
+<meta name="citation_issnPrint" content="2327-588X" />
+<meta name="citation_issnOnline" content="2327-5901" />
+<meta name="citation_abstract" content="The deregulation of electric power industries is introducing around the world and electric power markets are operated under the deregulation. Also in Japan, JEPX (Japan Electric Power Exchange) operates a day-ahead market since April 2005. We have already analyzed the electric power market prices in the several markets including JEPX by autoregressive models. We compose simple regression equations, of which a dependent variable is the market price and explanatory variables are the demand and the market price of 24 hours ago. In this paper, we analyze JEPX price data in summer seasons from 2007 to 2013. In this period, the JEPX price is affected by many social phenomena such as Lehman Shock and East Japan earthquake disasters. We compare the determination coefficient and the coefficients of regression and investigate the change of coefficients over the years." />
+<meta name="citation_publication_date" content="2014/04/22" />
+<meta name="citation_pdf_url" content="https://www.scirp.org/pdf/JPEE_2014042210463972.pdf" />
+<meta name="fulltext_pdf" content="https://www.scirp.org/pdf/JPEE_2014042210463972.pdf" />
+<meta name="citation_abstract_html_url" content="https://www.scirp.org/journal/paperabs?paperid=45088" />
+<meta name="citation_fulltext_html_url" content="https://www.scirp.org/html/45088.html" />
+<meta name="fulltext_html" content="https://www.scirp.org/html/45088.html" />
+<meta name="citation_issue" content="4" />
+<meta name="citation_online_date" content="2014/04/22" />
+<meta name="citation_firstpage" content="483" />
+<meta name="citation_lastpage" content="488" />
+
+<meta name="dc.title" content="Regression Analysis of Electric Power Market Price of JEPX" />
+
+<meta name="dc.creator" content="Hajime Miyauchi" />
+<meta name="dc.creator" content="Tetsuya Misawa" /><meta name="dcterms.issued" content="2014-04-22" />
+<meta name="dc.description" content="The deregulation of electric power industries is introducing around the world and electric power markets are operated under the deregulation. Also in Japan, JEPX (Japan Electric Power Exchange) operates a day-ahead market since April 2005. We have already analyzed the electric power market prices in the several markets including JEPX by autoregressive models. We compose simple regression equations, of which a dependent variable is the market price and explanatory variables are the demand and the market price of 24 hours ago. In this paper, we analyze JEPX price data in summer seasons from 2007 to 2013. In this period, the JEPX price is affected by many social phenomena such as Lehman Shock and East Japan earthquake disasters. We compare the determination coefficient and the coefficients of regression and investigate the change of coefficients over the years." />
+<meta name="dc.source" content="Journal of Power and Energy Engineering" />
+<meta name="dc.format" content="text/html" />
+<meta name="dc.publisher" content="Scientific Research Publishing" />
+<meta name="dc.date" content="2014-04-22" />
+<meta name="dc.type" content="Article" />
+<meta name="dc.identifier" content="doi:10.4236/jpee.2014.24065" />
+<meta name="dc.language" content="en" />
+<meta name="dc.issued" content="2014-04-22" />
+<meta name="prism.issnPrint" content="2327-588X" />
+<meta name="prism.issnOnline" content="2327-5901" />
+<meta name="prism.publicationName" content="Journal of Power and Energy Engineering" />
+<meta name="prism.publicationDate" content="2014-04-22" />
+<meta name="prism.volume" content="2" />
+<meta name="prism.number" content="4" />
+<meta name="prism.section" content="Article" />
+<meta name="prism.startingPage" content="483" />
+<meta name="prism.doi" content="10.4236/jpee.2014.24065" />
+<meta name="Author" content="Scientific Research Publishing" />
+<meta name="dc.rights" scheme="DCTERMS.URI" content="http://creativecommons.org/licenses/by/4.0/" />
+<meta name="dc.rights" content="(c) 2015 by author(s) and Scientific Research Publishing Inc." /></head>
+<body>
+    <form method="post" action="./paperinformation?paperid=45088" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE1Nzg1OTEwMTcPFgIeE1ZhbGlkYXRlUmVxdWVzdE1vZGUCARYCZg9kFgRmD2QWAgJMDxYEHgRuYW1lBQ5kY3Rlcm1zLmlzc3VlZB4HY29udGVudAUKMjAxNC0wNC0yMmQCAQ9kFgoCAw9kFgJmD2QWAmYPD2QWAh4Kb25rZXlwcmVzcwWdAWlmKGV2ZW50LmtleUNvZGU9PTEzKXtkb2N1bWVudC5hbGwuVXNlckNvbnRyb2xfc2VhcmNoX2NvbW1vbl9idG5TZWFyY2gyLmZvY3VzKCk7ZG9jdW1lbnQuYWxsLlVzZXJDb250cm9sX3NlYXJjaF9jb21tb25fYnRuU2VhcmNoMi5jbGljaygpOyAgIHJldHVybiAgIGZhbHNlO31kAgQPZBYCAgEPZBYUZg8WAh4Fc3R5bGUFK2NvbG9yOmdyYXk7Zm9udC13ZWlnaHQ6bm9ybWFsO0Rpc3BsYXk6Tm9uZTtkAgEPFgIeBFRleHQF3QE8YSBocmVmPSdhcnRpY2xlcz9zZWFyY2hjb2RlPUhhamltZSsrTWl5YXVjaGkmc2VhcmNoZmllbGQ9YXV0aG9ycyZwYWdlPTEnIHRhcmdldD0nX2JsYW5rJz5IYWppbWUgIE1peWF1Y2hpPC9hPiwgPGEgaHJlZj0nYXJ0aWNsZXM/c2VhcmNoY29kZT1UZXRzdXlhKytNaXNhd2Emc2VhcmNoZmllbGQ9YXV0aG9ycyZwYWdlPTEnIHRhcmdldD0nX2JsYW5rJz5UZXRzdXlhICBNaXNhd2E8L2E+IGQCAg9kFgJmDxYCHwUF/gM8YSBocmVmPSdhcnRpY2xlcz9zZWFyY2hjb2RlPTFEZXBhcnRtZW50K29mK0Zyb250aWVyK1RlY2hub2xvZ3krZm9yK0VuZXJneSthbmQrRGV2aWNlcyUyYytHcmFkdWF0ZStTY2hvb2wrb2YrU2NpZW5jZSthbmQrVGVjaG5vbG9neSUyY0t1bWFtb3RvK1VuaXZlcnNpdHklMmMrS3VtYW1vdG8lMmMrSmFwYW4yR3JhZHVhdGUrU2Nob29sK29mK0Vjb25vbWljcyUyYytOYWdveWErQ2l0eStVbml2ZXJzaXR5JTJjK05hZ295YSUyYytKYXBhbiZzZWFyY2hmaWVsZD1hZmZzJnBhZ2U9MScgdGFyZ2V0PSdfYmxhbmsnPjFEZXBhcnRtZW50IG9mIEZyb250aWVyIFRlY2hub2xvZ3kgZm9yIEVuZXJneSBhbmQgRGV2aWNlcywgR3JhZHVhdGUgU2Nob29sIG9mIFNjaWVuY2UgYW5kIFRlY2hub2xvZ3ksDQpLdW1hbW90byBVbml2ZXJzaXR5LCBLdW1hbW90bywgSmFwYW4NCjJHcmFkdWF0ZSBTY2hvb2wgb2YgRWNvbm9taWNzLCBOYWdveWEgQ2l0eSBVbml2ZXJzaXR5LCBOYWdveWEsIEphcGFuPC9hPi48YnIgLz5kAgUPFgIfBQUFNywwOTBkAgYPFgIfBQUFOSwxNjdkAgcPFgIfBAUPRGlzcGxheTppbmxpbmU7ZAIID2QWAgIBDxYCHwUFiwI8YSBocmVmPSdhcnRpY2xlcz9zZWFyY2hjb2RlPU1hcmtldCtQcmljZSUzYitKRVBYJTNiK0F1dG9yZWdyZXNzaXZlK01vZGVsJTNiK0JpZGRpbmcrVm9sdW1lJTNiK0NoYW5nZStvdmVyK3RoZStZZWFycyUzYitBREYrVGVzdCZzZWFyY2hmaWVsZD1rZXl3b3JkJnBhZ2U9MScgdGFyZ2V0PSdfYmxhbmsnPk1hcmtldCBQcmljZTsgSkVQWDsgQXV0b3JlZ3Jlc3NpdmUgTW9kZWw7IEJpZGRpbmcgVm9sdW1lOyBDaGFuZ2Ugb3ZlciB0aGUgWWVhcnM7IEFERiBUZXN0PC9hPiBkAgoPFgIfBQWiAk1peWF1Y2hpLCBILiAgYW5kIE1pc2F3YSwgVC4gICAoMjAxNCkgUmVncmVzc2lvbiBBbmFseXNpcyBvZiBFbGVjdHJpYyBQb3dlciBNYXJrZXQgUHJpY2Ugb2YgSkVQWC4gPGk+Sm91cm5hbCBvZiBQb3dlciBhbmQgRW5lcmd5IEVuZ2luZWVyaW5nPC9pPiwgPGI+MjwvYj4sIDQ4My00ODguIGRvaTogPGEgaHJlZj0naHR0cDovL2R4LmRvaS5vcmcvMTAuNDIzNi9qcGVlLjIwMTQuMjQwNjUnIHRhcmdldD0nX2JsYW5rJyBvbmNsaWNrPSdTZXROdW0oNDUwODgpJz4xMC40MjM2L2pwZWUuMjAxNC4yNDA2NTwvYT4uZAILDxYCHwUFLVRoZSBhdXRob3JzIGRlY2xhcmUgbm8gY29uZmxpY3RzIG9mIGludGVyZXN0LmQCDQ8WAh4LXyFJdGVtQ291bnQCBxYOZg9kFgJmDxUEU1s8YSBocmVmPScuLi9yZWZlcmVuY2UvcmVmZXJlbmNlc3BhcGVycz9yZWZlcmVuY2VpZD0xMTU1MDg2JyB0YXJnZXQ9J19ibGFuayc+MTwvYT5dATEBMboCVnVjZXRpYywgUy4sIFRvbXNvdmljLCBLLiBhbmQgT2JyYWRvdmljLCBaLiAoMjAwMSkgRGlzY292ZXJpbmcgUHJpY2UtTG9hZCBSZWxhdGlvbnNoaXBzIGluIENhbGlmb3JuaWHigJlzIEVsZWN0cmljIE1hcmtldC4gSUVFRSBUcmFuc2FjdGlvbnMgb24gUG93ZXIgU3lzdGVtcywgMTIsIDI4MC0yODYuIGh0dHA6Ly9keC5kb2kub3JnLzEwLjExMDkvNTkuOTE4Mjk5WzxhIGhyZWY9Imh0dHBzOi8vZG9pLm9yZy8xMC4xMTA5LzU5LjkxODI5OSIgdGFyZ2V0PSJfYmxhbmsiIHJlbD0ibm9vcGVuZXIgbm9yZWZlcnJlciIgPkNyb3NzUmVmPC9hPl0mbmJzcDtkAgEPZBYCZg8VBFNbPGEgaHJlZj0nLi4vcmVmZXJlbmNlL3JlZmVyZW5jZXNwYXBlcnM/cmVmZXJlbmNlaWQ9MTE1NTA4NycgdGFyZ2V0PSdfYmxhbmsnPjI8L2E+XQEyATLMAk1peWF1Y2hpLCBILiwgVGF0c3VndWNoaSwgRy4gYW5kIE1pc2F3YSwgVC4gKDIwMDQpIFJlZ3Jlc3Npb24gQW5hbHlzaXMgb2YgRWxlY3RyaWMgUG93ZXIgUHJpY2UgaW4gQ2FsaWZvcm5pYSBQb3dlciBFeGNoYW5nZS4gSUVFSiBUcmFuc2FjdGlvbnMgb24gUG93ZXIgYW5kIEVuZXJneSwgMTI0LCAxOTktMjA2LiBodHRwOi8vZHguZG9pLm9yZy8xMC4xNTQxL2llZWpwZXMuMTI0LjE5OVs8YSBocmVmPSJodHRwczovL2RvaS5vcmcvMTAuMTU0MS9pZWVqcGVzLjEyNC4xOTkiIHRhcmdldD0iX2JsYW5rIiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiID5Dcm9zc1JlZjwvYT5dJm5ic3A7ZAICD2QWAmYPFQRTWzxhIGhyZWY9Jy4uL3JlZmVyZW5jZS9yZWZlcmVuY2VzcGFwZXJzP3JlZmVyZW5jZWlkPTExNTUwODgnIHRhcmdldD0nX2JsYW5rJz4zPC9hPl0BMwEz7wFJdG8sIFQuLCBNaXlhdWNoaSwgSC4gYW5kIE1pc2F3YSwgVC4gKDIwMDcpIFJlZ3Jlc3Npb24gQW5hbHlzaXMgb2YgRWxlY3RyaWMgUG93ZXIgTWFya2V0IFByaWNlIHdpdGggTmV3IE1ldGVvcm9sb2dpY2FsIEV4cGxhbmF0b3J5IFZhcmlhYmxlLiBQcm9jZWVkaW5ncyBvZiBJbnRlcm5hdGlvbmFsIENvbmZlcmVuY2Ugb24gRWxlY3RyaWNhbCBFbmdpbmVlcmluZyAyMDA3LCBIb25nIEtvbmcsIDgtMTIgSnVseSAyMDA3LmQCAw9kFgJmDxUEU1s8YSBocmVmPScuLi9yZWZlcmVuY2UvcmVmZXJlbmNlc3BhcGVycz9yZWZlcmVuY2VpZD0xMTU1MDg5JyB0YXJnZXQ9J19ibGFuayc+NDwvYT5dATQBNE5KRVBYLiA8YSBocmVmPSJodHRwOi8vd3d3LmplcHgub3JnLyIgdGFyZ2V0PSJfYmxhbmsiID5odHRwOi8vd3d3LmplcHgub3JnLzwvYT5kAgQPZBYCZg8VBFNbPGEgaHJlZj0nLi4vcmVmZXJlbmNlL3JlZmVyZW5jZXNwYXBlcnM/cmVmZXJlbmNlaWQ9MTE1NTA5MCcgdGFyZ2V0PSdfYmxhbmsnPjU8L2E+XQE1ATXrAU5pc2hpeWFtYSwgTi4sIE1peWF1Y2hpLCBILiBhbmQgTWlzYXdhLCBULiAoMjAwOSkgUmVncmVzc2lvbiBBbmFseXNpcyBmb3IgU3lzdGVtIFByaWNlIG9mIEpFUFguIFRoZSBQYXBlcnMgb2YgSm9pbnQgVGVjaG5pY2FsIE1lZXRpbmcgb24g4oCcUG93ZXIgRW5naW5lZXJpbmfigJ0gYW5kIOKAnFBvd2VyIFN5c3RlbXMgRW5naW5lZXJpbmfigJ0uIElFRSBKYXBhbiwgTmFnb3lhLCAzMSBKdW4tMiBBdWcgMjAwOS5kAgUPZBYCZg8VBFNbPGEgaHJlZj0nLi4vcmVmZXJlbmNlL3JlZmVyZW5jZXNwYXBlcnM/cmVmZXJlbmNlaWQ9MTE1NTA5MScgdGFyZ2V0PSdfYmxhbmsnPjY8L2E+XQE2ATZSTWFkZGFsYSwgRy5TLiAoMTk5MikgSW50cm9kdWN0aW9uIHRvIEVjb25vbWV0cmljcy4gMm5kIEVkaXRpb24sIFByZW50aWNlLUhhbGwgSW5jLmQCBg9kFgJmDxUEU1s8YSBocmVmPScuLi9yZWZlcmVuY2UvcmVmZXJlbmNlc3BhcGVycz9yZWZlcmVuY2VpZD0xMTU1MDkyJyB0YXJnZXQ9J19ibGFuayc+NzwvYT5dATcBN1FOYXdhdGEsIEsuICgyMDA5KSBJbnRyb2R1Y3Rpb24gdG8gRWNvbm9tZXRyaWMgQW5hbHlzaXMgYnkgRVZpZXdzLiBBc2FrdXJhLVNob3Rlbi5kAggPZBYEAgcPFgIfBAUNRGlzUGxheTpOb25lO2QCCA8WAh8EBQ1EaXNQbGF5Ok5vbmU7ZAILD2QWAmYPFgIeB1Zpc2libGVnZAIMD2QWAgIBD2QWAgIBD2QWAgIDDxAPFgYeDURhdGFUZXh0RmllbGQFCVNob3J0TmFtZR4ORGF0YVZhbHVlRmllbGQFCUpvdXJuYWxJRB4LXyFEYXRhQm91bmRnZBAVgQIOU2VsZWN0IEpvdXJuYWwCQUEDQUFEA0FBUgZBQVNvY2kEQUFTVANBQkIDQUJDBEFCQ1IEQUNFUwNBQ1MDQUNUAkFEA0FEUgJBRQNBRVIDQUhTA0FJRANBaU0EQUlSUgNBSVQEQUpBQwNBSkMEQUpDQwRBSkNNBUFKSUJNBEFKTUIEQUpPUgRBSlBTBUFMQU1UA0FMQwNBTFMCQU0DQU1JBEFNUEMDQU5QA0FQRANBUEUDQVBNA0FSUwVBUlNjaQJBUwNBU00DQkxSAkNDAkNFB0NlbGxCaW8GQ2huU3RkAkNNA0NNQgJDTgRDUkNNAkNTBENTVEEDQ1VTBUNXRUVFCURldGVjdGlvbgRFTUFFA0VORwNFUEUERVRTTgRGTUFSA0ZOUwNHRVADR0lTAkdNCEdyYXBoZW5lA0dTQwZIZWFsdGgCSUIDSUNBA0lJTQRJSkFBBklKQU1TQwVJSkNDRQRJSkNNBUlKQ05TA0lKRwVJSklEUwRJSklTBklKTU5UQQhJSk1QQ0VSTwRJSk5NBElKT0MGSUpPSE5TC0luZnJhTWF0aWNzBUpBQ0VOBEpBTVAFSkFTTUkESkJCUwVKQkNQUgVKQmlTRQNKQk0ESkJOQgRKQlBDA0pDQwVKQ0RTQQRKQ1BUA0pDVAVKREFJUANKRE0ESkVBUwVKRUNUQwVKRU1BQQNKRVAFSkZDTVYESkZSTQRKR0lTBkpIRVBHQwVKSFJTUwZKSUJUVkEFSklMU0EDSklTA0pNRgZKTUdCTkQFSk1NQ0UDSk1QBEpQRUUESlFJUwRKU0JTBEpTRUEGSlNFTUFUBEpTSVADSlNTBEpTU00DSlNUA0pUUgRKVFNUBEpUVHMFSldBUlADTENFAk1DAk1FAk1JA01NRQVNTlNNUwNNUFMCTVIDTVJDA01SSQNNU0EETVNDRQROSkdDAk5NAk5SAk5TBU9BTGliBk9BTGliSgRPREVNA09KQQRPSkFCBk9KQWNjdAZPSkFuZXMET0pBUAVPSkFwbwZPSkFwcFMFT0pBUHIET0pBUwRPSkJEB09KQklQSFkET0pCTQNPSkMET0pDQgRPSkNEBE9KQ0UET0pDTQNPSkQFT0pEZXIET0pETQNPSkUET0pFRQRPSkVNBU9KRU1EBU9KRXBpBE9KRVIDT0pGBE9KRkQDT0pHBU9KR2FzBU9KR2VuA09KSQRPSklDBE9KSU0FT0pJTk0DT0pMA09KTQRPSk1DB09KTWV0YWwET0pNSARPSk1JBU9KTUlQBE9KTUwET0pNTQRPSk1OBE9KTVAET0pNUwVPSk1TaQNPSk4GT0pOZXBoA09KTwRPSk9HBk9KT0dhcwRPSk9wBU9KT3BoBU9KT1BNBU9KT1RTC09KUGF0aG9sb2d5BE9KUEMHT0pQQ2hlbQVPSlBlZARPSlBNBE9KUFAET0pQUwdPSlBzeWNoBE9KUkEFT0pSYWQET0pSRARPSlJNA09KUwRPSlNTBU9KU1NUBE9KU1QFT0pTVEEET0pUUgRPSlRTA09KVQRPSlZNA09QSgNQT1MCUFADUFNUBVBTWUNIA1NBUgNTQ0QEU0dSRQJTTQJTTgNTTkwEU29mdAJTUwNURUwCVEkEVU9BSgJWUANXRVQDV0pBBFdKQ0QFV0pDTVAEV0pDUwRXSkVUA1dKTQRXSk5TBVdKTlNFBVdKTlNUA1dKVgNXU04CWU0VgQIBMAM3MzcEMTQwOAQxNDA2BDEwMDIEMjQyMwMxNjQDNjExBDE0NzgDNDczAzQ5MgQxNTc5BDI0MzcEMjQ0MgQyNDQ0BDI0MjYEMjMxNgM4MDMEMTAwMAQyNDY3AzQ3NgMyMDMEMjQyMgQxMzA0AzUzNQM4ODQDNTMyAzUyOQMyMDcDOTk2BDE1MTcEMjMxNwMxNjADNDc3AzY3NQQxNTczBDE1NzQDNzQzAzUxMwQxNTc1BDI0NDUDMTkxAzgxMgMyNjAEMjQ1NQMxMzYEMjA3NAQxNDkzAzEyMgM5ODkCOTIEMjAzMwMxNzMEMTQ5MgQyNDM4BDE1MTgEMjQ1NAQyNDU3AjY0AjkzBDEzMTEEMjMxNQMyMDgEMjQzMgQyNDYyAzU0MQQxNjkwAzUxMgI2NQMxMDMDMTc2AzExMQM0OTAEMjQ0OQQxMzkxAzIwMgE0AzIwOQQyNDI4Azc0NwQxMjYxBDE1NzgEMTUxOQM1MjcEMTQ3NwQxMjk4BDE5ODAEMjQzNgM1MjUDNDc1BDI0NDMCMzAEMjQzNQMyMzADMTYyBDI0MzEDNTMwAzUyNgMxMjUEMjQyNQM0NzkDNTMxAzY5MQIyOQMxNDQEMTk4NgQxMzk1AzExNAQyNDYxBDI0MjEEMTQxMQMxMDIDMTc1AzY0OAMzOTcEMTc1MwMxNzIEMjQzMwM1OTEDOTkwAjQ1AzU0MwMzMzkEMjQzMAIyOAM0NzgEMjQzOQQyNDYwAzM1NwI0NgMyMTAEMTQ4NQMxNjMDNzg3Azc4NgM5MTcDODE1BDI0NDEEMTQ4NwQxNTc2AzE3NAQyNDM0AzUyOAMyMDUDMTkyAjY5BDI0NTkEMjQ2MwQyNDUzAzczOAQxNDgwBDE1OTADODE0BDE0MDcEMTQ3OQQxMDAzBDI0NDYDNjAxAzgwNgM3ODUEMjQ0NwQyNDUyAzk5NwM2MDYDNzg4Azc5MgQxOTc3AzgxMAM1ODYDNjE0BDE1NzcEMjQ1NgM4MTEDODE2BDE5NzkDNzM2BDEwMDQDNTg3AzgxNwM2MTMDNjAyAzU5MgM1OTMDNzkzBDExODYDNTg4Azc5MAM3ODQDNzM5AzgyMAM2MTIDNzQyAzk5OQM4MjIDOTk4AzU5NgQyNDI0AzYwNQM4MjEDODA0AzYwNAQyNDY0BDE5NzgDODA1Azc5NAM4MjMDODEzAzU4OQM3OTEDNjA5AzYxMAM3NDEDNzQ0AzYwMwM4MDcDNzg5AzgyNAQxMzk0AzU5MAM3MzUDNjAwAzYwNwQxNDg2BDI0NDgDODA4AzUwOQQxMDAxAzU0NwI3MQMyMDYEMjQ0MAMxNDgEMjQ1MAM1MzMDMTM1AzQ3NAQxNTg5AzQ5MQQyMDM0AzIwNAM2NjYDMTA0BDE0MDUEMjQ1OAMxNDYDNTExAzgxOAM1MDIDODA5BDI0NTEDNTA2AzYxNQM0OTMDNTM0AzUxMAI0MQQyNDY1FCsDgQJnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2RkZIDqSySSzwLE9PvKlxMUAjxj/EGGqeDlWpyQ7Gh/h4bl" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=cNtfQDfM0DZOCIibdTSEM9gyGapsrg8PQ8UinZIB5bCXFkQlxAN5QqW1Jy3i3_zH-gjnmVao-mvlev7E5Hpi-uddpNqjX2RLZfQA5mBcxxU1&amp;t=638901824248157332" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=E6fjqt2RHT86Hu1FIRPMqtukXSGSdmSPo-9F_1sonPIEO9tq0XKnrbObS3_nzxac12Zjym0qbxKRrq51Db7GW-MzGFCA9m1Gu5jTtmppBq0uzFH3IFwsv7f5GNTVCpMb3aHZiqYOJEZur6qn_inu9Q-jbEN9-qC4YuAsr8tNEFM1&amp;t=5c0e0825" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=IKXEjMep8c5c6CaESKwbcR7IDyPwGvbRws1qAOkG0Rk6GzRtFSyIbGiGPbm5yxO0GfHnfZOpj9SOI33d-oLELVuJEqPOgLTFgtTgCpszj0Nx9UuaTXScxOXxYNADEoF2i7ozZobSOrYlXbQ9MoX-kv6lMOSScmCV2o29BuW_1v4SerPpYEVLX9I5w_gPjTAn0&amp;t=5c0e0825" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="D21FCB0F" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="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" />
+</div>
+
+
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$ScriptManager1', 'form1', [], [], [], 90, 'ctl00');
+//]]>
+</script>
+
+
+        
+
+
+
+
+<header>
+    <div class="container row clearfix center-block">
+        <div class="col-sm-8 col-xs-9 column" style="padding: 10px 0;"><a href="/index" title="SCIRP - An Academic Publisher" target="_blank">
+            <img src="../images/SRP_logo.svg" height="50"></a>
+        </div>
+        <div class="col-sm-3 col-xs-3 column text-center" style="padding: 20px 0;">
+            <a href="/journal/openaccess" title="OPEN ACCESS" target="_blank">
+                <img src="../images/Open-Access.svg" height="30"></a>
+        </div>
+        <div class="col-sm-1 col-xs-2 column visible-lg visible-md visible-sm " style="padding: 20px 0;">
+            <a href="https://papersubmission.scirp.org/login.jsp" target="_blank" title="Login">
+                <button type="button" class="btn btn-default btn-xs" style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; padding: 0 15px; border: #2f2f2f 1px solid; border-radius: 5px; float: right;">Login</button></a>
+        </div>
+    </div>
+</header>
+
+
+<nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 10px;">
+    <div class="container container-fluid center-block">
+        <div class="navbar-header">
+            <a href="https://papersubmission.scirp.org/login.jsp" target="_blank" ><button type="button" class="btn btn-xs btn-default navbar-brand visible-xs" style="width: 80px; height: 30px; font-size: 18px; font-family: Arial, Helvetica, sans-serif; margin: 10px; padding: 0 15px; border-radius: 5px;">Login</button></a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        
+
+
+
+
+<div class="collapse navbar-collapse" id="example-navbar-collapse">
+    <ul class="nav navbar-nav" style="font-size: 18px;">
+        <li><a href="../" target="_top">Home</a></li>
+        <li><a href="../journal/articles" target="_top">Articles</a></li>
+        <li><a href="../journal/" target="_top">Journals</a></li>
+        <li><a href="../book/" target="_top">Books</a></li>
+        <li><a href="../news/" target="_top">News</a></li>
+        <li><a href="../aboutus/" target="_top">About</a></li>
+        <li><a href="../author/" target="_top">Services</a></li>
+        <li><a href="//papersubmission.scirp.org/login.jsp?sub=true" target="_blank">Submit</a></li>
+    </ul>
+</div>
+
+
+    </div>
+</nav>
+
+
+
+        <div class="container-fluid link_here" style="margin-bottom: 15px;">
+            <div class="row container center-block clearfix" style="padding: 0;">
+
+                <!--页面导航栏-->
+                <div class="col-md-7 column" style="padding: 0;">
+                    
+    <ul class="breadcrumb">
+        <li><i class="fa fa-home" style="color: #d71318;"></i>&nbsp;&nbsp;<a href="/index">Home</a></li>
+        <li><a href="/journal/index">Journals</a></li>
+        <li class="active">Article</li>
+    </ul>
+
+                </div>
+
+                <!--搜索框-->
+                <div class="col-md-5 column">
+                    <div class="" style="padding: 5px 0;">
+                        <div id="UserControl_search_common_Panel2" onkeypress="javascript:return WebForm_FireDefaultButton(event, &#39;UserControl_search_common_btnSearch2&#39;)">
+	
+    <div class="form-inline search2">
+        <input name="ctl00$UserControl_search_common$TextBox_searchCode2" type="text" value="Search Title, Keywords, Author, etc." id="UserControl_search_common_TextBox_searchCode2" class="input2" onFocus="return ClearSearchCondition2();" onBlur="return ShowSearchCondition2();" onkeypress="if(event.keyCode==13){document.all.UserControl_search_common_btnSearch2.focus();document.all.UserControl_search_common_btnSearch2.click();   return   false;}" style="height: 28px;" />
+        <button class="btn-md btn_or" type="button">
+          <input type="submit" name="ctl00$UserControl_search_common$btnSearch2" value=" " id="UserControl_search_common_btnSearch2" style="width:25px; height:25px; background: none; border:none;background-image: url(../Images/search001.png);  " />  
+        </button>
+        
+
+    </div>
+
+    <script type="text/javascript">
+        function ClearSearchCondition2() {
+            var text2 = document.getElementById('UserControl_search_common_TextBox_searchCode2').value;
+            if (text2 == "Search Title, Keywords, Author, etc.")
+            { document.getElementById('UserControl_search_common_TextBox_searchCode2').value = ""; }
+        }
+
+        function ShowSearchCondition2() {
+            var text2 = document.getElementById('UserControl_search_common_TextBox_searchCode2').value;
+                if (text2 == "")
+                { document.getElementById('UserControl_search_common_TextBox_searchCode2').value = "Search Title, Keywords, Author, etc."; }
+            }
+
+
+            function checkLog() {
+
+                var keywords = document.getElementById("UserControl_search_common_TextBox_searchCode2").value;  //关键字
+
+            if (trim(keywords) == "") {
+                alert('Please enter keywords!');
+                return false;
+            }
+
+            if (trim(keywords) == "Search Title, Keywords, Author, etc.") {
+                alert('Please enter keywords!');
+                return false;
+            }
+
+            return true;
+        }
+
+        //除去左右空格
+        function trim(string) {
+            return string.replace(/(^\s*)|(\s*$)/g, "");
+        }
+
+
+    </script>
+
+</div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="row clearfix">
+
+                <div class="col-md-9 column col-md-push-3">
+                    <div class="clearfix con_main" style="margin-bottom: 10px; padding-left: 15px; padding-right: 15px;">
+                        
+       
+
+<div id="JournalInfor_div_nav_journal" class="column up_link1 clearfix" style="padding: 0;">
+            <div class="col-md-9 col-sm-8 txt7">
+                <a href="journalarticles?journalid=2433" title="Journal of Power and Energy Engineering">
+                    Journal of Power and Energy Engineering</a> &gt; <a href="home?issueid=4678#45088">Vol.2 No.4, April 2014</a>
+            </div>
+            </div>
+
+    <div id="JournalInfor_div_paper" class="articles_main">
+            <div class="art_title" style="text-align:left;">
+                Regression Analysis of Electric Power Market Price of JEPX <span id="JournalInfor_reviewpaper_show" style="color:gray;font-weight:normal;Display:None;">()</span>
+            </div>
+            
+        <div style="float: left; width: 100%; margin-top: 5px; margin-bottom: 10px;">
+                <a href='articles?searchcode=Hajime++Miyauchi&searchfield=authors&page=1' target='_blank'>Hajime  Miyauchi</a>, <a href='articles?searchcode=Tetsuya++Misawa&searchfield=authors&page=1' target='_blank'>Tetsuya  Misawa</a> 
+                <br />
+                <span id="JournalInfor_div_affs"><a href='articles?searchcode=1Department+of+Frontier+Technology+for+Energy+and+Devices%2c+Graduate+School+of+Science+and+Technology%2cKumamoto+University%2c+Kumamoto%2c+Japan2Graduate+School+of+Economics%2c+Nagoya+City+University%2c+Nagoya%2c+Japan&searchfield=affs&page=1' target='_blank'>1Department of Frontier Technology for Energy and Devices, Graduate School of Science and Technology,
+Kumamoto University, Kumamoto, Japan
+2Graduate School of Economics, Nagoya City University, Nagoya, Japan</a>.<br /></span>
+               
+                <span id="JournalInfor_showDOI" style="clear: left;"><b>DOI: </b><a href="http://dx.doi.org/10.4236/jpee.2014.24065"
+                    target="_blank" onclick='SetNum(45088)'>10.4236/jpee.2014.24065</a></span>&nbsp;&nbsp;
+                      
+                <a href="/pdf/JPEE_2014042210463972.pdf" target="_blank" style="font-size: 14px; font-weight: bold;" onclick='SetNum(45088)'>
+                    PDF</a>
+            &nbsp;&nbsp;&nbsp;<span style="font-size: 14px; font-weight: bold;"><a href='https://www.scirp.org/html/45088.html' target='_blank'>HTML</a></span>&nbsp;&nbsp;<span style="font-size: 14px; font-weight: bold;"></span>&nbsp;&nbsp;
+                <span style="font-weight: bold; color: Red;">
+                    7,090</span>
+                <span style="color: #535353;">Downloads</span>&nbsp;&nbsp;<span style="font-weight: bold; color: Red;">
+                    9,167</span>
+                <span style="color: #535353;">Views</span>&nbsp;&nbsp;
+                <span id="JournalInfor_span_citations" style="Display:inline;"><a href='papercitationdetails?paperid=45088&journalid=2433' target="_blank"><span style="text-decoration: underline;">Citations</span></a></span>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <p style="font-weight: bold; font-size: 16px;"><a name="abstract" style="color: #2f2f2f;">Abstract</a></p>
+                <p style="text-align:left;">The deregulation of electric power industries is introducing around the world and electric power markets are operated under the deregulation. Also in Japan, JEPX (Japan Electric Power Exchange) operates a day-ahead market since April 2005. We have already analyzed the electric power market prices in the several markets including JEPX by autoregressive models. We compose simple regression equations, of which a dependent variable is the market price and explanatory variables are the demand and the market price of 24 hours ago. In this paper, we analyze JEPX price data in summer seasons from 2007 to 2013. In this period, the JEPX price is affected by many social phenomena such as Lehman Shock and East Japan earthquake disasters. We compare the determination coefficient and the coefficients of regression and investigate the change of coefficients over the years.</p>
+            </div>
+
+            <div id="JournalInfor_div_showkeywords" style="margin-bottom: 10px;">
+                <p style="font-weight: bold; font-size: 16px;">Keywords</p>
+                <p><a href='articles?searchcode=Market+Price%3b+JEPX%3b+Autoregressive+Model%3b+Bidding+Volume%3b+Change+over+the+Years%3b+ADF+Test&searchfield=keyword&page=1' target='_blank'>Market Price; JEPX; Autoregressive Model; Bidding Volume; Change over the Years; ADF Test</a> </p>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <p style="font-size: 16px; font-weight: bold;">Share and Cite: </p>
+                
+                <div id="JournalInfor_div_share"> 
+                    
+<!-- AddToAny BEGIN -->
+
+<div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+<a class="a2a_button_facebook"></a>
+<a class="a2a_button_twitter"></a>
+<a class="a2a_button_linkedin"></a>
+<a class="a2a_button_sina_weibo"></a>
+<a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+</div>
+<script type="text/javascript" async src="https://static.addtoany.com/menu/page.js"></script>
+<!-- AddToAny END -->
+
+                   
+                    
+                </div>
+
+                <div style="margin-top: 10px; text-align:left;">
+                    Miyauchi, H.  and Misawa, T.   (2014) Regression Analysis of Electric Power Market Price of JEPX. <i>Journal of Power and Energy Engineering</i>, <b>2</b>, 483-488. doi: <a href='http://dx.doi.org/10.4236/jpee.2014.24065' target='_blank' onclick='SetNum(45088)'>10.4236/jpee.2014.24065</a>.
+                </div>
+            </div>
+            <div style="margin-top:10px;" id="htmlContent">
+                
+            </div>
+
+        
+         
+
+            <div style="margin-top: 10px;">
+                <p style="font-size: 16px; font-weight: bold;">Conflicts of Interest</p>
+                <p style="text-align: justify;">The authors declare no conflicts of interest.</p>
+            </div>
+     
+
+            <div style="margin-top: 10px;">
+                <p style="font-size: 16px; font-weight: bold;">
+                    <a name="reference" style="color: #2f2f2f;">References</a>
+                </p>
+                <p>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align: left; word-break: break-word; ">
+                        
+                                <tr>
+                                    <td width="45" valign="top">
+                                        [<a href='../reference/referencespapers?referenceid=1155086' target='_blank'>1</a>]
+                                    </td>
+                                    <td valign="top" style="word-wrap:break-word; ">
+                                        <a target="_self" name="ref1" id="ref1"></a>
+                                        Vucetic, S., Tomsovic, K. and Obradovic, Z. (2001) Discovering Price-Load Relationships in California’s Electric Market. IEEE Transactions on Power Systems, 12, 280-286. http://dx.doi.org/10.1109/59.918299[<a href="https://doi.org/10.1109/59.918299" target="_blank" rel="noopener noreferrer" >CrossRef</a>]&nbsp;
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td width="45" valign="top">
+                                        [<a href='../reference/referencespapers?referenceid=1155087' target='_blank'>2</a>]
+                                    </td>
+                                    <td valign="top" style="word-wrap:break-word; ">
+                                        <a target="_self" name="ref2" id="ref2"></a>
+                                        Miyauchi, H., Tatsuguchi, G. and Misawa, T. (2004) Regression Analysis of Electric Power Price in California Power Exchange. IEEJ Transactions on Power and Energy, 124, 199-206. http://dx.doi.org/10.1541/ieejpes.124.199[<a href="https://doi.org/10.1541/ieejpes.124.199" target="_blank" rel="noopener noreferrer" >CrossRef</a>]&nbsp;
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td width="45" valign="top">
+                                        [<a href='../reference/referencespapers?referenceid=1155088' target='_blank'>3</a>]
+                                    </td>
+                                    <td valign="top" style="word-wrap:break-word; ">
+                                        <a target="_self" name="ref3" id="ref3"></a>
+                                        Ito, T., Miyauchi, H. and Misawa, T. (2007) Regression Analysis of Electric Power Market Price with New Meteorological Explanatory Variable. Proceedings of International Conference on Electrical Engineering 2007, Hong Kong, 8-12 July 2007.
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td width="45" valign="top">
+                                        [<a href='../reference/referencespapers?referenceid=1155089' target='_blank'>4</a>]
+                                    </td>
+                                    <td valign="top" style="word-wrap:break-word; ">
+                                        <a target="_self" name="ref4" id="ref4"></a>
+                                        JEPX. <a href="http://www.jepx.org/" target="_blank" >http://www.jepx.org/</a>
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td width="45" valign="top">
+                                        [<a href='../reference/referencespapers?referenceid=1155090' target='_blank'>5</a>]
+                                    </td>
+                                    <td valign="top" style="word-wrap:break-word; ">
+                                        <a target="_self" name="ref5" id="ref5"></a>
+                                        Nishiyama, N., Miyauchi, H. and Misawa, T. (2009) Regression Analysis for System Price of JEPX. The Papers of Joint Technical Meeting on “Power Engineering” and “Power Systems Engineering”. IEE Japan, Nagoya, 31 Jun-2 Aug 2009.
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td width="45" valign="top">
+                                        [<a href='../reference/referencespapers?referenceid=1155091' target='_blank'>6</a>]
+                                    </td>
+                                    <td valign="top" style="word-wrap:break-word; ">
+                                        <a target="_self" name="ref6" id="ref6"></a>
+                                        Maddala, G.S. (1992) Introduction to Econometrics. 2nd Edition, Prentice-Hall Inc.
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td width="45" valign="top">
+                                        [<a href='../reference/referencespapers?referenceid=1155092' target='_blank'>7</a>]
+                                    </td>
+                                    <td valign="top" style="word-wrap:break-word; ">
+                                        <a target="_self" name="ref7" id="ref7"></a>
+                                        Nawata, K. (2009) Introduction to Econometric Analysis by EViews. Asakura-Shoten.
+                                    </td>
+                                </tr>
+                            
+                    </table>
+                </p>
+            </div>
+
+        </div>
+
+
+
+
+
+    
+
+    
+
+
+    <script type="text/javascript"  src="/js/htmlinsert.js?timestamp=202510141432122567"></script>
+<script type="text/javascript" >
+
+    window.onload = function () {
+        var device = tools.currDevice()
+        // ipad mobile 和 ipad true
+        // iphone mobile 和 iphone true
+        // android mobile 和 android true
+        if (device.isMobile && (device.iphone || device.android)) {
+            return false;
+        }
+        tools.replaceNode()
+    }
+</script>
+
+
+<script src="/js/crossmark_widget.js" type="text/javascript"></script>
+
+
+<script  type="text/javascript">
+        (function () {
+
+            function runHighlight() {
+                if (typeof jQuery === 'undefined') return;
+
+                var searchPagePath = "/journal/articles";
+                var referrer = document.referrer;
+
+                if (!referrer || referrer.indexOf(searchPagePath) === -1) return;
+
+                try {
+                    var refUrl = new URL(referrer);
+                    var code = refUrl.searchParams.get("searchcode");
+
+                    if (code) {
+                        var keyword = decodeURIComponent(code.replace(/\+/g, ' ')).trim();
+                        if (keyword) {
+                            highlightText(keyword);
+                        }
+                    }
+
+                } catch (e) { }
+            }
+
+            // 终极高亮函数
+            function highlightText(term) {
+                var $ = jQuery;
+                var $container = $('.articles_main');
+                if ($container.length === 0) return;
+
+                function escapeReg(str) {
+                    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                }
+
+                var patterns = [];
+                // 1️整体短语
+                patterns.push(term);
+                // 2️空格拆词 + 过滤停用词
+                var stopWords = [
+                    "in", "on", "at", "of", "to", "for", "and", "or", "the", "a", "an",
+                    "with", "by", "from", "as", "is", "are", "was", "were"
+                ];
+                var words = term
+                    .split(/\s+/)
+                    .filter(Boolean)
+                    .filter(function (w) {
+                        // 如果包含中文，直接保留
+                        if (/[\u4e00-\u9fa5]/.test(w)) {
+                            return true;
+                        }
+                        // 英文才做长度和停用词过滤
+                        if (w.length <= 2) return false;
+                        if (stopWords.indexOf(w.toLowerCase()) !== -1) return false;
+                        return true;
+                    });
+                // 直接concat过滤后的words（移除多余的patterns.push(term)）
+                patterns = patterns.concat(words);
+                // 3️中文拆单字（原代码已注释，保持不变）
+                // words.forEach(function (w) {
+                //   if (/[\u4e00-\u9fa5]/.test(w)) {
+                //     w.split('').forEach(function (ch) {
+                //       patterns.push(ch);
+                //     });
+                //   }
+                // });
+
+                // 4️去重 + 转义 + 添加词边界（核心修改）
+                var tempMap = {};
+                var newPatterns = [];
+                patterns.forEach(function (origP) {
+                    var p = escapeReg(origP);
+                    if (!tempMap[p]) {
+                        tempMap[p] = true;
+                        var bounded = p;  // 默认无边界
+                        // 如果不含中文，添加词边界 \b ... \b（防止子串匹配）
+                        if (!/[\u4e00-\u9fa5]/.test(origP)) {
+                            bounded = '\\b' + p + '\\b';
+                        }
+                        newPatterns.push(bounded);
+                    }
+                });
+                patterns = newPatterns;
+
+                if (patterns.length === 0) return;
+
+                // 5️长词优先（排序基于带边界的patterns长度，相对顺序不变）
+                patterns.sort(function (a, b) {
+                    return b.length - a.length;
+                });
+
+                // 6️构建正则（保持原样）
+                var regex = new RegExp("(" + patterns.join("|") + ")", "gi");
+
+                // 7️扫描并替换（保持原样）
+                $container.find("*").addBack().contents().each(function () {
+                    if (this.nodeType === 3) {
+                        if ($(this).parent().is("script,style")) return;
+                        var text = this.nodeValue;
+                        if (text.search(regex) !== -1) {
+                            $(this).replaceWith(
+                                text.replace(
+                                    regex,
+                                    '<span style="color:red;font-weight:bold;">$1</span>'
+                                )
+                            );
+                        }
+                    }
+                });
+            }
+
+            if (window.jQuery) {
+
+                var timer = setInterval(function () {
+
+                    if ($('.articles_main').length > 0) {
+                        clearInterval(timer);
+                        runHighlight();
+                    }
+
+                }, 300);
+
+            }
+
+
+        })();
+</script>
+
+
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-3 column col-md-pull-9">
+                    <div class="row clearfix bg_w visible-md visible-lg">
+                        <div class="title_up">Journals Menu</div>
+                        <div class="column txt3">
+                            
+
+<ul class="list-unstyled">
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/aimscope?journalid=2433" target="_top">&nbsp;&nbsp;Aims & Scope</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/journalarticles?journalid=2433" target="_top">&nbsp;&nbsp;Articles</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/home?journalid=2433" target="_top">&nbsp;&nbsp;Archive</a></li>     
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/editorialboard?journalid=2433"  target="_top">&nbsp;&nbsp;Editorial Board</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/forauthors?journalid=2433"  target="_top">&nbsp;&nbsp;For Authors</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/editorialpolicies?journalid=2433" target="_top">&nbsp;&nbsp;Editorial Policies</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/apc?journalid=2433" target="_top">&nbsp;&nbsp;Publication Fees</a></li>    
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/ethics?journalid=2433" target="_top">&nbsp;&nbsp;Ethics</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/indexing?journalid=2433" target="_top">&nbsp;&nbsp;Indexing</a></li>
+</ul>
+
+                        </div>
+                    </div>
+
+                    <div class="row clearfix bg_w visible-xs visible-sm">
+                        <div class="panel-group column" id="accordion" style="margin-bottom: 0;">
+                            <div class="panel panel-default" style="border: none;">
+                                <div class="panel-heading" style="background: #fff; padding: 0; margin: 0;">
+                                    <h4 class="panel-title">
+                                        <a class="link1" data-toggle="collapse" data-parent="#accordion" href="#collapse1">Journals Menu&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse1" class="panel-collapse collapse">
+                                    <div class="panel-body txt3" style="padding: 10px 0 0 0;">
+                                        
+
+<ul class="list-unstyled">
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/aimscope?journalid=2433" target="_top">&nbsp;&nbsp;Aims & Scope</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/journalarticles?journalid=2433" target="_top">&nbsp;&nbsp;Articles</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/home?journalid=2433" target="_top">&nbsp;&nbsp;Archive</a></li>     
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/editorialboard?journalid=2433"  target="_top">&nbsp;&nbsp;Editorial Board</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/forauthors?journalid=2433"  target="_top">&nbsp;&nbsp;For Authors</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/editorialpolicies?journalid=2433" target="_top">&nbsp;&nbsp;Editorial Policies</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/apc?journalid=2433" target="_top">&nbsp;&nbsp;Publication Fees</a></li>    
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/ethics?journalid=2433" target="_top">&nbsp;&nbsp;Ethics</a></li>
+    <li><i class="fa fa-chevron-right" style="color: #d71318;"></i><a href="../journal/indexing?journalid=2433" target="_top">&nbsp;&nbsp;Indexing</a></li>
+</ul>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     
+                    <div id="relatedArticles"></div>
+                    <div id="div_sep" class="row clearfix bg_w">
+                       
+
+<div class="column left_link1">
+    <ul class="list-unstyled">
+        <li><a href="../journal/openspecialissues?journalid=2433&PubState=false" target="_blank">
+            Open Special Issues</a></li>
+        <li><a href="../journal/openspecialissues?journalid=2433&PubState=true" target="_blank">
+            Published Special Issues</a></li>
+        <li><a href="../journal/openspecialissuesguideline?journalid=2433" target="_blank">
+            Special Issues Guideline</a></li>
+    </ul>
+</div>
+
+                    </div>
+                    
+
+<div class="row clearfix bg_w">
+    <div class="column right_link1">
+        <ul class="list-unstyled">
+            <li><a href="../journal/newslettersubscription?journalid=2433" target="_blank">
+                E-Mail Alert</a></li>            
+            <li><a href="../journal/subscribejournal?journalid=2433" target="_blank">JPEE
+                Subscription</a></li>
+            <li><a href="../journal/publicat_ethics_statement?journalid=2433" target="_blank">
+                Publication Ethics & OA Statement</a></li>
+            <li><a href="../journal/faq?journalid=2433" target="_blank">
+                Frequently Asked Questions</a></li>
+            <li><a href="../journal/recommendtopeers?journalid=2433" target="_blank">
+                Recommend to Peers</a></li>
+            <li><a href="../journal/recommendtolibrary?journalid=2433" target="_blank">
+                Recommend to Library</a></li>
+            <li><a href="../journal/contactus?journalid=2433" target="_blank">
+                Contact us</a></li>
+            <li id="UserControl_Reacommend_div_ojuDisclaimer" style="DisPlay:None;"><a href="../journal/disclaimer?journalid=2433" target="_blank">
+                Disclaimer</a></li>
+            <li id="UserControl_Reacommend_div_historyIssue" style="DisPlay:None;"><a href="../journal/historyissue?journalid=2433" target="_blank">
+                History Issue</a></li>
+        </ul>
+    </div>
+</div>
+
+
+                    <div id="journalSponsors"></div>
+
+                    
+                    <div class="row clearfix bg_w">
+                        
+
+
+
+<div class="column">
+    <div class="title_up">Follow SCIRP</div>
+    <div style="padding-top: 10px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="left"><a href="https://twitter.com/Scirp_Papers" class="tooltip-hide" data-toggle="tooltip" data-placement="left" title="Twitter" target="_blank">
+                    <img src="../images/Twitter.svg" height="30" alt="Twitter"></a></td>
+                <td align="left"><a href="https://www.facebook.com/Scientific-Research-Publishing-267429817016644/" class="tooltip-hide" data-toggle="tooltip" data-placement="left" title="Facebook" target="_blank">
+                    <img src="../images/fb.svg" height="30" alt="Facebook"></a></td>
+                <td align="left"><a href="https://www.linkedin.com/company/scientific-research-publishing/" class="tooltip-hide" data-toggle="tooltip" data-placement="left" title="Linkedin" target="_blank">
+                    <img src="../images/in.svg" height="30" alt="Linkedin"></a></td>
+                <td align="left"><a href="http://e.weibo.com/scirp" class="tooltip-hide" data-toggle="tooltip" data-placement="left" title="Weibo" target="_blank">
+                    <img src="../images/weibo.svg" height="30" alt="Weibo"></a></td>
+                
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+                    </div>
+                    <div class="row clearfix bg_w">
+                        
+
+
+
+<div class="column">
+    <div class="title_up">Contact us</div>
+    <div style="padding-top: 5px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+             
+            <tr>
+                <td style="text-align:left; width:25px;" ><img border='0' src="../images/emailsrp.png"  style="float: left;" /></td>
+                <td style="padding-left:5px;"><a href="mailto:customer@scirp.org" target="_blank">customer@scirp.org</a></td>           
+            </tr>
+            <tr>
+                <td><img border='0' src="../images/whatsapplogo.jpg" alt='WhatsApp' title='WhatsApp' style="float: left;" /></td>
+                <td style="padding-left:5px;">+86 18163351462(WhatsApp)</td>
+            </tr>
+            <tr>
+                <td><a target='_blank' href='http://wpa.qq.com/msgrd?v=3&uin=1655362766&site=qq&menu=yes' rel="nofollow"><img border='0' src="../Images/qq25.jpg" alt='Click here to send a message to me' title='Click here to send a message to me' style="float: left;" /></a></td>
+                <td style="padding-left:5px;"><a target='_blank' href='http://wpa.qq.com/msgrd?v=3&uin=1655362766&site=qq&menu=yes' rel="nofollow">1655362766</a></td>
+            </tr>
+            <tr>
+                <td style="vertical-align:top;"><img border='0' src="../images/weixinlogo.jpg"  /></td>
+                <td style="padding-left:5px;"><img border='0' src="../images/weixinsrp120.jpg"  /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="padding-left:5px;">Paper Publishing WeChat</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="papercopyright">
+            <div id="UserControl_PaperCopyRight_div_showby" class="clearfix text-center" style="border-top: #ccc 2px solid; background: #fff; padding: 10px; margin-top: 10px; font-size: 12px;">
+    <p>Copyright &copy; 2026 by authors and Scientific Research Publishing Inc. </p>
+    <p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" title="Creative Commons License" style="border-width: 0" src="../Images/ccby.png" width="88" height="31" /></a></p>
+    <p>This work and the related PDF file are licensed under a <a about="http://dx.doi.org/10.4236/jpee.2014.24065" rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
+</div>
+
+
+        </div>
+        <div id="footer">
+            
+
+
+
+<div style="border-top: #d71318 8px solid; padding: 20px 0; margin-top: 20px;">
+    <div class="container row clearfix center-block" style="padding: 0;">
+        
+
+<script type="text/javascript">
+    function checksubscribe() {
+        
+        var email = $("#UserControl_footer_UserControl_NewsletterSubscription_TextBox_nls_email").val();//Email   id=UserControl_NewsletterSubscription_TextBox_email       
+        if (email == "" || email == "E-mail address") {
+            alert('Please enter an email address!');
+            return false;
+        }
+        var emailRegExp = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+        if (!emailRegExp.test(email) || email.indexOf('.') == -1) {
+            alert('The email address that you entered is invalid!');
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<div class="col-sm-3 column" style="padding-right: 30px;">
+    <span style="margin-bottom: 10px; font-size: 16px; line-height: 1.2em;"><strong>Free SCIRP Newsletters</strong></span>
+    <div style="background: #dddddd; border-radius: 6px; box-shadow: 3px 3px 0px #9f9f9f; padding: 10px; margin-bottom: 10px;">
+
+        <div role="form" class="form-inline">
+            <div id="UserControl_footer_UserControl_NewsletterSubscription_panel_newsletter" onkeypress="javascript:return WebForm_FireDefaultButton(event, &#39;UserControl_footer_UserControl_NewsletterSubscription_btnSubscribe&#39;)">
+	
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <span for="name" style="font-size: 12px; line-height: 1.5em; font-weight: bold;">Add your e-mail address to receive free newsletters from SCIRP.</span>
+
+                    <input name="ctl00$UserControl_footer$UserControl_NewsletterSubscription$TextBox_nls_email" type="text" value="E-mail address" id="UserControl_footer_UserControl_NewsletterSubscription_TextBox_nls_email" class="form-control" onFocus="javascript:if(this.value==&#39;E-mail address&#39;) {this.value=&#39;&#39;;}" onBlur="javascript:if(this.value==&#39;&#39;){this.value=&#39;E-mail address&#39;;}" style="width: 100%; background: #fff; border: #2f2f2f 1px solid; border-radius: 0; height: 25px;" />
+                </div>
+
+                <div class="form-group" style="margin-bottom: 5px; width: 100%;">
+
+                    <select name="ctl00$UserControl_footer$UserControl_NewsletterSubscription$DropDownList_journal" id="UserControl_footer_UserControl_NewsletterSubscription_DropDownList_journal" class="form-control" style="width: 100%; height: 25px; border: #2f2f2f 1px solid; border-radius: 0; padding: 0 8px; color: #999;">
+		<option value="0">Select Journal</option>
+		<option value="737">AA</option>
+		<option value="1408">AAD</option>
+		<option value="1406">AAR</option>
+		<option value="1002">AASoci</option>
+		<option value="2423">AAST</option>
+		<option value="164">ABB</option>
+		<option value="611">ABC</option>
+		<option value="1478">ABCR</option>
+		<option value="473">ACES</option>
+		<option value="492">ACS</option>
+		<option value="1579">ACT</option>
+		<option value="2437">AD</option>
+		<option value="2442">ADR</option>
+		<option value="2444">AE</option>
+		<option value="2426">AER</option>
+		<option value="2316">AHS</option>
+		<option value="803">AID</option>
+		<option value="1000">AiM</option>
+		<option value="2467">AIRR</option>
+		<option value="476">AIT</option>
+		<option value="203">AJAC</option>
+		<option value="2422">AJC</option>
+		<option value="1304">AJCC</option>
+		<option value="535">AJCM</option>
+		<option value="884">AJIBM</option>
+		<option value="532">AJMB</option>
+		<option value="529">AJOR</option>
+		<option value="207">AJPS</option>
+		<option value="996">ALAMT</option>
+		<option value="1517">ALC</option>
+		<option value="2317">ALS</option>
+		<option value="160">AM</option>
+		<option value="477">AMI</option>
+		<option value="675">AMPC</option>
+		<option value="1573">ANP</option>
+		<option value="1574">APD</option>
+		<option value="743">APE</option>
+		<option value="513">APM</option>
+		<option value="1575">ARS</option>
+		<option value="2445">ARSci</option>
+		<option value="191">AS</option>
+		<option value="812">ASM</option>
+		<option value="260">BLR</option>
+		<option value="2455">CC</option>
+		<option value="136">CE</option>
+		<option value="2074">CellBio</option>
+		<option value="1493">ChnStd</option>
+		<option value="122">CM</option>
+		<option value="989">CMB</option>
+		<option value="92">CN</option>
+		<option value="2033">CRCM</option>
+		<option value="173">CS</option>
+		<option value="1492">CSTA</option>
+		<option value="2438">CUS</option>
+		<option value="1518">CWEEE</option>
+		<option value="2454">Detection</option>
+		<option value="2457">EMAE</option>
+		<option value="64">ENG</option>
+		<option value="93">EPE</option>
+		<option value="1311">ETSN</option>
+		<option value="2315">FMAR</option>
+		<option value="208">FNS</option>
+		<option value="2432">GEP</option>
+		<option value="2462">GIS</option>
+		<option value="541">GM</option>
+		<option value="1690">Graphene</option>
+		<option value="512">GSC</option>
+		<option value="65">Health</option>
+		<option value="103">IB</option>
+		<option value="176">ICA</option>
+		<option value="111">IIM</option>
+		<option value="490">IJAA</option>
+		<option value="2449">IJAMSC</option>
+		<option value="1391">IJCCE</option>
+		<option value="202">IJCM</option>
+		<option value="4">IJCNS</option>
+		<option value="209">IJG</option>
+		<option value="2428">IJIDS</option>
+		<option value="747">IJIS</option>
+		<option value="1261">IJMNTA</option>
+		<option value="1578">IJMPCERO</option>
+		<option value="1519">IJNM</option>
+		<option value="527">IJOC</option>
+		<option value="1477">IJOHNS</option>
+		<option value="1298">InfraMatics</option>
+		<option value="1980">JACEN</option>
+		<option value="2436">JAMP</option>
+		<option value="525">JASMI</option>
+		<option value="475">JBBS</option>
+		<option value="2443">JBCPR</option>
+		<option value="30">JBiSE</option>
+		<option value="2435">JBM</option>
+		<option value="230">JBNB</option>
+		<option value="162">JBPC</option>
+		<option value="2431">JCC</option>
+		<option value="530">JCDSA</option>
+		<option value="526">JCPT</option>
+		<option value="125">JCT</option>
+		<option value="2425">JDAIP</option>
+		<option value="479">JDM</option>
+		<option value="531">JEAS</option>
+		<option value="691">JECTC</option>
+		<option value="29">JEMAA</option>
+		<option value="144">JEP</option>
+		<option value="1986">JFCMV</option>
+		<option value="1395">JFRM</option>
+		<option value="114">JGIS</option>
+		<option value="2461">JHEPGC</option>
+		<option value="2421">JHRSS</option>
+		<option value="1411">JIBTVA</option>
+		<option value="102">JILSA</option>
+		<option value="175">JIS</option>
+		<option value="648">JMF</option>
+		<option value="397">JMGBND</option>
+		<option value="1753">JMMCE</option>
+		<option value="172">JMP</option>
+		<option value="2433">JPEE</option>
+		<option value="591">JQIS</option>
+		<option value="990">JSBS</option>
+		<option value="45">JSEA</option>
+		<option value="543">JSEMAT</option>
+		<option value="339">JSIP</option>
+		<option value="2430">JSS</option>
+		<option value="28">JSSM</option>
+		<option value="478">JST</option>
+		<option value="2439">JTR</option>
+		<option value="2460">JTST</option>
+		<option value="357">JTTs</option>
+		<option value="46">JWARP</option>
+		<option value="210">LCE</option>
+		<option value="1485">MC</option>
+		<option value="163">ME</option>
+		<option value="787">MI</option>
+		<option value="786">MME</option>
+		<option value="917">MNSMS</option>
+		<option value="815">MPS</option>
+		<option value="2441">MR</option>
+		<option value="1487">MRC</option>
+		<option value="1576">MRI</option>
+		<option value="174">MSA</option>
+		<option value="2434">MSCE</option>
+		<option value="528">NJGC</option>
+		<option value="205">NM</option>
+		<option value="192">NR</option>
+		<option value="69">NS</option>
+		<option value="2459">OALib</option>
+		<option value="2463">OALibJ</option>
+		<option value="2453">ODEM</option>
+		<option value="738">OJA</option>
+		<option value="1480">OJAB</option>
+		<option value="1590">OJAcct</option>
+		<option value="814">OJAnes</option>
+		<option value="1407">OJAP</option>
+		<option value="1479">OJApo</option>
+		<option value="1003">OJAppS</option>
+		<option value="2446">OJAPr</option>
+		<option value="601">OJAS</option>
+		<option value="806">OJBD</option>
+		<option value="785">OJBIPHY</option>
+		<option value="2447">OJBM</option>
+		<option value="2452">OJC</option>
+		<option value="997">OJCB</option>
+		<option value="606">OJCD</option>
+		<option value="788">OJCE</option>
+		<option value="792">OJCM</option>
+		<option value="1977">OJD</option>
+		<option value="810">OJDer</option>
+		<option value="586">OJDM</option>
+		<option value="614">OJE</option>
+		<option value="1577">OJEE</option>
+		<option value="2456">OJEM</option>
+		<option value="811">OJEMD</option>
+		<option value="816">OJEpi</option>
+		<option value="1979">OJER</option>
+		<option value="736">OJF</option>
+		<option value="1004">OJFD</option>
+		<option value="587">OJG</option>
+		<option value="817">OJGas</option>
+		<option value="613">OJGen</option>
+		<option value="602">OJI</option>
+		<option value="592">OJIC</option>
+		<option value="593">OJIM</option>
+		<option value="793">OJINM</option>
+		<option value="1186">OJL</option>
+		<option value="588">OJM</option>
+		<option value="790">OJMC</option>
+		<option value="784">OJMetal</option>
+		<option value="739">OJMH</option>
+		<option value="820">OJMI</option>
+		<option value="612">OJMIP</option>
+		<option value="742">OJML</option>
+		<option value="999">OJMM</option>
+		<option value="822">OJMN</option>
+		<option value="998">OJMP</option>
+		<option value="596">OJMS</option>
+		<option value="2424">OJMSi</option>
+		<option value="605">OJN</option>
+		<option value="821">OJNeph</option>
+		<option value="804">OJO</option>
+		<option value="604">OJOG</option>
+		<option value="2464">OJOGas</option>
+		<option value="1978">OJOp</option>
+		<option value="805">OJOph</option>
+		<option value="794">OJOPM</option>
+		<option value="823">OJOTS</option>
+		<option value="813">OJPathology</option>
+		<option value="589">OJPC</option>
+		<option value="791">OJPChem</option>
+		<option value="609">OJPed</option>
+		<option value="610">OJPM</option>
+		<option value="741">OJPP</option>
+		<option value="744">OJPS</option>
+		<option value="603">OJPsych</option>
+		<option value="807">OJRA</option>
+		<option value="789">OJRad</option>
+		<option value="824">OJRD</option>
+		<option value="1394">OJRM</option>
+		<option value="590">OJS</option>
+		<option value="735">OJSS</option>
+		<option value="600">OJSST</option>
+		<option value="607">OJST</option>
+		<option value="1486">OJSTA</option>
+		<option value="2448">OJTR</option>
+		<option value="808">OJTS</option>
+		<option value="509">OJU</option>
+		<option value="1001">OJVM</option>
+		<option value="547">OPJ</option>
+		<option value="71">POS</option>
+		<option value="206">PP</option>
+		<option value="2440">PST</option>
+		<option value="148">PSYCH</option>
+		<option value="2450">SAR</option>
+		<option value="533">SCD</option>
+		<option value="135">SGRE</option>
+		<option value="474">SM</option>
+		<option value="1589">SN</option>
+		<option value="491">SNL</option>
+		<option value="2034">Soft</option>
+		<option value="204">SS</option>
+		<option value="666">TEL</option>
+		<option value="104">TI</option>
+		<option value="1405">UOAJ</option>
+		<option value="2458">VP</option>
+		<option value="146">WET</option>
+		<option value="511">WJA</option>
+		<option value="818">WJCD</option>
+		<option value="502">WJCMP</option>
+		<option value="809">WJCS</option>
+		<option value="2451">WJET</option>
+		<option value="506">WJM</option>
+		<option value="615">WJNS</option>
+		<option value="493">WJNSE</option>
+		<option value="534">WJNST</option>
+		<option value="510">WJV</option>
+		<option value="41">WSN</option>
+		<option value="2465">YM</option>
+
+	</select>
+
+
+                </div>
+
+                <input type="submit" name="ctl00$UserControl_footer$UserControl_NewsletterSubscription$btnSubscribe" value="Subscribe" onclick="return checksubscribe();" id="UserControl_footer_UserControl_NewsletterSubscription_btnSubscribe" class="btn btn-default" style="background: #2f2f2f; border-radius: 5px; color: #fff; padding: 2px 4px;" />
+
+
+            
+</div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+        <div class="col-sm-9 column">
+        
+
+
+
+    <div class="row clearfix foot_links">
+        <div class="col-sm-3 col-xs-6 column f_link1" style="margin-bottom: 10px;">
+            <ul class="list-unstyled" >
+                <li><h4><strong><a href="/" target="_top">Home</a></strong></h4></li>
+                <li><a href="../journal/indexbytitle" target="_blank">Journals A-Z</a></li>
+                <li><a href="../journal/" target="_blank">Subject</a></li>
+                <li><a href="../book/" target="_blank">Books</a></li>
+                <li><a href="../sitemap/index.xml" target="_blank">Sitemap</a></li>
+                <li><a href="../aboutus/#contactus" target="_blank">Contact Us</a></li>
+                <li><a href="../news/" target="_blank">News</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-3 col-xs-6 column f_link1" style="margin-bottom: 10px;">
+            <ul class="list-unstyled">
+                <li><h4><strong><a href="/aboutus/" target="_blank">About SCIRP</a></strong></h4></li>
+                <li><a href="/publicationethics.html" target="_blank">Ethics</a></li>
+                <li><a href="/editorialpolicies.html" target="_blank">Editorial Policies</a></li>
+                <li><a href="../aboutus/forauthors" target="_blank">For Authors</a></li>
+                <li><a href="../journal/peer-review" target="_blank">Peer-Review Issues</a></li>
+                <li><a href="../aboutus/publicationfees" target="_blank">Publication Fees</a></li>
+                <li><a href="../journal/callforspecialissueproposals" target="_blank">Special Issues</a></li>
+                
+            </ul>
+        </div>
+        <div class="col-sm-3 col-xs-6 column f_link2" style="margin-bottom: 10px;">
+            <ul class="list-unstyled">
+                <li><h4><strong><a href="/careers/" target="_blank">Service</a></strong></h4></li>
+                <li><a href="//papersubmission.scirp.org" target="_blank">Manuscript Tracking System</a></li>
+                <li><a href="../aboutus/subscription" target="_blank">Subscription</a></li>
+                <li><a href="../author/" target="_blank">Translation & Proofreading</a></li>
+                <li><a href="../aboutus/faq" target="_blank">FAQ</a></li>
+                <li><a href="/journalvolume.html" target="_blank">Volume & Issue</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-3 col-xs-6 column f_link3" style="margin-bottom: 10px;">
+            <ul class="list-unstyled">
+                <li><h4><strong><a href="/aboutus/policies" target="_blank">Policies</a></strong></h4></li>
+                <li><a href="../journal/openaccess" target="_blank">Open Access</a></li>
+                <li><a href="../aboutus/publicationethics" target="_blank">Publication Ethics</a></li>
+                <li><a href="../aboutus/preservation" target="_blank">Preservation</a></li>
+                <li><a href="../aboutus/retraction" target="_blank">Retraction</a></li>
+                <li><a href="../aboutus/privacypolicy" target="_blank">Privacy Policy</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+            </div>
+    </div>
+</div>
+
+
+<div style="background: #dddddd; line-height: 2em; padding: 10px; color: #666;">
+    <div class="text-center">
+        Copyright &copy; 2006-2026 Scientific Research Publishing Inc. All Rights Reserved.    
+    </div>
+</div>
+
+<a href="#0" class="cd-top">Top</a>
+
+
+
+
+
+        </div>
+
+        <input type="hidden" name="ctl00$Hidden_JournalID" id="Hidden_JournalID" />
+    </form>
+
+
+
+        <script type="text/javascript">
+            $.ajax({
+                type: "GET",
+                url: "relatedarticles?paperid=" +45088 +"&timspan=" + new Date().getTime(),
+            async: true,
+            error: function (msg) {
+                result = msg;
+            },
+            success: function (msg) {
+                $("#relatedArticles").html(msg);
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        $.ajax({
+            type: "GET",
+            url: "journalsponsor?journalid=" +2433 +"&timspan=" + new Date().getTime(),
+            async: true,
+            error: function (msg) {
+                result = msg;
+            },
+            success: function (msg) {
+                $("#journalSponsors").html(msg);
+            }
+        });
+    </script>
+
+
+
+
+
+    <script type="text/javascript">
+        $.ajax({
+            type: "GET",
+            url: "paperviewsdownloads?journalid=" +2433 +"&paperid=" +45088 +"&timspan=" + new Date().getTime(),
+            async: true,
+            error: function (msg) {
+                result = msg;
+            },
+            success: function (msg) {
+
+            }
+        });
+    </script>
+
+
+
+
+
+
+    <!-- jQuery Frameworks    ============================================= -->
+    <script src="/js/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/js/main.js" type="text/javascript"></script>
+    <script src="/js/gtm.js" type="text/javascript"  defer="defer"></script>
+
+   
+
+
+<script type="text/javascript" src="/js/viewer.min.js"></script>
+<link rel="stylesheet" href="/css/viewer.min.css"  />
+<script type="text/javascript">
+    $(function () {
+        try {
+            $("img.lazy").lazyload();
+        } catch (e) {
+
+        }
+
+    });
+    $(function () {
+        try {
+            var images = document.querySelectorAll('.lazy');
+            images.forEach(function (image) {
+                new Viewer(image, {
+                    // 在这里定义您的 Viewer 配置选项，和之前示例相同
+                    title: false,
+                    navbar: false,
+                    // ...其他配置
+                });
+            });
+        } catch (e) {
+
+        }
+
+    });
+</script>
+
+
+</body>
+
+
+
+</html>
