@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -401,13 +402,41 @@ back to different dates, so the files do not all start and end on the same date.
 
         </div>
 
-        <div class="download-section">
-            <h3>Demand Data Pre-2024</h3>
-            <p>Data before 31-Mar-2024 was provided at one-hour resolution.</p>
+
+
+<div class="download-section">
+    <h3>Demand Data Pre-2024</h3>
+    <p>Data before 31-Mar-2024 was provided at one-hour resolution for all nine Japanese power regions.</p>
             <div class="file-grid">
                 <a href="demand.csv">Demand Hourly Data Pre 31-Mar-2024</a>
             </div>
-        </div>
+
+    <div style="margin-top: 30px; border-top: 1px solid #ccc; padding-top: 20px; font-size: 0.9rem; color: #666;">
+        <p><strong>Historical Demand Inventory:</strong> Hourly resolution datasets available for download:</p>
+        
+        <ul style="list-style-type: none; padding: 0; margin: 0; line-height: 2;">
+            <li><a href="demand.csv" style="text-decoration: none; color: #666;">demand.csv</a></li>
+        </ul>
+    </div>
+
+    <br>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin-bottom: 20px;">
+        <strong style="color: #003366; font-family: 'Roboto', sans-serif;">Hourly Demand Schema (Pre-2024)</strong><br><br>
+        <strong>Fields:</strong> Date, Time, Hokkaido, Tohoku, Tokyo, Chuubu, Hokuriku, Kansai, Chuugoku, Shikoku, Kyushu<br><br>
+        <span style="font-family: 'Roboto', sans-serif; font-size: 0.8rem; color: #555;"><em>Note: Values represent regional power demand in MW at hourly resolution.</em></span>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 
         <div class="download-section">
             <h3>Weather for the Main City in Each Region</h3>
@@ -442,7 +471,7 @@ back to different dates, so the files do not all start and end on the same date.
 <BR>
 
 
-
+</div>
 
 <div class="download-section">
     <h3>API & Direct Data Access: Automate Your Analysis</h3>
