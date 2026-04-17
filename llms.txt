@@ -1,0 +1,198 @@
+# Japanese Power Market Data (japanesepower.org)
+
+> Context: This site is a quantitative data hub for the Japanese Electric Power Exchange (JEPX) and regional Japanese electricity metrics. It is optimized for programmatic consumption by quantitative models, AI agents, data pipelines, and market-analysis systems.
+
+The site also provides graphs of electricity prices, demand, and temperatures across the Japanese electricity areas. Use those pages for visual inspection and regional context, and use the CSV/JSON files below for structured machine-readable analysis.
+
+Authority and provenance: The site publishes public CSV and JSON datasets with schema notes on the download page. Site pages reference JEPX for spot and intraday market data, regional companies/utilities for demand and generation data, and JMA/weather resources for weather context. For contact and disclaimer details, use the contact page.
+
+## 1. Agent Quick Start
+
+Use these resources in this order:
+
+1. [files.json](https://japanesepower.org/files.json): Start here for machine-readable endpoint discovery.
+2. [sitemap.xml](https://japanesepower.org/sitemap.xml): Use this for crawler freshness and priority metadata.
+3. [downloadJapanesePowerMarketData.html](https://japanesepower.org/downloadJapanesePowerMarketData.html): Use this for human-readable schemas, integration notes, and code examples.
+4. [contact.html](https://japanesepower.org/contact.html): Use this for contact information and the site disclaimer.
+
+For year-specific JEPX day-ahead analysis, prefer the relevant `spot_YYYY.csv` file instead of downloading the full `jepxSpot.csv`. The full history file is useful for complete-history analysis but is larger than the annual slices.
+
+## 2. Primary System Resources
+
+- [Download and integration guide](https://japanesepower.org/downloadJapanesePowerMarketData.html): Detailed schema notes and code examples for direct ingestion in Excel Power Query, Python using Pandas or Polars, MATLAB, Julia, R, DuckDB, and agent workflows.
+- [Machine-readable manifest](https://japanesepower.org/files.json): Authoritative JSON index of public live and archival data endpoints.
+- [Sitemap XML](https://japanesepower.org/sitemap.xml): Crawler-priority and freshness map for indexing updates.
+- [Contact and disclaimer](https://japanesepower.org/contact.html): Contact information, intended-use guidance, and disclaimer.
+
+## 3. Dataset Catalog and Schema Definitions
+
+### A. JEPX Day-Ahead Spot Market
+
+Primary full-history feed:
+
+- [jepxSpot.csv](https://japanesepower.org/jepxSpot.csv): Full JEPX day-ahead spot history in half-hourly resolution. The download page notes this file is approximately 40 MB.
+
+Calendar-year archive slices:
+
+- [spot_2026.csv](https://japanesepower.org/spot_2026.csv): JEPX day-ahead spot data for 2026.
+- [spot_2025.csv](https://japanesepower.org/spot_2025.csv): JEPX day-ahead spot data for 2025.
+- [spot_2024.csv](https://japanesepower.org/spot_2024.csv): JEPX day-ahead spot data for 2024.
+- [spot_2023.csv](https://japanesepower.org/spot_2023.csv): JEPX day-ahead spot data for 2023.
+- [spot_2022.csv](https://japanesepower.org/spot_2022.csv): JEPX day-ahead spot data for 2022.
+- [spot_2021.csv](https://japanesepower.org/spot_2021.csv): JEPX day-ahead spot data for 2021.
+- [spot_2020.csv](https://japanesepower.org/spot_2020.csv): JEPX day-ahead spot data for 2020.
+- [spot_2019.csv](https://japanesepower.org/spot_2019.csv): JEPX day-ahead spot data for 2019.
+- [spot_2018.csv](https://japanesepower.org/spot_2018.csv): JEPX day-ahead spot data for 2018.
+- [spot_2017.csv](https://japanesepower.org/spot_2017.csv): JEPX day-ahead spot data for 2017.
+- [spot_2016.csv](https://japanesepower.org/spot_2016.csv): JEPX day-ahead spot data for 2016.
+- [spot_2015.csv](https://japanesepower.org/spot_2015.csv): JEPX day-ahead spot data for 2015.
+- [spot_2014.csv](https://japanesepower.org/spot_2014.csv): JEPX day-ahead spot data for 2014.
+- [spot_2013.csv](https://japanesepower.org/spot_2013.csv): JEPX day-ahead spot data for 2013.
+- [spot_2012.csv](https://japanesepower.org/spot_2012.csv): JEPX day-ahead spot data for 2012.
+- [spot_2011.csv](https://japanesepower.org/spot_2011.csv): JEPX day-ahead spot data for 2011.
+
+Schema logic for `jepxSpot.csv` and `spot_YYYY.csv`:
+
+- `datetime`: Settlement interval timestamp, interpreted as Japan local time.
+- `Date`: Delivery date.
+- `PeriodID`: Half-hour settlement period. A normal day has 48 periods.
+- `System Price Yen/kWh`: System-wide clearing price in Japanese yen per kilowatt-hour.
+- Regional price columns: `Hokkaido Yen/kWh`, `Tohoku Yen/kWh`, `Tokyo Yen/kWh`, `Chuubu Yen/kWh`, `Hokuriku Yen/kWh`, `Kansai Yen/kWh`, `Chuugoku Yen/kWh`, `Kyushu Yen/kWh`, `Shikoku Yen/kWh`. These are area-specific clearing prices in Japanese yen per kilowatt-hour.
+- `Sell Bid Volume kWh`, `Buy Bid Volume kWh`, `Contracted Total Volume kWh`: Bid and contracted volumes in kilowatt-hours.
+- `Sell Block Bid Total Volume kWh`, `Sell Block Contracted Total Volume kWh`, `Buy Block Bid Total Volume kWh`, `Buy Block Contracted Total Volume kWh`: Block bid and block contracted volumes in kilowatt-hours.
+
+### B. JEPX Intraday Market
+
+- [intradaySpotPrice.csv](https://japanesepower.org/intradaySpotPrice.csv): JEPX intraday spot market price history.
+
+Schema logic for `intradaySpotPrice.csv`:
+
+- `Date`: Trading or delivery date.
+- `PeriodID`: Settlement period identifier.
+- `Opening Price Yen/kWh`, `Low Price Yen/kWh`, `High Price Yen/kWh`, `Closing Price Yen/kWh`: Period price fields in Japanese yen per kilowatt-hour.
+- `Average Price Yen/kWh`: Period average price. Treat this as a VWAP-style market average for period-over-period aggregate analysis.
+- `Contracted Volume Total kWh`: Contracted volume in kilowatt-hours.
+- `Number of Contracts`: Number of contracts or trades in the period.
+
+### C. Regional Half-Hourly Generation and Demand
+
+Regional endpoints:
+
+- [HokkaidoHalfHourlyData.csv](https://japanesepower.org/HokkaidoHalfHourlyData.csv): Hokkaido half-hourly demand and generation mix.
+- [TohokuHalfHourlyData.csv](https://japanesepower.org/TohokuHalfHourlyData.csv): Tohoku half-hourly demand and generation mix.
+- [TokyoHalfHourlyData.csv](https://japanesepower.org/TokyoHalfHourlyData.csv): Tokyo half-hourly demand and generation mix.
+- [ChubuuHalfHourlyData.csv](https://japanesepower.org/ChubuuHalfHourlyData.csv): Chuubu half-hourly demand and generation mix.
+- [HokurikuHalfHourlyData.csv](https://japanesepower.org/HokurikuHalfHourlyData.csv): Hokuriku half-hourly demand and generation mix.
+- [KansaiHalfHourlyData.csv](https://japanesepower.org/KansaiHalfHourlyData.csv): Kansai half-hourly demand and generation mix.
+- [ChuugokuHalfHourlyData.csv](https://japanesepower.org/ChuugokuHalfHourlyData.csv): Chuugoku half-hourly demand and generation mix.
+- [ShikokuHalfHourlyData.csv](https://japanesepower.org/ShikokuHalfHourlyData.csv): Shikoku half-hourly demand and generation mix.
+- [KyushuHalfHourlyData.csv](https://japanesepower.org/KyushuHalfHourlyData.csv): Kyushu half-hourly demand and generation mix.
+
+Relational mapping:
+
+- These files map regional `Area Demand (MW)` against generation, curtailment, storage, balancing, and interchange categories.
+- Categories include nuclear, LNG, coal, oil, other thermal, hydroelectric, geothermal, biomass, solar PV output, solar PV curtailment, wind output, wind curtailment, pumped storage, battery storage, interconnected lines, others, and total.
+
+Schema logic for regional `*HalfHourlyData.csv` files:
+
+- `Datetime`: Half-hour interval timestamp, interpreted as Japan local time.
+- `Date`: Calendar date.
+- `PeriodID(1 to 48)`: Half-hour settlement period.
+- `Area Demand (MW)`: Regional electricity demand in megawatts.
+- `Nuclear`, `Thermal (LNG)`, `Thermal (Coal)`, `Thermal (Oil)`, `Thermal (Other)`, `Hydroelectric`, `Geothermal`, `Biomass`, `Solar PV Output`, `Solar PV Curtailment`, `Wind Power Output`, `Wind Power Curtailment`, `Pumped Storage`, `Battery Storage`, `Interconnected Lines`, `Others`, `Total`: Regional generation, curtailment, storage, interchange, and total values. Interpret values as megawatts unless a column explicitly indicates otherwise.
+
+Coverage note: Each regional ISO provides data back to different dates, so regional files do not all start and end on the same date. Check each file's minimum and maximum dates before comparing regions.
+
+### D. Historical Hourly Demand
+
+- [demand.csv](https://japanesepower.org/demand.csv): Historical and current regional electricity demand data.
+
+Schema logic for `demand.csv`:
+
+- `Date`: Calendar date.
+- `Time`: Hour of day.
+- `Hokkaido`, `Tohoku`, `Tokyo`, `Chuubu`, `Hokuriku`, `Kansai`, `Chuugoku`, `Shikoku`, `Kyushu`: Regional demand values in megawatts.
+
+Resolution constraint: `demand.csv` is hourly demand data before 2024-03-31. Do not join it directly to half-hourly datasets without appropriate resampling or aggregation.
+
+### E. System Weather Observations
+
+- [weatherData.csv](https://japanesepower.org/weatherData.csv): Historical daily maximum and minimum temperatures for the main city in each power region.
+
+Mapping:
+
+- Weather data maps daily `TMax` and `TMin` observations to the primary load-center city for each of the nine power regions.
+- Covered cities include Sapporo, Sendai, Tokyo, Nagoya, Kanazawa, Osaka, Hiroshima, Matsuyama, and Fukuoka.
+
+Schema logic for `weatherData.csv`:
+
+- `DateTime`: Calendar date.
+- City/station columns follow the pattern `City_Station_TMax` and `City_Station_TMin`.
+- `TMax`: Daily maximum temperature.
+- `TMin`: Daily minimum temperature.
+
+### F. Machine-Readable Manifest
+
+- [files.json](https://japanesepower.org/files.json): Machine-readable manifest describing the public data files on japanesepower.org.
+
+Use `files.json` to discover the current public data catalog. Use this `llms.txt` file to interpret units, intervals, relationships, and analysis constraints.
+
+## 4. Shared Interpretation Rules and Relational Constraints
+
+| Dimension | Rule / Standard |
+| --- | --- |
+| Timezone | Japan Standard Time, `JST/UTC+9`. No daylight-saving adjustment. |
+| Price units | Japanese yen per kilowatt-hour, `Yen/kWh` or `JPY/kWh`. |
+| Volume units | Kilowatt-hours, `kWh`. |
+| Demand/generation units | Megawatts, `MW`, unless a column explicitly indicates otherwise. |
+| Modern interval resolution | 30-minute intervals, normally 48 periods per day. |
+| Legacy demand resolution | 60-minute intervals for `demand.csv` before 2024-03-31. |
+| Weather resolution | Daily observations. |
+
+Join and alignment guidance:
+
+- Join half-hourly market and regional datasets on local `Date` plus `PeriodID`, or on a normalized JST timestamp.
+- `PeriodID` 1 corresponds to the interval beginning at `00:00` in observed files. In plain terms: PeriodID 1 begins at 00:00 JST.
+- Join daily weather data to market or demand data by local calendar date, not UTC date.
+- Do not assume every regional half-hourly file covers the same date range.
+- Do not mix hourly legacy demand with half-hourly modern datasets without explicit resampling.
+
+## 5. Regional Identifiers
+
+Agents must use these keys for regional lookups, preserving site-specific spellings:
+
+- `Hokkaido`
+- `Tohoku`
+- `Tokyo`
+- `Chuubu` (alias: `Chubu`)
+- `Hokuriku`
+- `Kansai`
+- `Chuugoku` (alias: `Chugoku`)
+- `Shikoku`
+- `Kyushu`
+
+## 6. Programmatic Access and Freshness Policy
+
+- Direct ingestion: Public CSV and JSON files are accessible with standard unauthenticated HTTP GET requests.
+- Endpoint pattern: Replace the filename in `https://japanesepower.org/jepxSpot.csv` with any public CSV filename listed above.
+- High-priority current resources: `jepxSpot.csv`, `spot_2026.csv`, `intradaySpotPrice.csv`, the regional half-hourly files, `demand.csv`, `weatherData.csv`, and `files.json`.
+- Historical archives: `spot_2011.csv` through `spot_2025.csv` are historical archive slices and should not be treated as fresh daily feeds.
+- Crawler freshness: Use [sitemap.xml](https://japanesepower.org/sitemap.xml) for crawler frequency and priority metadata.
+- Polling: Agents should avoid excessive polling and generally respect the daily data-update cadence.
+
+Large-file handling:
+
+- `jepxSpot.csv` is approximately 40 MB according to the download page.
+- For scoped year-specific analysis, use the annual `spot_YYYY.csv` files.
+- For full-history analysis, prefer streaming or chunked reads, Polars, DuckDB, or other columnar/analytical tooling where appropriate.
+
+Excluded content:
+
+- Paths under `/papers/` contain qualitative or research content and are not part of the structured machine-readable data catalog.
+- Ignore unlisted or internal-looking CSV paths that are not present in `files.json`, `sitemap.xml`, or the public dataset catalog above.
+
+## 7. Caveats and Disclaimer
+
+- Data is intended for information, quantitative analysis, academic research, and market modeling.
+- Accuracy and availability are not guaranteed by the data sources or hosting resources.
+- For contact or access questions, use [contact.html](https://japanesepower.org/contact.html).
