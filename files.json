@@ -1,0 +1,47 @@
+{
+  "site_metadata": {
+    "title": "Japanese Electricity Market Data Hub",
+    "base_url": "https://japanesepower.org/",
+    "last_updated": "2026"
+  },
+  "data_files": {
+    "jepx_market_data": {
+      "primary": [
+        { "file": "jepxSpot.csv", "description": "Japanese JEPX Day-Ahead Spot History in half hour resolution from 2011-01-01 includes bids volumes prices" },
+        { "file": "intradaySpotPrice.csv", "description": "Japanese JEPX Intraday Spot History from 2017-01-01" }
+      ],
+      "historical_annual_spot": [
+        "spot_2026.csv", "spot_2025.csv", "spot_2024.csv", "spot_2023.csv", 
+        "spot_2022.csv", "spot_2021.csv", "spot_2020.csv", "spot_2019.csv", 
+        "spot_2018.csv", "spot_2017.csv", "spot_2016.csv", "spot_2015.csv", 
+        "spot_2014.csv", "spot_2013.csv", "spot_2012.csv", "spot_2011.csv"
+      ]
+    },
+    "regional_half_hourly_generation_mix": {
+      "description": "Half-hourly regional demand and generation mix data for each Japanese Electricity Area. Demand, Nuclear, LNG, Coal, Solar, Battery",
+      "files": [
+        { "region": "Hokkaido", "file": "HokkaidoHalfHourlyData.csv" },
+        { "region": "Tohoku", "file": "TohokuHalfHourlyData.csv" },
+        { "region": "Tokyo", "file": "TokyoHalfHourlyData.csv" },
+        { "region": "Chuubu", "file": "ChubuuHalfHourlyData.csv" },
+        { "region": "Hokuriku", "file": "HokurikuHalfHourlyData.csv" },
+        { "region": "Kansai", "file": "KansaiHalfHourlyData.csv" },
+        { "region": "Chuugoku", "file": "ChuugokuHalfHourlyData.csv" },
+        { "region": "Shikoku", "file": "ShikokuHalfHourlyData.csv" },
+        { "region": "Kyushu", "file": "KyushuHalfHourlyData.csv" }
+      ]
+    },
+    "historical_demand": {
+      "description": "Regional hourly demand data prior to 2024-03-31",
+      "files": [
+        { "file": "demand.csv", "description": "All regions hourly demand for each Japanese Electricity Area" }
+      ]
+    },
+    "weather_data": {
+      "description": "Historical Daily maximum and minimum temperature for main cities in each power region in Japan",
+      "files": [
+        { "file": "weatherData.csv", "cities": ["Sapporo", "Sendai", "Tokyo", "Nagoya", "Kanazawa", "Osaka", "Hiroshima", "Matsuyama", "Fukuoka"] }
+      ]
+    }
+  }
+}
