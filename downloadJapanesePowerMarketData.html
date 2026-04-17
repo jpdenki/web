@@ -383,6 +383,12 @@ back to different dates, so the files do not all start and end on the same date.
                 <a href="weatherData.csv">Weather Data</a>
             </div>
 
+
+
+
+
+
+
 <BR>
 
 <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin-bottom: 20px;">
@@ -394,6 +400,262 @@ back to different dates, so the files do not all start and end on the same date.
 
 
 <BR>
+
+
+
+
+<div class="download-section">
+    <h3>API & Direct Data Access: Automate Your Analysis</h3>
+    <p>Streamline your quantitative modeling and algorithmic trading workflows with direct programmatic access. Connect your analytical tools directly to the live CSV feeds, ensuring your models always run on the latest market data without manual downloads.</p>
+    
+    <div style="background: #f9fbff; border: 1px solid #003366; padding: 10px 15px; border-radius: 5px; margin-bottom: 20px; display: inline-block;">
+        <strong>Example Endpoint:</strong> <code style="color: #003366; font-size: 1.1em;">https://japanesepower.org/jepxSpot.csv</code><br>
+        <span style="font-size: 0.85rem; color: #555;"><em>Note: You can replace the filename in this URL with any of the CSVs listed above.</em></span>
+    </div>
+
+    <h4 style="margin-top: 10px; color: #003366;">Excel: Live Data Feeds via Power Query</h4>
+    <p>For analysts using Excel, Power Query provides a robust, zero-code pipeline to create a continuous connection rather than a static snapshot.</p>
+    <ol style="padding-left: 20px; margin-bottom: 15px; font-size: 0.95rem;">
+        <li>Navigate to the <strong>Data</strong> tab on the Excel ribbon.</li>
+        <li>Select <strong>Get Data</strong> &gt; <strong>From Other Sources</strong> &gt; <strong>From Web</strong>.</li>
+        <li>Paste the endpoint URL into the dialog box and click <strong>OK</strong>.</li>
+        <li>Verify the preview and click <strong>Load</strong> to populate a structured table.</li>
+    </ol>
+    <p style="font-size: 0.95rem;"><strong>Automating Updates:</strong> Press <code>Ctrl + Alt + F5</code> to instantly refresh. To set up continuous feeds, click anywhere in the loaded table, go to <strong>Data</strong> &gt; <strong>Connection Properties</strong>, and configure the connection to refresh on a timer or upon opening the file.</p>
+
+    <h4 style="margin-top: 25px; color: #003366;">Python: Data Ingestion for Quantitative Modeling</h4>
+    <p style="font-size: 0.95rem;">Python is the standard for power market forecasting. Use <strong>Pandas</strong> (the industry standard) or <strong>Polars</strong> (for high-performance, multi-threaded execution) to ingest remote CSVs natively.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 10px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># 1. Using Pandas
+import pandas as pd
+
+url = "https://japanesepower.org/jepxSpot.csv"
+jepx_df = pd.read_csv(url)
+print(jepx_df.head())</code></pre>
+    </div>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># 2. Using Polars
+import polars as pl
+
+url = "https://japanesepower.org/jepxSpot.csv"
+jepx_df = pl.read_csv(url)
+print(jepx_df.head())</code></pre>
+    </div>
+
+    <h4 style="margin-top: 25px; color: #003366;">MATLAB: Direct Imports for Mathematical Modeling</h4>
+    <p style="font-size: 0.95rem;">For complex structural modeling or volatility surfaces, the native <code>readtable</code> function easily handles remote CSV ingestion without external toolboxes.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code>% Define the JEPX data endpoint
+url = 'https://japanesepower.org/jepxSpot.csv';
+
+% Read the live CSV directly into a MATLAB table array
+jepx_data = readtable(url);
+head(jepx_data)</code></pre>
+    </div>
+
+<h4 style="margin-top: 25px; color: #003366;">Julia: High-Performance Scientific Computing</h4>
+    <p style="font-size: 0.95rem;">For heavy quantitative modeling, grid optimization, and solving differential equations, Julia offers near-C speeds. You can ingest the remote CSV directly into a Julia DataFrame using the native Downloads and CSV packages.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># Using Julia to ingest remote market data
+using CSV, DataFrames, Downloads
+
+# Download and parse the live CSV directly into memory
+url = "https://japanesepower.org/jepxSpot.csv"
+jepx_df = CSV.read(Downloads.download(url), DataFrame)
+
+# Display the top rows
+first(jepx_df, 5)</code></pre>
+    </div>
+
+
+
+
+
+    <h4 style="margin-top: 25px; color: #003366;">R: Statistical Computing & Time-Series Analysis</h4>
+    <p style="font-size: 0.95rem;">Pulling remote CSVs in R is natively supported. You can use Base R or the highly performant <code>data.table</code> package for algorithmic backtesting.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 10px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># 1. Using Base R (Zero Dependencies)
+url &lt;- "https://japanesepower.org/jepxSpot.csv"
+jepx_data &lt;- read.csv(url)
+head(jepx_data)</code></pre>
+    </div>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># 2. Using data.table (High-Performance)
+library(data.table)
+url &lt;- "https://japanesepower.org/jepxSpot.csv"
+jepx_dt &lt;- fread(url)
+head(jepx_dt)</code></pre>
+    </div>
+
+    <h4 style="margin-top: 25px; color: #003366;">DuckDB: Native Remote Querying for Quants</h4>
+    <p style="font-size: 0.95rem;">DuckDB is an in-process SQL OLAP database designed for analytical workflows. Unlike traditional databases, DuckDB can query your remote CSVs directly over HTTP without requiring a manual download step.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code>-- Run this directly in the DuckDB CLI to create a table from the live URL
+CREATE TABLE jepx_spot AS 
+SELECT * FROM read_csv_auto('https://japanesepower.org/jepxSpot.csv');
+
+-- Or just query it on the fly without saving
+SELECT * FROM read_csv_auto('https://japanesepower.org/jepxSpot.csv') LIMIT 5;</code></pre>
+    </div>
+
+    <h4 style="margin-top: 25px; color: #003366;">SQLite: Building a Local Data Warehouse</h4>
+    <p style="font-size: 0.95rem;">For lightweight, local storage, SQLite is ubiquitous. The cleanest way to ingest a remote URL into SQLite is using Python as a bridge to automatically handle the download and table creation.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># Using Python to pipe the CSV URL directly into a local SQLite file
+import pandas as pd
+import sqlite3
+
+url = "https://japanesepower.org/jepxSpot.csv"
+conn = sqlite3.connect('japan_power.db')
+
+# Downloads and writes to the 'jepx_spot' table, replacing it if it exists
+pd.read_csv(url).to_sql('jepx_spot', conn, if_exists='replace', index=False)
+print("Data successfully loaded into SQLite.")</code></pre>
+    </div>
+
+    <h4 style="margin-top: 25px; color: #003366;">PostgreSQL: Production Database Ingestion</h4>
+    <p style="font-size: 0.95rem;">For enterprise-scale environments, PostgreSQL is the standard. You can use terminal tools to stream the remote CSV directly into your database using the <code>\copy</code> command, bypassing the need to save the file locally first.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># Run this in your bash terminal
+# It uses curl to fetch the URL and pipes it directly into PostgreSQL
+
+curl -s https://japanesepower.org/jepxSpot.csv | psql -U your_username -d your_database -c "\copy jepx_spot FROM STDIN WITH (FORMAT csv, HEADER true);"</code></pre>
+    </div>
+
+
+<h4 style="margin-top: 25px; color: #003366;">OpenAI API: LLM-Powered Market Analysis</h4>
+    <p style="font-size: 0.95rem;">While LLMs do not natively ingest remote files, you can seamlessly pipe live JEPX data directly into the OpenAI API. This allows you to build automated agents that generate daily market summaries, detect pricing anomalies, or draft trading reports.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># Using Python to pass live JEPX data directly to OpenAI
+import pandas as pd
+from openai import OpenAI
+
+# 1. Fetch the live market data from the endpoint
+url = "https://japanesepower.org/jepxSpot.csv"
+jepx_df = pd.read_csv(url)
+
+# 2. Convert the latest data into a text string for the LLM
+# Here we take the most recent 10 half-hourly periods
+latest_data_string = jepx_df.tail(10).to_csv(index=False)
+
+# 3. Send to OpenAI for automated analysis
+client = OpenAI(api_key="YOUR_OPENAI_API_KEY")
+prompt = f"Act as a quantitative analyst. Summarize the following recent JEPX spot market conditions, noting any significant price spikes:\n\n{latest_data_string}"
+
+response = client.chat.completions.create(
+    model="gpt-5.4",
+    messages=[{"role": "user", "content": prompt}]
+)
+
+print(response.choices[0].message.content)</code></pre>
+    </div>
+
+
+
+<h4 style="margin-top: 25px; color: #003366;">Anthropic Claude API: Deep Reasoning Analysis</h4>
+    <p style="font-size: 0.95rem;">Many quants prefer Anthropic's Claude models for complex data analysis and coding tasks. Just like with OpenAI, you can seamlessly pass your live remote CSVs into the Anthropic SDK to automate market reporting and anomaly detection.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># Using Python to pass live JEPX data directly to Claude
+import pandas as pd
+import anthropic
+
+# 1. Fetch the live market data from the endpoint
+url = "https://japanesepower.org/jepxSpot.csv"
+jepx_df = pd.read_csv(url)
+
+# 2. Convert the latest data into a text string
+latest_data_string = jepx_df.tail(10).to_csv(index=False)
+
+# 3. Send to Anthropic for automated analysis
+client = anthropic.Anthropic(api_key="YOUR_ANTHROPIC_API_KEY")
+prompt = f"Act as a quantitative analyst. Summarize the following recent JEPX spot market conditions:\n\n{latest_data_string}"
+
+message = client.messages.create(
+    model="claude-3-5-sonnet-latest",
+    max_tokens=1000,
+    messages=[{"role": "user", "content": prompt}]
+)
+
+print(message.content[0].text)</code></pre>
+    </div>
+
+
+<h4 style="margin-top: 25px; color: #003366;">Bash & Cron: Directory Monitoring on Linux</h4>
+    <p style="font-size: 0.95rem;">If your orchestration relies on standard Linux tooling rather than an LLM agent, you can set up a simple bash script via cron to pull the data daily and pipe it into your active working directory.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># Add this to your crontab (crontab -e) to automatically fetch JEPX data every day at 14:00
+# It downloads the CSV and moves it into your monitoring directory
+
+0 14 * * * curl -s https://japanesepower.org/jepxSpot.csv -o /path/to/your/data_directory/jepxSpot_$(date +\%Y\%m\%d).csv
+</code></pre>
+    </div>
+
+<h4 style="margin-top: 25px; color: #003366;">LangChain: AI Agent Data Analysis</h4>
+    <p style="font-size: 0.95rem;">For developers building Retrieval-Augmented Generation (RAG) applications or autonomous agents, LangChain is the industry standard. You can ingest the live JEPX endpoint directly into a LangChain Pandas DataFrame Agent, allowing your LLM to execute complex statistical queries against the live market data.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># Using LangChain to create an interactive QA agent over live JEPX data
+from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
+from langchain_openai import ChatOpenAI
+import pandas as pd
+
+# 1. Ingest the live CSV directly into Pandas
+url = "https://japanesepower.org/jepxSpot.csv"
+jepx_df = pd.read_csv(url)
+
+# 2. Initialize the LLM and the LangChain Agent
+llm = ChatOpenAI(model="gpt-5.4", temperature=0)
+agent = create_pandas_dataframe_agent(llm, jepx_df, verbose=True, allow_dangerous_code=True)
+
+# 3. Query the live market data using natural language
+response = agent.run("Calculate the 7-day rolling average for the Tokyo Area Price and identify the highest peak.")
+print(response)</code></pre>
+    </div>
+
+<h4 style="margin-top: 25px; color: #003366;">Apache Airflow: Automated ETL Pipelines</h4>
+    <p style="font-size: 0.95rem;">For enterprise-grade data orchestration, you can easily integrate the JEPX data feeds into your Apache Airflow DAGs. This setup ensures your internal data warehouse automatically fetches and updates market data on a precise schedule without manual intervention.</p>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; overflow-x: auto; margin-bottom: 20px;">
+<pre style="margin: 0; font-family: monospace; font-size: 0.85rem;"><code># Save this as jepx_pipeline.py in your Airflow dags/ directory
+from airflow import DAG
+from airflow.operators.bash import BashOperator
+from datetime import datetime, timedelta
+
+# Define standard DAG arguments
+default_args = {
+    'owner': 'quant_team',
+    'start_date': datetime(2026, 1, 1),
+    'retries': 2,
+    'retry_delay': timedelta(minutes=5),
+}
+
+# Create a DAG that runs daily at 14:00 JST to fetch the latest JEPX data
+with DAG('jepx_daily_ingestion', default_args=default_args, schedule_interval='0 14 * * *') as dag:
+    
+    fetch_spot_data = BashOperator(
+        task_id='download_jepx_csv',
+        bash_command='curl -s https://japanesepower.org/jepxSpot.csv -o /opt/data/warehouse/jepx_latest.csv'
+    )</code></pre>
+    </div>
+
+
+
+</div>
+
+
+
 
         </div>
 
