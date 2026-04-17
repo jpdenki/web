@@ -206,6 +206,42 @@
             }
         }
     </style>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Dataset",
+  "name": "Japanese Electricity Market Data Hub",
+  "description": "Comprehensive CSV datasets for JEPX spot prices, regional demand, and generation mix.",
+  "url": "https://japanesepower.org/downloadJapanesePowerMarketData.html",
+  "distribution": [
+    {
+      "@type": "DataDownload",
+      "name": "Machine-Readable File Manifest",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://japanesepower.org/files.json"
+    },
+    {
+      "@type": "DataDownload",
+      "name": "JEPX Spot History CSV",
+      "encodingFormat": "text/csv",
+      "contentUrl": "https://japanesepower.org/jepxSpot.csv"
+    },
+    {
+      "@type": "DataDownload",
+      "name": "Regional Demand History CSV",
+      "encodingFormat": "text/csv",
+      "contentUrl": "https://japanesepower.org/demand.csv"
+    }
+  ]
+}
+</script>
+
+
+
+
+
 </head>
 
 <body>
@@ -723,6 +759,10 @@ with DAG('jepx_daily_ingestion', default_args=default_args, schedule_interval='0
 
 
         </div>
+
+<p>Developers and AI agents can access our full data catalog here: 
+   <a href="files.json">files.json</a>
+</p>
 
         <div class="disclaimer">
             <h3>Disclaimer</h3>
