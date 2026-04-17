@@ -2,12 +2,16 @@
 # JAPANESEPOWER.ORG - GLOBAL AI & DATA REPOSITORY ACCESS
 # ==========================================================
 
-# 1. UNIVERSAL RULES
+# 1. UNIVERSAL RULES & CORE DATA HUB
 User-agent: *
-Allow: /
-Allow: /files.json
-Allow: /downloadJapanesePowerMarketData.html  # Direct entry point for data catalog
+# Protect academic IP first
 Disallow: /papers/
+# Explicitly prioritize the machine-readable manifest and catalog
+Allow: /llms.txt
+Allow: /files.json
+Allow: /downloadJapanesePowerMarketData.html
+# Open access for everything else
+Allow: /
 
 # 2. THE BIG SIX (US-BASED AI SEARCH & TRAINING)
 User-agent: GPTBot
@@ -21,7 +25,7 @@ Allow: /
 
 # 3. FRONTIER CHINESE MODELS (QUANT & MATH SPECIALISTS)
 User-agent: Bytespider         # ByteDance
-User-agent: DeepSeekBot        # DeepSeek (Highly recommended for Quants)
+User-agent: DeepSeekBot        # DeepSeek
 User-agent: QwenBot            # Alibaba
 User-agent: ChatGLM-Spider     # Zhipu AI
 User-agent: MoonshotBot        # Moonshot AI (Kimi)
@@ -42,5 +46,11 @@ User-agent: Baiduspider
 User-agent: Yandex
 Allow: /
 
-# SITEMAP DISCOVERY
+# ----------------------------------------------------------
+# DISCOVERY & SITE ARCHITECTURE
+# ----------------------------------------------------------
 Sitemap: https://japanesepower.org/sitemap.xml
+
+# AI Agent Instruction File
+# Providing structural context for automated data ingestion
+Link: https://japanesepower.org/llms.txt
