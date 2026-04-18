@@ -1,0 +1,1646 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Japanese Power Market Interactive Charts</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7f4;
+      --panel: #ffffff;
+      --ink: #15221e;
+      --muted: #65726d;
+      --line: #d8dfda;
+      --field: #eef3f0;
+      --accent: #0b766e;
+      --accent-2: #b7432d;
+      --accent-3: #b58b00;
+      --good: #0b7a46;
+      --bad: #b42318;
+      --shadow: 0 14px 36px rgba(21, 34, 30, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      line-height: 1.45;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    button,
+    select,
+    input {
+      font: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      padding: 18px;
+    }
+
+    .topbar {
+      background: transparent;
+      border-bottom: 0;
+      z-index: 5;
+    }
+
+    .topbar-inner {
+      max-width: none;
+      margin: 0 0 12px;
+      min-height: 74px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      min-width: 0;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .title-url {
+      color: var(--muted);
+      font-weight: 400;
+      margin-left: 14px;
+      white-space: nowrap;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .main {
+      max-width: none;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 336px minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .controls {
+      align-self: start;
+      position: sticky;
+      top: 92px;
+      max-height: calc(100vh - 112px);
+      overflow: auto;
+      padding: 14px;
+    }
+
+    .control-group {
+      padding: 9px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .control-group:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    select,
+    .input-like {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--field);
+      color: var(--ink);
+      padding: 8px 10px;
+    }
+
+    .button,
+    button {
+      min-height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--ink);
+      padding: 6px 9px;
+      cursor: pointer;
+    }
+
+    .button:hover,
+    button:hover {
+      border-color: var(--accent);
+    }
+
+    .button.primary,
+    button.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 5px;
+    }
+
+    .segmented .button {
+      text-align: center;
+      min-height: 28px;
+      padding: 4px 6px;
+      font-size: 13px;
+      line-height: 1.15;
+    }
+
+    .segmented .button.active {
+      border-color: var(--accent);
+      background: #dceeea;
+      color: #064e49;
+      font-weight: 700;
+    }
+
+    .checks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 5px;
+    }
+
+    .check {
+      min-height: 32px;
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .date-range-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 6px;
+      align-items: end;
+    }
+
+    .date-field .label {
+      margin: 0 0 4px;
+      text-transform: none;
+      font-size: 11px;
+    }
+
+    .date-field input {
+      min-height: 34px;
+      padding: 6px 7px;
+      font-size: 13px;
+    }
+
+    .check input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 13px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .status strong {
+      color: var(--ink);
+    }
+
+    .content {
+      min-width: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .chart-panel {
+      min-width: 0;
+      padding: 12px;
+    }
+
+    .chart-toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+      padding: 2px 4px 12px;
+    }
+
+    .chart-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .chart-note {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    #chart {
+      width: 100%;
+      height: 640px;
+      min-height: 420px;
+    }
+
+    .table-wrap {
+      display: none;
+      padding: 12px;
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      background: #f7faf8;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 6px;
+      padding: 3px 8px;
+      background: #e8efeb;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .pill.ok {
+      background: #dff0e8;
+      color: var(--good);
+    }
+
+    .pill.err {
+      background: #f8ded9;
+      color: var(--bad);
+    }
+
+    .source-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 2px 4px 0;
+    }
+
+    @media (max-width: 980px) {
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .controls {
+        position: static;
+        max-height: none;
+      }
+
+      #chart {
+        height: 560px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .top-actions {
+        justify-content: stretch;
+      }
+
+      .top-actions button {
+        flex: 1 1 auto;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+
+      .title-url {
+        display: block;
+        margin-left: 0;
+        margin-top: 3px;
+        white-space: normal;
+      }
+
+      .main {
+        padding: 0;
+      }
+
+      .chart-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .segmented {
+        grid-template-columns: 1fr;
+      }
+
+      .date-range-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .checks {
+        grid-template-columns: 1fr;
+      }
+
+      #chart {
+        height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <h1><span>Japanese Power Market Interactive Charts</span><span class="title-url">www.japanesepower.org</span></h1>
+        </div>
+        <div class="top-actions">
+          <button id="resetZoom" type="button" data-i18n="resetZoom">Reset zoom</button>
+          <button id="langToggle" class="primary" type="button">日本語</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <aside class="panel controls">
+        <div id="controlsPanel"></div>
+        <div class="control-group">
+          <span class="label" data-i18n="status">Status</span>
+          <div class="status" id="statusBox"></div>
+        </div>
+      </aside>
+
+      <section class="content">
+        <div class="panel chart-panel" id="chartPanel">
+          <div class="chart-toolbar">
+            <div>
+              <h2 class="chart-title" id="chartTitle">DA JEPX Spot Prices</h2>
+              <p class="chart-note" id="chartNote">Loading manifest...</p>
+            </div>
+            <div class="source-row">
+              <span id="resolutionPill" class="pill">Half-hour</span>
+              <a href="https://japanesepower.org/files.json" target="_blank" rel="noopener">files.json</a>
+              <a href="https://japanesepower.org/downloadJapanesePowerMarketData.html" target="_blank" rel="noopener">schema</a>
+            </div>
+          </div>
+          <div id="chart"></div>
+        </div>
+
+        <div class="panel table-wrap" id="catalogPanel">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="catalogFile">File</th>
+                <th data-i18n="catalogGroup">Group</th>
+                <th data-i18n="catalogDescription">Description</th>
+                <th data-i18n="catalogStatus">Status</th>
+                <th data-i18n="catalogLink">Link</th>
+              </tr>
+            </thead>
+            <tbody id="catalogBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const BASE_URL = "https://japanesepower.org/";
+    const CURRENT_YEAR = 2026;
+
+    const STRINGS = {
+      en: {
+        status: "Status",
+        loading: "Loading",
+        ready: "Ready",
+        error: "Error",
+        view: "Dataset",
+        range: "Range",
+        customRange: "Custom date range",
+        startDate: "Start date",
+        endDate: "End date",
+        year: "Year",
+        regions: "Regions",
+        region: "Region",
+        metrics: "Metrics",
+        source: "Source",
+        rows: "Rows",
+        latest: "Latest timestamp",
+        activeRange: "Active range",
+        resolution: "Resolution",
+        statistic: "Statistic",
+        average: "Average",
+        min: "Min",
+        max: "Max",
+        tooltip: "Hover values",
+        tooltipOn: "Show hover values",
+        resetZoom: "Reset zoom",
+        spot: "DA JEPX Spot Prices",
+        intraday: "Intraday Spot Prices",
+        generation: "Demand / Generation",
+        demand: "Historical Demand",
+        weather: "Weather",
+        catalog: "Data Catalog",
+        day1: "1 day",
+        week1: "1 week",
+        days30: "30 days",
+        days90: "90 days",
+        yearView: "Year",
+        full: "Full",
+        halfHour: "Half-hour",
+        hourly: "Hourly",
+        daily: "Daily",
+        weekly: "Weekly",
+        monthly: "Monthly",
+        quarterly: "Quarterly",
+        notLoaded: "Not loaded",
+        loaded: "Loaded",
+        failed: "Failed",
+        catalogFile: "File",
+        catalogGroup: "Group",
+        catalogDescription: "Description",
+        catalogStatus: "Status",
+        catalogLink: "Link",
+        open: "Open",
+        download: "Download",
+        manifestReady: "Manifest loaded",
+        chooseFull: "Full history loads the large all-history spot CSV on demand.",
+        empty: "No rows match the current selection.",
+        sourceNote: "Live data source",
+        unitPrice: "Yen/kWh",
+        unitMW: "MW",
+        unitKwh: "kWh",
+        unitContracts: "contracts",
+        unitC: "deg C",
+        period: "PeriodID",
+        observations: "observations",
+        timestamp: "Timestamp"
+      },
+      ja: {
+        status: "状態",
+        loading: "読み込み中",
+        ready: "準備完了",
+        error: "エラー",
+        view: "データセット",
+        range: "期間",
+        customRange: "カスタム期間",
+        startDate: "開始日",
+        endDate: "終了日",
+        year: "年",
+        regions: "エリア",
+        region: "エリア",
+        metrics: "項目",
+        source: "出典",
+        rows: "行数",
+        latest: "最新時刻",
+        activeRange: "表示期間",
+        resolution: "粒度",
+        statistic: "集計値",
+        average: "平均",
+        min: "最小",
+        max: "最大",
+        tooltip: "ホバー表示",
+        tooltipOn: "値を表示",
+        resetZoom: "ズーム解除",
+        spot: "DA JEPXスポット価格",
+        intraday: "時間前スポット価格",
+        generation: "需要・発電",
+        demand: "過去需要",
+        weather: "気象",
+        catalog: "データ一覧",
+        day1: "1日",
+        week1: "1週間",
+        days30: "30日",
+        days90: "90日",
+        yearView: "年",
+        full: "全期間",
+        halfHour: "30分値",
+        hourly: "1時間値",
+        daily: "日次",
+        weekly: "週次",
+        monthly: "月次",
+        quarterly: "四半期",
+        notLoaded: "未読込",
+        loaded: "読込済",
+        failed: "失敗",
+        catalogFile: "ファイル",
+        catalogGroup: "分類",
+        catalogDescription: "説明",
+        catalogStatus: "状態",
+        catalogLink: "リンク",
+        open: "開く",
+        download: "ダウンロード",
+        manifestReady: "マニフェスト読込済",
+        chooseFull: "全期間は大きなスポット全履歴CSVを選択時に読み込みます。",
+        empty: "現在の条件に一致する行がありません。",
+        sourceNote: "ライブデータ出典",
+        unitPrice: "円/kWh",
+        unitMW: "MW",
+        unitKwh: "kWh",
+        unitContracts: "件",
+        unitC: "℃",
+        period: "PeriodID",
+        observations: "点",
+        timestamp: "時刻"
+      }
+    };
+
+    const REGIONS = [
+      { key: "system", en: "System", ja: "システム", spot: "System Price Yen/kWh" },
+      { key: "hokkaido", en: "Hokkaido", ja: "北海道", spot: "Hokkaido Yen/kWh", fileRegion: "Hokkaido", demand: "Hokkaido", city: "Sapporo", tmax: "Sapporo_47412_TMax", tmin: "Sapporo_47412_TMin" },
+      { key: "tohoku", en: "Tohoku", ja: "東北", spot: "Tohoku Yen/kWh", fileRegion: "Tohoku", demand: "Tohoku", city: "Sendai", tmax: "Sendai_47590_TMax", tmin: "Sendai_47590_TMin" },
+      { key: "tokyo", en: "Tokyo", ja: "東京", spot: "Tokyo Yen/kWh", fileRegion: "Tokyo", demand: "Tokyo", city: "Tokyo", tmax: "Tokyo_47662_TMax", tmin: "Tokyo_47662_TMin" },
+      { key: "chuubu", en: "Chuubu", ja: "中部", spot: "Chuubu Yen/kWh", fileRegion: "Chuubu", demand: "Chuubu", city: "Nagoya", tmax: "Nagoya_47636_TMax", tmin: "Nagoya_47636_TMin" },
+      { key: "hokuriku", en: "Hokuriku", ja: "北陸", spot: "Hokuriku Yen/kWh", fileRegion: "Hokuriku", demand: "Hokuriku", city: "Kanazawa", tmax: "Kanazawa_47605_TMax", tmin: "Kanazawa_47605_TMin" },
+      { key: "kansai", en: "Kansai", ja: "関西", spot: "Kansai Yen/kWh", fileRegion: "Kansai", demand: "Kansai", city: "Osaka", tmax: "Osaka_47772_TMax", tmin: "Osaka_47772_TMin" },
+      { key: "chuugoku", en: "Chuugoku", ja: "中国", spot: "Chuugoku Yen/kWh", fileRegion: "Chuugoku", demand: "Chuugoku", city: "Hiroshima", tmax: "Hiroshima_47765_TMax", tmin: "Hiroshima_47765_TMin" },
+      { key: "shikoku", en: "Shikoku", ja: "四国", spot: "Shikoku Yen/kWh", fileRegion: "Shikoku", demand: "Shikoku", city: "Matsuyama", tmax: "Matsuyama_47887_TMax", tmin: "Matsuyama_47887_TMin" },
+      { key: "kyushu", en: "Kyushu", ja: "九州", spot: "Kyushu Yen/kWh", fileRegion: "Kyushu", demand: "Kyushu", city: "Fukuoka", tmax: "Fukuoka_47807_TMax", tmin: "Fukuoka_47807_TMin" }
+    ];
+
+    const INTRADAY_METRICS = [
+      { key: "average", en: "Average Price", ja: "平均価格", column: "Average Price Yen/kWh", unit: "unitPrice", axis: 0 },
+      { key: "opening", en: "Opening Price", ja: "始値", column: "Opening Price Yen/kWh", unit: "unitPrice", axis: 0 },
+      { key: "high", en: "High Price", ja: "高値", column: "High Price Yen/kWh", unit: "unitPrice", axis: 0 },
+      { key: "low", en: "Low Price", ja: "安値", column: "Low Price Yen/kWh", unit: "unitPrice", axis: 0 },
+      { key: "closing", en: "Closing Price", ja: "終値", column: "Closing Price Yen/kWh", unit: "unitPrice", axis: 0 },
+      { key: "volume", en: "Contracted Volume", ja: "約定量", column: "Contracted Volume Total kWh", unit: "unitKwh", axis: 1 },
+      { key: "contracts", en: "Number of Contracts", ja: "約定件数", column: "Number of Contracts", unit: "unitContracts", axis: 1 }
+    ];
+
+    const GENERATION_METRICS = [
+      { key: "areaDemand", en: "Area Demand", ja: "エリア需要", column: "Area Demand (MW)" },
+      { key: "total", en: "Total", ja: "合計", column: "Total" },
+      { key: "nuclear", en: "Nuclear", ja: "原子力", column: "Nuclear" },
+      { key: "lng", en: "Thermal LNG", ja: "火力 LNG", column: "Thermal (LNG)" },
+      { key: "coal", en: "Thermal Coal", ja: "火力 石炭", column: "Thermal (Coal)" },
+      { key: "oil", en: "Thermal Oil", ja: "火力 石油", column: "Thermal (Oil)" },
+      { key: "otherThermal", en: "Thermal Other", ja: "火力 その他", column: "Thermal (Other)" },
+      { key: "hydro", en: "Hydroelectric", ja: "水力", column: "Hydroelectric" },
+      { key: "geothermal", en: "Geothermal", ja: "地熱", column: "Geothermal" },
+      { key: "biomass", en: "Biomass", ja: "バイオマス", column: "Biomass" },
+      { key: "solar", en: "Solar PV Output", ja: "太陽光出力", column: "Solar PV Output" },
+      { key: "solarCurtail", en: "Solar PV Curtailment", ja: "太陽光抑制", column: "Solar PV Curtailment" },
+      { key: "wind", en: "Wind Power Output", ja: "風力出力", column: "Wind Power Output" },
+      { key: "windCurtail", en: "Wind Curtailment", ja: "風力抑制", column: "Wind Power Curtailment" },
+      { key: "pumped", en: "Pumped Storage", ja: "揚水", column: "Pumped Storage" },
+      { key: "battery", en: "Battery Storage", ja: "蓄電池", column: "Battery Storage" },
+      { key: "lines", en: "Interconnected Lines", ja: "連系線", column: "Interconnected Lines" },
+      { key: "others", en: "Others", ja: "その他", column: "Others" }
+    ];
+
+    const COLOR_SET = [
+      "#0b766e", "#b7432d", "#b58b00", "#2f6f9f", "#7a5c00",
+      "#0b7a46", "#9b3d55", "#4f6f32", "#7a4f9f", "#43515a",
+      "#c05a1b", "#16817a", "#6b7d00", "#9c6644", "#3c7d4b"
+    ];
+
+    const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    const state = {
+      lang: "en",
+      view: "spot",
+      range: "1",
+      customStartDate: "",
+      customEndDate: "",
+      year: CURRENT_YEAR,
+      resolutions: {
+        spot: "halfHour",
+        intraday: "halfHour",
+        generation: "halfHour",
+        demand: "hourly",
+        weather: "daily"
+      },
+      statistic: "average",
+      tooltipEnabled: true,
+      selectedSpotRegions: new Set(REGIONS.map(region => region.key)),
+      selectedDemandRegions: new Set(["tokyo"]),
+      generationRegion: "tokyo",
+      weatherRegion: "tokyo",
+      selectedIntradayMetrics: new Set(["average", "high", "low"]),
+      selectedGenerationMetrics: new Set(["areaDemand", "total", "solar", "lng"]),
+      manifest: null,
+      catalog: [],
+      cache: new Map(),
+      fileStatus: new Map(),
+      activeFiles: [],
+      chartRows: 0,
+      latestTimestamp: null,
+      activeRangeLabel: "",
+      lastError: ""
+    };
+
+    const chart = echarts.init(document.getElementById("chart"), null, { renderer: "canvas" });
+    const controlsPanel = document.getElementById("controlsPanel");
+    const statusBox = document.getElementById("statusBox");
+    const chartPanel = document.getElementById("chartPanel");
+    const catalogPanel = document.getElementById("catalogPanel");
+    const catalogBody = document.getElementById("catalogBody");
+
+    function t(key) {
+      return STRINGS[state.lang][key] || STRINGS.en[key] || key;
+    }
+
+    function label(item) {
+      return item[state.lang] || item.en || item.key;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#039;"
+      })[char]);
+    }
+
+    function cleanNumber(value) {
+      if (value === null || value === undefined) return null;
+      const text = String(value).replace(/,/g, "").trim();
+      if (!text) return null;
+      const num = Number(text);
+      return Number.isFinite(num) ? num : null;
+    }
+
+    function parseDateParts(dateText) {
+      const match = String(dateText || "").trim().match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (!match) return null;
+      return { y: Number(match[1]), m: Number(match[2]) - 1, d: Number(match[3]) };
+    }
+
+    function parseWallTimeMs(value) {
+      const text = String(value || "").trim().replace("T", " ");
+      const match = text.match(/^(\d{4})-(\d{2})-(\d{2})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+      if (!match) return null;
+      return Date.UTC(
+        Number(match[1]),
+        Number(match[2]) - 1,
+        Number(match[3]),
+        Number(match[4] || 0),
+        Number(match[5] || 0),
+        Number(match[6] || 0)
+      );
+    }
+
+    function periodToMs(dateText, period) {
+      const parts = parseDateParts(dateText);
+      const p = Number(period);
+      if (!parts || !Number.isFinite(p) || p < 1) return null;
+      return Date.UTC(parts.y, parts.m, parts.d, 0, (p - 1) * 30, 0);
+    }
+
+    function demandTimeToMs(dateText, timeText) {
+      const parts = parseDateParts(dateText);
+      if (!parts) return null;
+      const match = String(timeText || "").trim().match(/^(\d{1,2}):?(\d{2})?/);
+      if (!match) return null;
+      return Date.UTC(parts.y, parts.m, parts.d, Number(match[1] || 0), Number(match[2] || 0), 0);
+    }
+
+    function formatMs(ms, includeTime = true) {
+      if (!Number.isFinite(ms)) return "";
+      const d = new Date(ms);
+      const yyyy = d.getUTCFullYear();
+      const dd = String(d.getUTCDate()).padStart(2, "0");
+      const dateText = `${dd}-${MONTH_NAMES[d.getUTCMonth()]}-${yyyy}`;
+      if (!includeTime) return dateText;
+      const hh = String(d.getUTCHours()).padStart(2, "0");
+      const mi = String(d.getUTCMinutes()).padStart(2, "0");
+      return `${dateText} ${hh}:${mi}`;
+    }
+
+    function dateRangeLabel(rows) {
+      if (!rows.length) return "-";
+      return `${formatMs(rows[0].t)} - ${formatMs(rows[rows.length - 1].t)}`;
+    }
+
+    function customRangeActive() {
+      return Boolean(state.customStartDate && state.customEndDate);
+    }
+
+    function customRangeBounds() {
+      if (!customRangeActive()) return null;
+      const start = parseWallTimeMs(`${state.customStartDate} 00:00:00`);
+      const end = parseWallTimeMs(`${state.customEndDate} 23:59:59`);
+      if (!Number.isFinite(start) || !Number.isFinite(end) || start > end) return null;
+      return { start, end };
+    }
+
+    function cutoffRows(rows) {
+      if (!rows.length) return rows;
+      const custom = customRangeBounds();
+      if (custom) return rows.filter(row => row.t >= custom.start && row.t <= custom.end);
+      if (state.range === "full" || state.range === "year") return rows;
+      const days = Number(state.range);
+      const max = rows.reduce((acc, row) => Math.max(acc, row.t), -Infinity);
+      const cutoff = max - days * 24 * 60 * 60 * 1000;
+      return rows.filter(row => row.t >= cutoff);
+    }
+
+    function yearRows(rows) {
+      if (state.range !== "year") return rows;
+      return rows.filter(row => new Date(row.t).getUTCFullYear() === Number(state.year));
+    }
+
+    function rowsForCurrentRange(rows) {
+      const scopedRows = customRangeActive() ? rows : yearRows(rows);
+      return cutoffRows(scopedRows).sort((a, b) => a.t - b.t);
+    }
+
+    function dateInputLimits() {
+      const years = annualSpotFiles().map(file => Number(file.replace(/\D/g, ""))).filter(Boolean).sort((a, b) => a - b);
+      const minYear = years[0] || 2011;
+      const maxYear = years[years.length - 1] || CURRENT_YEAR;
+      return {
+        min: `${minYear}-01-01`,
+        max: `${maxYear}-12-31`
+      };
+    }
+
+    const RESOLUTION_ORDER = ["halfHour", "hourly", "daily", "weekly", "monthly", "quarterly"];
+
+    function sourceResolutionForView(view = state.view) {
+      if (view === "demand") return "hourly";
+      if (view === "weather") return "daily";
+      return "halfHour";
+    }
+
+    function resolutionOptionsForView(view = state.view) {
+      const source = sourceResolutionForView(view);
+      const start = RESOLUTION_ORDER.indexOf(source);
+      return RESOLUTION_ORDER.slice(Math.max(0, start));
+    }
+
+    function activeResolutionForView(view = state.view) {
+      const options = resolutionOptionsForView(view);
+      const selected = state.resolutions[view] || sourceResolutionForView(view);
+      return options.includes(selected) ? selected : options[0];
+    }
+
+    function activeStatisticLabel() {
+      return t(state.statistic);
+    }
+
+    function shouldAggregate(sourceResolution, targetResolution) {
+      return RESOLUTION_ORDER.indexOf(targetResolution) > RESOLUTION_ORDER.indexOf(sourceResolution);
+    }
+
+    function bucketStartMs(ms, resolution) {
+      const d = new Date(ms);
+      const y = d.getUTCFullYear();
+      const m = d.getUTCMonth();
+      const day = d.getUTCDate();
+      const h = d.getUTCHours();
+      if (resolution === "halfHour") {
+        return Date.UTC(y, m, day, h, Math.floor(d.getUTCMinutes() / 30) * 30, 0);
+      }
+      if (resolution === "hourly") return Date.UTC(y, m, day, h, 0, 0);
+      if (resolution === "daily") return Date.UTC(y, m, day, 0, 0, 0);
+      if (resolution === "weekly") {
+        const dayOfWeek = d.getUTCDay();
+        const mondayOffset = (dayOfWeek + 6) % 7;
+        return Date.UTC(y, m, day - mondayOffset, 0, 0, 0);
+      }
+      if (resolution === "monthly") return Date.UTC(y, m, 1, 0, 0, 0);
+      if (resolution === "quarterly") return Date.UTC(y, Math.floor(m / 3) * 3, 1, 0, 0, 0);
+      return ms;
+    }
+
+    function statisticValue(values) {
+      if (!values.length) return null;
+      if (state.statistic === "min") return Math.min(...values);
+      if (state.statistic === "max") return Math.max(...values);
+      return values.reduce((sum, value) => sum + value, 0) / values.length;
+    }
+
+    function buildSeriesData(rows, valueGetter, sourceResolution, targetResolution, unitKey) {
+      if (!shouldAggregate(sourceResolution, targetResolution)) {
+        return rows.map(row => {
+          const value = valueGetter(row);
+          return value === null ? null : [row.t, value, row.period, unitKey, 1];
+        }).filter(Boolean);
+      }
+
+      const buckets = new Map();
+      for (const row of rows) {
+        const value = valueGetter(row);
+        if (value === null) continue;
+        const bucket = bucketStartMs(row.t, targetResolution);
+        if (!buckets.has(bucket)) buckets.set(bucket, []);
+        buckets.get(bucket).push(value);
+      }
+
+      return Array.from(buckets.entries())
+        .sort((a, b) => a[0] - b[0])
+        .map(([bucket, values]) => [bucket, statisticValue(values), null, unitKey, values.length])
+        .filter(point => point[1] !== null);
+    }
+
+    function chartNote(resolutionKey, unitText) {
+      const source = sourceResolutionForView();
+      const base = `${t(resolutionKey)} ${unitText}`;
+      return shouldAggregate(source, resolutionKey) ? `${base} - ${activeStatisticLabel()}` : base;
+    }
+
+    function includeTimeForResolution(resolutionKey) {
+      return resolutionKey === "halfHour" || resolutionKey === "hourly";
+    }
+
+    function showPointDots(resolutionKey) {
+      return resolutionKey === "halfHour" && (state.range === "1" || state.range === "7");
+    }
+
+    function fileUrl(file) {
+      return new URL(file, BASE_URL).href;
+    }
+
+    function setFileStatus(file, status, rows = null, error = "") {
+      state.fileStatus.set(file, { status, rows, error });
+      renderCatalog();
+    }
+
+    function statusLabel(file) {
+      const entry = state.fileStatus.get(file);
+      if (!entry) return `<span class="pill">${t("notLoaded")}</span>`;
+      if (entry.status === "loaded") return `<span class="pill ok">${t("loaded")}${entry.rows !== null ? ` ${entry.rows}` : ""}</span>`;
+      if (entry.status === "failed") return `<span class="pill err">${t("failed")}</span>`;
+      return `<span class="pill">${t("loading")}</span>`;
+    }
+
+    function setStatus(message, isError = false) {
+      state.lastError = isError ? message : "";
+      renderStatus(message, isError);
+    }
+
+    function renderStatus(message = "", isError = false) {
+      const files = state.activeFiles.length ? state.activeFiles.map(file => `<a href="${fileUrl(file)}" target="_blank" rel="noopener">${escapeHtml(file)}</a>`).join(", ") : "-";
+      const stateLine = message || (state.manifest ? t("manifestReady") : t("loading"));
+      statusBox.innerHTML = `
+        <div><strong>${isError ? t("error") : t("ready")}:</strong> ${escapeHtml(stateLine)}</div>
+        <div><strong>${t("source")}:</strong> ${files}</div>
+        <div><strong>${t("rows")}:</strong> ${state.chartRows.toLocaleString()}</div>
+        <div><strong>${t("latest")}:</strong> ${state.latestTimestamp ? formatMs(state.latestTimestamp) : "-"}</div>
+        <div><strong>${t("activeRange")}:</strong> ${escapeHtml(state.activeRangeLabel || "-")}</div>
+      `;
+    }
+
+    function renderMeta(resolutionKey, sourceText, rows, latest, rangeText) {
+      document.getElementById("resolutionPill").textContent = t(resolutionKey);
+      state.chartRows = rows;
+      state.latestTimestamp = latest;
+      state.activeRangeLabel = rangeText || "";
+      renderStatus();
+    }
+
+    async function loadManifest() {
+      setStatus(`${t("loading")} files.json`);
+      const response = await fetch(fileUrl("files.json"));
+      if (!response.ok) throw new Error(`files.json ${response.status}`);
+      state.manifest = await response.json();
+      state.catalog = flattenManifest(state.manifest);
+      setFileStatus("files.json", "loaded", state.catalog.length);
+      renderCatalog();
+      setStatus(t("manifestReady"));
+    }
+
+    function flattenManifest(manifest) {
+      const rows = [{ file: "files.json", group: "manifest", description: "Machine-readable dataset inventory" }];
+      const dataFiles = manifest.data_files || {};
+
+      const market = dataFiles.jepx_market_data || {};
+      for (const item of market.primary || []) rows.push({ file: item.file, group: "jepx_market_data", description: item.description || "" });
+      for (const file of market.historical_annual_spot || []) rows.push({ file, group: "historical_annual_spot", description: `JEPX day-ahead spot data for ${file.replace(/\D/g, "")}` });
+
+      const regional = dataFiles.regional_half_hourly_generation_mix || {};
+      for (const item of regional.files || []) rows.push({ file: item.file, group: "regional_half_hourly_generation_mix", description: `${item.region} half-hourly demand and generation mix` });
+
+      const demand = dataFiles.historical_demand || {};
+      for (const item of demand.files || []) rows.push({ file: item.file, group: "historical_demand", description: item.description || demand.description || "" });
+
+      const weather = dataFiles.weather_data || {};
+      for (const item of weather.files || []) rows.push({ file: item.file, group: "weather_data", description: weather.description || "" });
+
+      const seen = new Set();
+      return rows.filter(row => {
+        if (!row.file || seen.has(row.file)) return false;
+        seen.add(row.file);
+        return true;
+      });
+    }
+
+    function manifestFileByRegion(regionName) {
+      const regional = state.manifest?.data_files?.regional_half_hourly_generation_mix?.files || [];
+      const match = regional.find(item => item.region === regionName);
+      return match?.file;
+    }
+
+    function annualSpotFiles() {
+      const files = state.manifest?.data_files?.jepx_market_data?.historical_annual_spot || [];
+      return files.length ? files : Array.from({ length: CURRENT_YEAR - 2011 + 1 }, (_, i) => `spot_${CURRENT_YEAR - i}.csv`);
+    }
+
+    function selectedAnnualFile(year) {
+      const file = `spot_${year}.csv`;
+      return annualSpotFiles().includes(file) ? file : annualSpotFiles()[0];
+    }
+
+    async function loadCsv(file) {
+      if (state.cache.has(file)) return state.cache.get(file);
+      setFileStatus(file, "loading");
+      setStatus(`${t("loading")} ${file}`);
+      const promise = new Promise((resolve, reject) => {
+        Papa.parse(fileUrl(file), {
+          download: true,
+          header: true,
+          worker: false,
+          skipEmptyLines: "greedy",
+          complete: result => {
+            if (result.errors && result.errors.length) {
+              const severe = result.errors.find(err => err.type !== "FieldMismatch");
+              if (severe) {
+                reject(new Error(`${file}: ${severe.message}`));
+                return;
+              }
+            }
+            const data = normalizeParsedCsv(result);
+            setFileStatus(file, "loaded", data.rows.length);
+            resolve(data);
+          },
+          error: error => reject(error)
+        });
+      }).catch(error => {
+        setFileStatus(file, "failed", null, error.message);
+        throw error;
+      });
+      state.cache.set(file, promise);
+      return promise;
+    }
+
+    function normalizeHeader(header) {
+      return String(header || "").replace(/^\uFEFF/, "").trim();
+    }
+
+    function normalizeParsedCsv(result) {
+      const rawFields = result.meta?.fields || [];
+      const fields = rawFields.map(normalizeHeader);
+      const needsMapping = rawFields.some((field, index) => field !== fields[index]);
+      if (!needsMapping) return { rows: result.data || [], fields };
+      const rows = (result.data || []).map(row => {
+        const mapped = {};
+        for (let i = 0; i < rawFields.length; i += 1) {
+          mapped[fields[i]] = row[rawFields[i]];
+        }
+        return mapped;
+      });
+      return { rows, fields };
+    }
+
+    function requireColumns(file, fields, columns) {
+      const missing = columns.filter(column => !fields.includes(column));
+      if (missing.length) throw new Error(`${file}: missing columns ${missing.join(", ")}`);
+    }
+
+    async function loadSpotRows() {
+      let files;
+      if (customRangeActive()) {
+        const startYear = Number(state.customStartDate.slice(0, 4));
+        const endYear = Number(state.customEndDate.slice(0, 4));
+        const available = new Set(annualSpotFiles());
+        files = [];
+        for (let year = endYear; year >= startYear; year -= 1) {
+          const file = `spot_${year}.csv`;
+          if (available.has(file)) files.push(file);
+        }
+        if (!files.length) files = ["spot_2026.csv", "spot_2025.csv"].filter(file => available.has(file));
+      } else if (state.range === "full") {
+        files = ["jepxSpot.csv"];
+      } else if (state.range === "year") {
+        files = [selectedAnnualFile(state.year)];
+      } else {
+        files = ["spot_2026.csv", "spot_2025.csv"].filter(file => annualSpotFiles().includes(file));
+        if (!files.length) files = annualSpotFiles().slice(0, 2);
+      }
+      state.activeFiles = files;
+      const datasets = await Promise.all(files.map(loadCsv));
+      const rows = [];
+      for (let i = 0; i < datasets.length; i += 1) {
+        const file = files[i];
+        const dataset = datasets[i];
+        requireColumns(file, dataset.fields, ["datetime", "Date", "PeriodID", "System Price Yen/kWh"]);
+        for (const row of dataset.rows) {
+          const tValue = parseWallTimeMs(row.datetime);
+          const period = Number(row.PeriodID);
+          if (Number.isFinite(tValue)) rows.push({ t: tValue, period, raw: row });
+        }
+      }
+      return rowsForCurrentRange(rows);
+    }
+
+    async function renderSpot() {
+      const rows = await loadSpotRows();
+      const selected = REGIONS.filter(region => state.selectedSpotRegions.has(region.key));
+      const resolutionKey = activeResolutionForView("spot");
+      const series = selected.map((region, index) => ({
+        name: label(region),
+        type: "line",
+        showSymbol: showPointDots(resolutionKey),
+        symbol: "circle",
+        symbolSize: 4,
+        emphasis: { scale: 1.7 },
+        smooth: false,
+        progressive: 4000,
+        progressiveThreshold: 8000,
+        itemStyle: { color: COLOR_SET[index % COLOR_SET.length] },
+        lineStyle: { width: 1.6 },
+        data: buildSeriesData(rows, row => cleanNumber(row.raw[region.spot]), "halfHour", resolutionKey, "unitPrice")
+      }));
+      const latest = rows.reduce((acc, row) => Math.max(acc, row.t), null);
+      renderLineChart({
+        title: t("spot"),
+        note: state.range === "full" ? `${chartNote(resolutionKey, t("unitPrice"))}. ${t("chooseFull")}` : chartNote(resolutionKey, t("unitPrice")),
+        yAxes: [{ name: t("unitPrice") }],
+        series,
+        unitResolver: params => t(params.value[3] || "unitPrice"),
+        resolutionKey,
+        sourceText: state.activeFiles.join(", "),
+        rows,
+        latest,
+        includeTime: includeTimeForResolution(resolutionKey)
+      });
+    }
+
+    async function loadIntradayRows() {
+      const file = "intradaySpotPrice.csv";
+      state.activeFiles = [file];
+      const dataset = await loadCsv(file);
+      requireColumns(file, dataset.fields, ["Date", "PeriodID", "Average Price Yen/kWh"]);
+      const rows = dataset.rows.map(row => {
+        const tValue = periodToMs(row.Date, row.PeriodID);
+        return { t: tValue, period: Number(row.PeriodID), raw: row };
+      }).filter(row => Number.isFinite(row.t));
+      return rowsForCurrentRange(rows);
+    }
+
+    async function renderIntraday() {
+      const rows = await loadIntradayRows();
+      const metrics = INTRADAY_METRICS.filter(metric => state.selectedIntradayMetrics.has(metric.key));
+      const resolutionKey = activeResolutionForView("intraday");
+      const series = metrics.map((metric, index) => ({
+        name: label(metric),
+        type: "line",
+        showSymbol: showPointDots(resolutionKey),
+        symbol: "circle",
+        symbolSize: 4,
+        emphasis: { scale: 1.7 },
+        smooth: false,
+        yAxisIndex: metric.axis,
+        progressive: 4000,
+        itemStyle: { color: COLOR_SET[index % COLOR_SET.length] },
+        lineStyle: { width: 1.5 },
+        data: buildSeriesData(rows, row => cleanNumber(row.raw[metric.column]), "halfHour", resolutionKey, metric.unit)
+      }));
+      renderLineChart({
+        title: t("intraday"),
+        note: chartNote(resolutionKey, t("unitPrice")),
+        yAxes: [{ name: t("unitPrice") }, { name: `${t("unitKwh")} / ${t("unitContracts")}` }],
+        series,
+        unitResolver: params => t(params.value[3] || "unitPrice"),
+        resolutionKey,
+        sourceText: "intradaySpotPrice.csv",
+        rows,
+        latest: rows.reduce((acc, row) => Math.max(acc, row.t), null),
+        includeTime: includeTimeForResolution(resolutionKey)
+      });
+    }
+
+    async function loadGenerationRows() {
+      const region = REGIONS.find(item => item.key === state.generationRegion) || REGIONS[3];
+      const file = manifestFileByRegion(region.fileRegion) || `${region.en}HalfHourlyData.csv`;
+      state.activeFiles = [file];
+      const dataset = await loadCsv(file);
+      requireColumns(file, dataset.fields, ["Datetime", "PeriodID(1 to 48)", "Area Demand (MW)"]);
+      const rows = dataset.rows.map(row => ({
+        t: parseWallTimeMs(row.Datetime),
+        period: Number(row["PeriodID(1 to 48)"]),
+        raw: row
+      })).filter(row => Number.isFinite(row.t));
+      return rowsForCurrentRange(rows);
+    }
+
+    async function renderGeneration() {
+      const rows = await loadGenerationRows();
+      const metrics = GENERATION_METRICS.filter(metric => state.selectedGenerationMetrics.has(metric.key));
+      const resolutionKey = activeResolutionForView("generation");
+      const series = metrics.map((metric, index) => ({
+        name: label(metric),
+        type: "line",
+        showSymbol: showPointDots(resolutionKey),
+        symbol: "circle",
+        symbolSize: 4,
+        emphasis: { scale: 1.7 },
+        smooth: false,
+        progressive: 4000,
+        itemStyle: { color: COLOR_SET[index % COLOR_SET.length] },
+        lineStyle: { width: 1.5 },
+        data: buildSeriesData(rows, row => cleanNumber(row.raw[metric.column]), "halfHour", resolutionKey, "unitMW")
+      }));
+      const region = REGIONS.find(item => item.key === state.generationRegion);
+      renderLineChart({
+        title: `${t("generation")} - ${label(region)}`,
+        note: chartNote(resolutionKey, t("unitMW")),
+        yAxes: [{ name: t("unitMW") }],
+        series,
+        unitResolver: params => t(params.value[3] || "unitMW"),
+        resolutionKey,
+        sourceText: state.activeFiles.join(", "),
+        rows,
+        latest: rows.reduce((acc, row) => Math.max(acc, row.t), null),
+        includeTime: includeTimeForResolution(resolutionKey)
+      });
+    }
+
+    async function loadDemandRows() {
+      const file = "demand.csv";
+      state.activeFiles = [file];
+      const dataset = await loadCsv(file);
+      requireColumns(file, dataset.fields, ["Date", "Time"]);
+      const rows = dataset.rows.map(row => ({
+        t: demandTimeToMs(row.Date, row.Time),
+        period: null,
+        raw: row
+      })).filter(row => Number.isFinite(row.t));
+      return rowsForCurrentRange(rows);
+    }
+
+    async function renderDemand() {
+      const rows = await loadDemandRows();
+      const selected = REGIONS.filter(region => region.demand && state.selectedDemandRegions.has(region.key));
+      const resolutionKey = activeResolutionForView("demand");
+      const series = selected.map((region, index) => ({
+        name: label(region),
+        type: "line",
+        showSymbol: false,
+        smooth: false,
+        progressive: 4000,
+        itemStyle: { color: COLOR_SET[index % COLOR_SET.length] },
+        lineStyle: { width: 1.5 },
+        data: buildSeriesData(rows, row => cleanNumber(row.raw[region.demand]), "hourly", resolutionKey, "unitMW")
+      }));
+      renderLineChart({
+        title: t("demand"),
+        note: chartNote(resolutionKey, t("unitMW")),
+        yAxes: [{ name: t("unitMW") }],
+        series,
+        unitResolver: params => t(params.value[3] || "unitMW"),
+        resolutionKey,
+        sourceText: "demand.csv",
+        rows,
+        latest: rows.reduce((acc, row) => Math.max(acc, row.t), null),
+        includeTime: includeTimeForResolution(resolutionKey)
+      });
+    }
+
+    async function loadWeatherRows() {
+      const file = "weatherData.csv";
+      state.activeFiles = [file];
+      const dataset = await loadCsv(file);
+      requireColumns(file, dataset.fields, ["DateTime"]);
+      const rows = dataset.rows.map(row => ({
+        t: parseWallTimeMs(row.DateTime),
+        period: null,
+        raw: row
+      })).filter(row => Number.isFinite(row.t));
+      return rowsForCurrentRange(rows);
+    }
+
+    async function renderWeather() {
+      const rows = await loadWeatherRows();
+      const region = REGIONS.find(item => item.key === state.weatherRegion) || REGIONS[3];
+      const resolutionKey = activeResolutionForView("weather");
+      const metrics = [
+        { name: `${region.city} ${state.lang === "ja" ? "最高" : "Max"}`, column: region.tmax },
+        { name: `${region.city} ${state.lang === "ja" ? "最低" : "Min"}`, column: region.tmin }
+      ];
+      const series = metrics.map((metric, index) => ({
+        name: metric.name,
+        type: "line",
+        showSymbol: false,
+        smooth: false,
+        itemStyle: { color: COLOR_SET[index % COLOR_SET.length] },
+        lineStyle: { width: 1.7 },
+        data: buildSeriesData(rows, row => cleanNumber(row.raw[metric.column]), "daily", resolutionKey, "unitC")
+      }));
+      renderLineChart({
+        title: `${t("weather")} - ${label(region)}`,
+        note: chartNote(resolutionKey, t("unitC")),
+        yAxes: [{ name: t("unitC") }],
+        series,
+        unitResolver: params => t(params.value[3] || "unitC"),
+        resolutionKey,
+        sourceText: "weatherData.csv",
+        rows,
+        latest: rows.reduce((acc, row) => Math.max(acc, row.t), null),
+        includeTime: includeTimeForResolution(resolutionKey)
+      });
+    }
+
+    function renderLineChart({ title, note, yAxes, series, unitResolver, resolutionKey, sourceText, rows, latest, includeTime = true }) {
+      chartPanel.style.display = "";
+      catalogPanel.style.display = "none";
+      document.getElementById("chartTitle").textContent = title;
+      document.getElementById("chartNote").textContent = note;
+      if (!rows.length || !series.length || series.every(item => !item.data.length)) {
+        chart.clear();
+        chart.setOption({
+          title: { text: t("empty"), left: "center", top: "center", textStyle: { fontSize: 16, color: "#65726d" } }
+        });
+      } else {
+        chart.setOption({
+          color: COLOR_SET,
+          animation: false,
+          grid: { left: 72, right: yAxes.length > 1 ? 82 : 42, top: 34, bottom: 148, containLabel: true },
+          legend: { type: "scroll", bottom: 22, left: "center", width: "86%", align: "auto" },
+          tooltip: {
+            show: state.tooltipEnabled,
+            trigger: "axis",
+            axisPointer: { type: "cross" },
+            confine: true,
+            formatter: params => tooltipHtml(params, unitResolver, includeTime)
+          },
+          toolbox: {
+            right: 8,
+            top: 0,
+            feature: { saveAsImage: {}, restore: {} }
+          },
+          graphic: [
+            {
+              type: "text",
+              right: 8,
+              bottom: 0,
+              silent: true,
+              style: {
+                text: "www.japanesepower.org",
+                fill: "#65726d",
+                font: "12px Arial, sans-serif"
+              }
+            }
+          ],
+          xAxis: {
+            type: "time",
+            axisLabel: { formatter: value => formatAxisLabel(value, resolutionKey) }
+          },
+          yAxis: yAxes.map((axis, index) => ({
+            type: "value",
+            name: axis.name,
+            nameLocation: "middle",
+            nameGap: index === 0 ? 52 : 58,
+            nameRotate: index === 0 ? 90 : -90,
+            position: index === 0 ? "left" : "right",
+            scale: true,
+            splitLine: { show: index === 0, lineStyle: { color: "#e5ebe7" } }
+          })),
+          dataZoom: [
+            { type: "inside", xAxisIndex: 0, filterMode: "filter" },
+            { type: "slider", xAxisIndex: 0, height: 42, bottom: 70, filterMode: "filter" }
+          ],
+          series
+        }, true);
+      }
+      renderMeta(resolutionKey, sourceText, rows.length, latest, dateRangeLabel(rows));
+    }
+
+    function tooltipHtml(params, unitResolver, includeTime) {
+      const list = Array.isArray(params) ? params : [params];
+      const first = list.find(item => item.value);
+      if (!first) return "";
+      const period = first.value[2];
+      const observationCount = first.value[4];
+      const lines = [`<strong>${formatTooltipTime(first.value[0], includeTime)}</strong>`];
+      if (Number.isFinite(period)) lines.push(`${t("period")}: ${period}`);
+      if (Number.isFinite(observationCount) && observationCount > 1) lines.push(`${observationCount.toLocaleString()} ${t("observations")}`);
+      for (const item of list) {
+        if (!item.value || item.value[1] === null || item.value[1] === undefined) continue;
+        const unit = unitResolver(item);
+        const value = Number(item.value[1]);
+        const formatted = Number.isFinite(value) ? value.toLocaleString(undefined, { maximumFractionDigits: 3 }) : item.value[1];
+        lines.push(`${item.marker}${escapeHtml(item.seriesName)}: <strong>${formatted}</strong> ${escapeHtml(unit)}`);
+      }
+      return lines.join("<br>");
+    }
+
+    function formatAxisLabel(value, resolutionKey) {
+      const d = new Date(value);
+      const yyyy = d.getUTCFullYear();
+      const dd = String(d.getUTCDate()).padStart(2, "0");
+      const month = MONTH_NAMES[d.getUTCMonth()];
+      if (resolutionKey === "monthly") return `${month}-${yyyy}`;
+      if (resolutionKey === "quarterly") return `${yyyy} Q${Math.floor(d.getUTCMonth() / 3) + 1}`;
+      if (resolutionKey === "daily" || resolutionKey === "weekly") return `${dd}-${month}-${yyyy}`;
+      const hh = String(d.getUTCHours()).padStart(2, "0");
+      return `${dd}-${month}-${yyyy}\n${hh}:00`;
+    }
+
+    function formatTooltipTime(value, includeTime) {
+      return formatMs(value, includeTime);
+    }
+
+    function renderControls() {
+      const years = annualSpotFiles().map(file => Number(file.replace(/\D/g, ""))).filter(Boolean).sort((a, b) => b - a);
+      const dateLimits = dateInputLimits();
+      const viewOptions = ["spot", "intraday", "generation", "demand", "weather", "catalog"].map(view => `<option value="${view}" ${state.view === view ? "selected" : ""}>${t(view)}</option>`).join("");
+      const yearOptions = years.map(year => `<option value="${year}" ${Number(state.year) === year ? "selected" : ""}>${year}</option>`).join("");
+      const rangeButtons = ["1", "7", "30", "90", "year", "full"].map(range => `<button type="button" class="button ${state.range === range ? "active" : ""}" data-range="${range}">${range === "1" ? t("day1") : range === "7" ? t("week1") : range === "30" ? t("days30") : range === "90" ? t("days90") : range === "year" ? t("yearView") : t("full")}</button>`).join("");
+
+      let html = `
+        <div class="control-group">
+          <label class="label" for="viewSelect">${t("view")}</label>
+          <select id="viewSelect">${viewOptions}</select>
+        </div>
+      `;
+
+      if (state.view !== "catalog") {
+        html += `
+          <div class="control-group">
+            <span class="label">${t("range")}</span>
+            <div class="segmented">${rangeButtons}</div>
+          </div>
+          <div class="control-group">
+            <span class="label">${t("customRange")}</span>
+            <div class="date-range-grid">
+              <div class="date-field">
+                <label class="label" for="customStartDate">${t("startDate")}</label>
+                <input id="customStartDate" type="date" min="${dateLimits.min}" max="${dateLimits.max}" value="${escapeHtml(state.customStartDate)}">
+              </div>
+              <div class="date-field">
+                <label class="label" for="customEndDate">${t("endDate")}</label>
+                <input id="customEndDate" type="date" min="${dateLimits.min}" max="${dateLimits.max}" value="${escapeHtml(state.customEndDate)}">
+              </div>
+            </div>
+          </div>
+          <div class="control-group" ${state.range === "year" ? "" : "style=\"display:none\""}>
+            <label class="label" for="yearSelect">${t("year")}</label>
+            <select id="yearSelect">${yearOptions}</select>
+          </div>
+          ${resolutionSelect()}
+          ${statisticSelect()}
+          ${tooltipToggle()}
+        `;
+      }
+
+      if (state.view === "spot") {
+        html += checkboxGroup("regions", REGIONS, state.selectedSpotRegions, "spot-region");
+      } else if (state.view === "intraday") {
+        html += checkboxGroup("metrics", INTRADAY_METRICS, state.selectedIntradayMetrics, "intraday-metric");
+      } else if (state.view === "generation") {
+        html += regionSelect("generationRegion", state.generationRegion);
+        html += checkboxGroup("metrics", GENERATION_METRICS, state.selectedGenerationMetrics, "generation-metric");
+      } else if (state.view === "demand") {
+        html += checkboxGroup("regions", REGIONS.filter(region => region.demand), state.selectedDemandRegions, "demand-region");
+      } else if (state.view === "weather") {
+        html += regionSelect("weatherRegion", state.weatherRegion);
+      }
+
+      controlsPanel.innerHTML = html;
+    }
+
+    function checkboxGroup(titleKey, items, selectedSet, dataName) {
+      return `
+        <div class="control-group">
+          <span class="label">${t(titleKey)}</span>
+          <div class="checks">
+            ${items.map(item => `
+              <label class="check">
+                <input type="checkbox" data-name="${dataName}" value="${item.key}" ${selectedSet.has(item.key) ? "checked" : ""}>
+                <span>${escapeHtml(label(item))}</span>
+              </label>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function regionSelect(id, selected) {
+      const options = REGIONS.filter(region => region.key !== "system").map(region => `<option value="${region.key}" ${selected === region.key ? "selected" : ""}>${escapeHtml(label(region))}</option>`).join("");
+      return `
+        <div class="control-group">
+          <label class="label" for="${id}">${t("region")}</label>
+          <select id="${id}">${options}</select>
+        </div>
+      `;
+    }
+
+    function resolutionSelect() {
+      const selected = activeResolutionForView();
+      const options = resolutionOptionsForView().map(resolution => `<option value="${resolution}" ${selected === resolution ? "selected" : ""}>${t(resolution)}</option>`).join("");
+      return `
+        <div class="control-group">
+          <label class="label" for="resolutionSelect">${t("resolution")}</label>
+          <select id="resolutionSelect">${options}</select>
+        </div>
+      `;
+    }
+
+    function statisticSelect() {
+      const options = ["average", "min", "max"].map(stat => `<option value="${stat}" ${state.statistic === stat ? "selected" : ""}>${t(stat)}</option>`).join("");
+      return `
+        <div class="control-group">
+          <label class="label" for="statisticSelect">${t("statistic")}</label>
+          <select id="statisticSelect">${options}</select>
+        </div>
+      `;
+    }
+
+    function tooltipToggle() {
+      return `
+        <div class="control-group">
+          <span class="label">${t("tooltip")}</span>
+          <label class="check">
+            <input type="checkbox" id="tooltipToggle" ${state.tooltipEnabled ? "checked" : ""}>
+            <span>${t("tooltipOn")}</span>
+          </label>
+        </div>
+      `;
+    }
+
+    function renderCatalog() {
+      if (!catalogBody) return;
+      const rows = state.catalog.length ? state.catalog : [{ file: "files.json", group: "manifest", description: "" }];
+      catalogBody.innerHTML = rows.map(row => `
+        <tr>
+          <td><strong>${escapeHtml(row.file)}</strong></td>
+          <td>${escapeHtml(row.group)}</td>
+          <td>${escapeHtml(row.description || "")}</td>
+          <td>${statusLabel(row.file)}</td>
+          <td><a href="${fileUrl(row.file)}" target="_blank" rel="noopener">${t("open")}</a></td>
+        </tr>
+      `).join("");
+    }
+
+    function renderText() {
+      document.documentElement.lang = state.lang;
+      document.querySelectorAll("[data-i18n]").forEach(node => {
+        node.textContent = t(node.dataset.i18n);
+      });
+      document.getElementById("langToggle").textContent = state.lang === "en" ? "日本語" : "English";
+      renderControls();
+      renderCatalog();
+    }
+
+    async function renderActive() {
+      try {
+        state.lastError = "";
+        chartPanel.style.display = "";
+        catalogPanel.style.display = "none";
+        if (state.view === "spot") await renderSpot();
+        if (state.view === "intraday") await renderIntraday();
+        if (state.view === "generation") await renderGeneration();
+        if (state.view === "demand") await renderDemand();
+        if (state.view === "weather") await renderWeather();
+        if (state.view === "catalog") {
+          chart.clear();
+          chartPanel.style.display = "none";
+          catalogPanel.style.display = "block";
+          state.activeFiles = ["files.json"];
+          state.chartRows = state.catalog.length;
+          state.latestTimestamp = null;
+          state.activeRangeLabel = t("catalog");
+          renderStatus(t("manifestReady"));
+        }
+      } catch (error) {
+        console.error(error);
+        chart.clear();
+        chart.setOption({
+          title: { text: `${t("error")}: ${error.message}`, left: "center", top: "center", textStyle: { fontSize: 15, color: "#b42318" } }
+        });
+        setStatus(error.message, true);
+      }
+    }
+
+    controlsPanel.addEventListener("change", event => {
+      const target = event.target;
+      if (target.id === "viewSelect") state.view = target.value;
+      if (target.id === "yearSelect") state.year = Number(target.value);
+      if (target.id === "customStartDate") state.customStartDate = target.value;
+      if (target.id === "customEndDate") state.customEndDate = target.value;
+      if (target.id === "resolutionSelect") state.resolutions[state.view] = target.value;
+      if (target.id === "statisticSelect") state.statistic = target.value;
+      if (target.id === "tooltipToggle") state.tooltipEnabled = target.checked;
+      if (target.id === "generationRegion") state.generationRegion = target.value;
+      if (target.id === "weatherRegion") state.weatherRegion = target.value;
+      if (target.dataset.name === "spot-region") updateSet(state.selectedSpotRegions, target.value, target.checked, "system");
+      if (target.dataset.name === "demand-region") updateSet(state.selectedDemandRegions, target.value, target.checked, "tokyo");
+      if (target.dataset.name === "intraday-metric") updateSet(state.selectedIntradayMetrics, target.value, target.checked, "average");
+      if (target.dataset.name === "generation-metric") updateSet(state.selectedGenerationMetrics, target.value, target.checked, "areaDemand");
+      renderControls();
+      renderActive();
+    });
+
+    controlsPanel.addEventListener("click", event => {
+      const button = event.target.closest("[data-range]");
+      if (!button) return;
+      state.range = button.dataset.range;
+      state.customStartDate = "";
+      state.customEndDate = "";
+      renderControls();
+      renderActive();
+    });
+
+    document.getElementById("langToggle").addEventListener("click", () => {
+      state.lang = state.lang === "en" ? "ja" : "en";
+      renderText();
+      renderActive();
+    });
+
+    document.getElementById("resetZoom").addEventListener("click", () => {
+      chart.dispatchAction({ type: "dataZoom", start: 0, end: 100 });
+    });
+
+    function updateSet(set, value, checked, fallback) {
+      if (checked) set.add(value);
+      else set.delete(value);
+      if (!set.size) set.add(fallback);
+    }
+
+    window.addEventListener("resize", () => chart.resize());
+
+    (async function init() {
+      renderText();
+      try {
+        await loadManifest();
+      } catch (error) {
+        setStatus(error.message, true);
+      }
+      renderText();
+      await renderActive();
+    })();
+  </script>
+</body>
+</html>

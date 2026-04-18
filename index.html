@@ -34,9 +34,19 @@
 
         nav {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
             justify-content: center;
             background: #004080;
             padding: 0.5rem 0;
+        }
+
+        .nav-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.15rem;
         }
 
         nav a {
@@ -153,6 +163,64 @@
             color: #fff;
             margin-top: 20px;
         }
+
+        /* === Interactive JEPX graph embed CSS: copy this block into index.html === */
+        .interactive-graph {
+            --graph-width: min(1600px, 96vw);
+            --graph-height: 1100px;
+            position: relative;
+            width: var(--graph-width);
+            height: var(--graph-height);
+            max-width: none;
+            min-width: min(900px, 100%);
+            min-height: 700px;
+            max-width: 98vw;
+            max-height: 1600px;
+            margin: 20px 0 30px 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            overflow: auto;
+            resize: both;
+        }
+
+        .interactive-graph iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .interactive-graph-hint {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            z-index: 2;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.9);
+            color: #666;
+            font-size: 0.75rem;
+            pointer-events: none;
+        }
+
+        @media (max-width: 800px) {
+            .interactive-graph {
+                --graph-width: 100%;
+                --graph-height: 1050px;
+                min-width: 100%;
+                max-width: 100%;
+                margin: 16px 0 24px;
+                transform: none;
+                resize: vertical;
+            }
+
+            .interactive-graph-hint {
+                display: none;
+            }
+        }
+        /* === End Interactive JEPX graph embed CSS === */
     </style>
 </head>
 
@@ -162,50 +230,33 @@
     </header>
 
     <nav>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="index.html">System and Overview</a>
-        <a href="Hokkaido_main.html">Hokkaido</a>
-        <a href="Tohoku_main.html">Tohoku</a>
-        <a href="Tokyo_main.html">Tokyo</a>
-        <a href="Chuubu_main.html">Chuubu</a>
-        <a href="Hokuriku_main.html">Hokuriku</a>
-        <a href="Kansai_main.html">Kansai</a>
-        <a href="Chuugoku_main.html">Chuugoku</a>
-        <a href="Shikoku_main.html">Shikoku</a>
-        <a href="Kyushu_main.html">Kyushu</a>
-        <a href="papers/papers.html">Academic Papers on JEPX</a>
-        <a href="downloadJapanesePowerMarketData.html">All Japanese Data Download Page</a>
-
-
-   </nav>
+        <div class="nav-row">
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="index.html">System and Overview</a>
+            <a href="charting.html">Charting</a>
+            <a href="Hokkaido_main.html">Hokkaido</a>
+            <a href="Tohoku_main.html">Tohoku</a>
+            <a href="Tokyo_main.html">Tokyo</a>
+            <a href="Chuubu_main.html">Chuubu</a>
+        </div>
+        <div class="nav-row">
+            <a href="Hokuriku_main.html">Hokuriku</a>
+            <a href="Kansai_main.html">Kansai</a>
+            <a href="Chuugoku_main.html">Chuugoku</a>
+            <a href="Shikoku_main.html">Shikoku</a>
+            <a href="Kyushu_main.html">Kyushu</a>
+            <a href="papers/papers.html">Academic Papers on JEPX</a>
+            <a href="downloadJapanesePowerMarketData.html">All Japanese Data Download Page</a>
+        </div>
+    </nav>
 
     <div class="container">
-        <table>
-            <tr>
-                <td class="links-section">
-                    <h2>Useful Links</h2>
-                    <div class="inline-links">
-                        <a href="https://www.eex.com/en/market-data/power/futures#%7B%22snippetpicker%22%3A%22EEX%20Japanese%20Power%20Futures%20-%20Tokyo%22%7D">EEX Japanese Power</a>
-                        <a href="https://www.tocom.or.jp/market/kobetu/east_base_elec.html">TOCOM Japanese Power</a>
-                        <a href="https://www.cmegroup.com/markets/energy/natural-gas/lng-japan-korea-marker-platts-swap.settlements.html">JKM Futures</a>
-                        <a href="https://www.theice.com/products/27996665/Dutch-TTF-Gas-Futures/data?marketId=5285052&amp;span=1">TTF Futures</a>
-                        <a href="http://ds.data.jma.go.jp/tcc/tcc/products/elnino/index.html">JMA ENSO Report</a>
-                        <a href="https://www.jma.go.jp/bosai/map.html#5/34.5/137/&amp;elem=temperature&amp;pattern=P1M&amp;term=0&amp;contents=season&amp;lang=en">JMA Seasonal Forecast</a>
-                        <a href="https://weather.yahoo.co.jp/weather/?day=1">7 Day Weather Forecast</a>
-                    </div>
-                </td>
-                <td class="links-section">
-                    <h2>Downloads</h2>
-                    <div class="inline-links">
-                        <a href="jepxSpot.csv">JEPX Spot History CSV</a>
-                        <a href="intradaySpotPrice.csv">Intraday Spot History CSV</a>
-                        <a href="demand.csv">Demand History CSV</a>
-                        <a href="weatherData.csv">Main Cities Temperature CSV</a>
-                    </div>
-                </td>
-            </tr>
-        </table>
+        <!-- Interactive JEPX graph: copy this block immediately above Price Summary -->
+        <section class="interactive-graph">
+            <div class="interactive-graph-hint">Drag bottom-right corner to resize</div>
+            <iframe src="grapher.html" title="Interactive Japanese Power Market Graph" loading="lazy"></iframe>
+        </section>
 
         <!-- Full-size priceSummary image -->
         <h2>Price Summary</h2>
@@ -373,6 +424,31 @@
 
 
 
+        <table>
+            <tr>
+                <td class="links-section">
+                    <h2>Useful Links</h2>
+                    <div class="inline-links">
+                        <a href="https://www.eex.com/en/market-data/power/futures#%7B%22snippetpicker%22%3A%22EEX%20Japanese%20Power%20Futures%20-%20Tokyo%22%7D">EEX Japanese Power</a>
+                        <a href="https://www.tocom.or.jp/market/kobetu/east_base_elec.html">TOCOM Japanese Power</a>
+                        <a href="https://www.cmegroup.com/markets/energy/natural-gas/lng-japan-korea-marker-platts-swap.settlements.html">JKM Futures</a>
+                        <a href="https://www.theice.com/products/27996665/Dutch-TTF-Gas-Futures/data?marketId=5285052&amp;span=1">TTF Futures</a>
+                        <a href="http://ds.data.jma.go.jp/tcc/tcc/products/elnino/index.html">JMA ENSO Report</a>
+                        <a href="https://www.jma.go.jp/bosai/map.html#5/34.5/137/&amp;elem=temperature&amp;pattern=P1M&amp;term=0&amp;contents=season&amp;lang=en">JMA Seasonal Forecast</a>
+                        <a href="https://weather.yahoo.co.jp/weather/?day=1">7 Day Weather Forecast</a>
+                    </div>
+                </td>
+                <td class="links-section">
+                    <h2>Downloads</h2>
+                    <div class="inline-links">
+                        <a href="jepxSpot.csv">JEPX Spot History CSV</a>
+                        <a href="intradaySpotPrice.csv">Intraday Spot History CSV</a>
+                        <a href="demand.csv">Demand History CSV</a>
+                        <a href="weatherData.csv">Main Cities Temperature CSV</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
 
 
         <div class="disclaimer">
@@ -389,3 +465,4 @@
 </body>
 
 </html>
+

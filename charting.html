@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Interactive Japanese electricity market charts for JEPX day-ahead and intraday spot prices, demand, generation, and weather data.">
+    <meta name="keywords" content="Japan Electricity, Japanese Power, JEPX, Japan Electric Power Exchange, Charting">
+    <title>Japanese Power Market Interactive Charts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            min-height: 100%;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f4f4f9;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #003366;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            justify-content: center;
+            background: #004080;
+            padding: 0.5rem 0;
+        }
+
+        .nav-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.15rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: background 0.3s ease;
+        }
+
+        nav a:hover {
+            background: #002244;
+            border-radius: 5px;
+        }
+
+        .charting-frame {
+            display: block;
+            width: 100%;
+            height: calc(100vh - 142px);
+            min-height: 900px;
+            border: 0;
+        }
+
+        .disclaimer {
+            background: #e0e0e0;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 1200px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #003366;
+            color: #fff;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 800px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            nav a {
+                padding: 0.4rem 0.65rem;
+                font-size: 0.9rem;
+            }
+
+            .charting-frame {
+                height: 1050px;
+                min-height: 1050px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Japanese Electricity Market Data Hub</h1>
+    </header>
+
+    <nav>
+        <div class="nav-row">
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="index.html">System and Overview</a>
+            <a href="charting.html">Charting</a>
+            <a href="Hokkaido_main.html">Hokkaido</a>
+            <a href="Tohoku_main.html">Tohoku</a>
+            <a href="Tokyo_main.html">Tokyo</a>
+            <a href="Chuubu_main.html">Chuubu</a>
+        </div>
+        <div class="nav-row">
+            <a href="Hokuriku_main.html">Hokuriku</a>
+            <a href="Kansai_main.html">Kansai</a>
+            <a href="Chuugoku_main.html">Chuugoku</a>
+            <a href="Shikoku_main.html">Shikoku</a>
+            <a href="Kyushu_main.html">Kyushu</a>
+            <a href="papers/papers.html">Academic Papers on JEPX</a>
+            <a href="downloadJapanesePowerMarketData.html">All Japanese Data Download Page</a>
+        </div>
+    </nav>
+
+    <iframe class="charting-frame" src="grapher.html" title="Japanese Power Market Interactive Charts"></iframe>
+
+    <div class="disclaimer">
+        <h3>Disclaimer</h3>
+        <p>The data and resulting information on this site are provided for informational purposes only and are not intended for commercial use. The data sources and hosting resources for this site do not guarantee the accuracy of the data or its availability at all times.</p>
+        <p>Keywords: Japan Electricity, Japanese Electricity, Japan Power, Japanese Power, JEPX, Japan Electricity Power Exchange, Japanese Power Demand, Japanese Electricity Demand</p>
+        <p>Data sources: Spot Price from <a href="http://www.jepx.org/">JEPX</a>, Demand data from various regional companies, and weather data from <a href="http://www.jma.go.jp/">JMA</a>.</p>
+    </div>
+
+    <footer>
+        &copy; 2026 Japanese Electricity Market Data Hub
+    </footer>
+</body>
+</html>
