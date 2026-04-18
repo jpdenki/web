@@ -807,7 +807,7 @@
       const days = Number(state.range);
       const max = rows.reduce((acc, row) => Math.max(acc, row.t), -Infinity);
       const cutoff = max - days * 24 * 60 * 60 * 1000;
-      return rows.filter(row => row.t >= cutoff);
+      return rows.filter(row => row.t > cutoff);
     }
 
     function yearRows(rows) {
