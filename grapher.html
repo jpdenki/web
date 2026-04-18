@@ -787,6 +787,24 @@
       return `${formatMs(rows[0].t)} - ${formatMs(rows[rows.length - 1].t)}`;
     }
 
+    function dayKey(ms) {
+      const d = new Date(ms);
+      const yyyy = d.getUTCFullYear();
+      const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+      const dd = String(d.getUTCDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function completeDayRows(rows, expectedIntervalsPerDay) {
+      const intervalsByDay = new Map();
+      for (const row of rows) {
+        const key = dayKey(row.t);
+        if (!intervalsByDay.has(key)) intervalsByDay.set(key, new Set());
+        intervalsByDay.get(key).add(Number.isFinite(row.period) ? row.period : row.t);
+      }
+      return rows.filter(row => intervalsByDay.get(dayKey(row.t))?.size >= expectedIntervalsPerDay);
+    }
+
     function customRangeActive() {
       return Boolean(state.customStartDate && state.customEndDate);
     }
@@ -1197,7 +1215,7 @@
         period: Number(row["PeriodID(1 to 48)"]),
         raw: row
       })).filter(row => Number.isFinite(row.t));
-      return rowsForCurrentRange(rows);
+      return rowsForCurrentRange(completeDayRows(rows, 48));
     }
 
     async function renderGeneration() {
@@ -1242,7 +1260,7 @@
         period: null,
         raw: row
       })).filter(row => Number.isFinite(row.t));
-      return rowsForCurrentRange(rows);
+      return rowsForCurrentRange(completeDayRows(rows, 24));
     }
 
     async function renderDemand() {
