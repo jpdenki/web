@@ -115,7 +115,47 @@ Schema logic for `demand.csv`:
 
 Resolution constraint: `demand.csv` is hourly demand data before 2024-03-31. Do not join it directly to half-hourly datasets without appropriate resampling or aggregation.
 
-### E. System Weather Observations
+
+
+### E. OCCTO 5-Minute Interconnector Flows
+
+- [interconnector_flows_5min_From_1Apr2025.csv](https://japanesepower.org/interconnector_flows_5min_From_1Apr2025.csv): OCCTO five-minute interconnector actual flow and available transfer capacity data from 2025-04-01 onward.
+
+Schema logic for `interconnector_flows_5min_From_1Apr2025.csv`:
+
+- `datetime`: Five-minute interval start timestamp, interpreted as Japan local time.
+- `Date`: Calendar date in Japan local time.
+- `PeriodID`: Five-minute period identifier. A normal day has 288 periods. PeriodID 1 begins at `00:00` JST and PeriodID 288 begins at `23:55` JST.
+- Interconnector columns follow the pattern `{interconnector}_{metric}`.
+- Metrics:
+  - `actual_flow_mw`: Actual interconnector flow in megawatts. Original OCCTO Japanese field: `潮流実績`.
+  - `available_transfer_capacity_forward_mw`: Forward-direction available transfer capacity in megawatts. Original OCCTO Japanese field: `空容量(順方向)`.
+  - `available_transfer_capacity_reverse_mw`: Reverse-direction available transfer capacity in megawatts. Original OCCTO Japanese field: `空容量(逆方向)`.
+- Interconnector prefixes and Japanese source labels:
+  - `hokkaido_honshu`: `北海道・本州間電力連系設備`
+  - `tohoku_tokyo`: `相馬双葉幹線`
+  - `tokyo_chubu_frequency_converter`: `周波数変換設備`
+  - `chubu_kansai`: `三重東近江線`
+  - `chubu_hokuriku`: `南福光連系所・南福光変電所の連系設備`
+  - `hokuriku_kansai`: `越前嶺南線`
+  - `kansai_chugoku`: `西播東岡山線・山崎智頭線`
+  - `kansai_shikoku`: `阿南紀北直流幹線`
+  - `chugoku_shikoku`: `本四連系線`
+  - `chugoku_kyushu`: `関門連系線`
+  - `chubu_fence`: `中部フェンス`
+  - `hokuriku_fence`: `北陸フェンス`
+  - `kansai_fence`: `関西フェンス`
+
+Interpretation notes:
+
+- The source is OCCTO `連系線潮流実績`.
+- The original OCCTO long-format fields used to build this wide file are `連系線`, `対象日付`, `対象時刻`, `潮流実績`, `空容量(順方向)`, and `空容量(逆方向)`.
+- The file is wide format: one row per five-minute interval, with separate columns for each interconnector and metric.
+
+
+
+
+### F. System Weather Observations
 
 - [weatherData.csv](https://japanesepower.org/weatherData.csv): Historical daily maximum and minimum temperatures for the main city in each power region.
 
@@ -131,7 +171,7 @@ Schema logic for `weatherData.csv`:
 - `TMax`: Daily maximum temperature.
 - `TMin`: Daily minimum temperature.
 
-### F. Machine-Readable Manifest
+### G. Machine-Readable Manifest
 
 - [files.json](https://japanesepower.org/files.json): Machine-readable manifest describing the public data files on japanesepower.org.
 
@@ -148,6 +188,8 @@ Use `files.json` to discover the current public data catalog. Use this `llms.txt
 | Modern interval resolution | 30-minute intervals, normally 48 periods per day. |
 | Legacy demand resolution | 60-minute intervals for `demand.csv` before 2024-03-31. |
 | Weather resolution | Daily observations. |
+  | Interconnector flow resolution | 5-minute intervals, normally 288 periods per day, for
+  `interconnector_flows_5min_From_1Apr2025.csv`. |
 
 Join and alignment guidance:
 
@@ -175,7 +217,14 @@ Agents must use these keys for regional lookups, preserving site-specific spelli
 
 - Direct ingestion: Public CSV and JSON files are accessible with standard unauthenticated HTTP GET requests.
 - Endpoint pattern: Replace the filename in `https://japanesepower.org/jepxSpot.csv` with any public CSV filename listed above.
-- High-priority current resources: `jepxSpot.csv`, `spot_2026.csv`, `intradaySpotPrice.csv`, the regional half-hourly files, `demand.csv`, `weatherData.csv`, and `files.json`.
+- High-priority current resources:
+    - Half-hourly market data: `jepxSpot.csv`, `spot_2026.csv`
+    - Intraday market data: `intradaySpotPrice.csv`
+    - Half-hourly regional demand and generation: regional `*HalfHourlyData.csv` files
+    - 5-minute interconnector data: `interconnector_flows_5min_From_1Apr2025.csv`
+    - Hourly historical demand: `demand.csv`
+    - Daily weather data: `weatherData.csv`
+    - Machine-readable catalog: `files.json`
 - Historical archives: `spot_2011.csv` through `spot_2025.csv` are historical archive slices and should not be treated as fresh daily feeds.
 - Crawler freshness: Use [sitemap.xml](https://japanesepower.org/sitemap.xml) for crawler frequency and priority metadata.
 - Polling: Agents should avoid excessive polling and generally respect the daily data-update cadence.

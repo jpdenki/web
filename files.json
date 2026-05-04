@@ -44,4 +44,16 @@
       ]
     }
   }
+  "interconnector_flows_5min": {
+    "description": "Five-minute OCCTO interconnector actual flow and available transfer capacity data from 2025-04-01 onward",
+    "files": [
+      {
+        "file": "interconnector_flows_5min_From_1Apr2025.csv",
+        "description": "Wide-format 5-minute interconnector actual flow MW, available transfer capacity forward MW, and available
+  transfer capacity reverse MW"
+      }
+    ]
+  }
+
+
 }

@@ -451,6 +451,71 @@ back to different dates, so the files do not all start and end on the same date.
 </div>
 
 
+  <div class="download-section">
+      <h3>5-Minute Interconnector Flows and Available Transfer Capacity</h3>
+      <p>Five-minute OCCTO interconnector actual flows and available transfer capacity from 1-Apr-2025 onward. Note there are some holes in the data.  The reason it does not go back before this date is that OCCTO changed the reported data from 1-Apr-2025.</p>
+
+      <div class="file-grid">
+          <a href="interconnector_flows_5min_From_1Apr2025.csv">Interconnector Flows 5-Minute Data</a>
+      </div>
+
+      <div style="margin-top: 30px; border-top: 1px solid #ccc; padding-top: 20px; font-size: 0.9rem; color: #666;">
+          <p><strong>Interconnector Data Inventory:</strong> Five-minute interconnector actual flow and available transfer capacity
+  dataset:</p>
+
+          <ul style="list-style-type: none; padding: 0; margin: 0; line-height: 2;">
+              <li><a href="interconnector_flows_5min_From_1Apr2025.csv" style="text-decoration: none; color:
+  #666;">interconnector_flows_5min_From_1Apr2025.csv</a></li>
+          </ul>
+      </div>
+
+      <br>
+
+      <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; font-family: monospace; font-size: 0.85rem;
+  overflow-x: auto; margin-bottom: 20px;">
+          <strong style="color: #003366; font-family: 'Roboto', sans-serif;">5-Minute Interconnector Flow Schema</strong><br><br>
+          <strong>JP:</strong> 対象日時, 対象日付, PeriodID, 北海道・本州間電力連系設備_潮流実績, 北海道・本州間電力連系設備_空容量(順
+  方向), 北海道・本州間電力連系設備_空容量(逆方向), 相馬双葉幹線_潮流実績, 相馬双葉幹線_空容量(順方向), 相馬双葉幹線_空容量(逆方向), 周
+  波数変換設備_潮流実績, 周波数変換設備_空容量(順方向), 周波数変換設備_空容量(逆方向), 三重東近江線_潮流実績, 三重東近江線_空容量(順方
+  向), 三重東近江線_空容量(逆方向), 南福光連系所・南福光変電所の連系設備_潮流実績, 南福光連系所・南福光変電所の連系設備_空容量(順方向),
+  南福光連系所・南福光変電所の連系設備_空容量(逆方向), 越前嶺南線_潮流実績, 越前嶺南線_空容量(順方向), 越前嶺南線_空容量(逆方向), 西播
+  東岡山線・山崎智頭線_潮流実績, 西播東岡山線・山崎智頭線_空容量(順方向), 西播東岡山線・山崎智頭線_空容量(逆方向), 阿南紀北直流幹線_潮
+  流実績, 阿南紀北直流幹線_空容量(順方向), 阿南紀北直流幹線_空容量(逆方向), 本四連系線_潮流実績, 本四連系線_空容量(順方向), 本四連系線_
+  空容量(逆方向), 関門連系線_潮流実績, 関門連系線_空容量(順方向), 関門連系線_空容量(逆方向), 中部フェンス_潮流実績, 中部フェンス_空容量
+  (順方向), 中部フェンス_空容量(逆方向), 北陸フェンス_潮流実績, 北陸フェンス_空容量(順方向), 北陸フェンス_空容量(逆方向), 関西フェンス_
+  潮流実績, 関西フェンス_空容量(順方向), 関西フェンス_空容量(逆方向)<br><br>
+          <strong>EN:</strong> datetime, Date, PeriodID, hokkaido_honshu_actual_flow_mw,
+  hokkaido_honshu_available_transfer_capacity_forward_mw, hokkaido_honshu_available_transfer_capacity_reverse_mw,
+  tohoku_tokyo_actual_flow_mw, tohoku_tokyo_available_transfer_capacity_forward_mw,
+  tohoku_tokyo_available_transfer_capacity_reverse_mw, tokyo_chubu_frequency_converter_actual_flow_mw,
+  tokyo_chubu_frequency_converter_available_transfer_capacity_forward_mw,
+  tokyo_chubu_frequency_converter_available_transfer_capacity_reverse_mw, chubu_kansai_actual_flow_mw,
+  chubu_kansai_available_transfer_capacity_forward_mw, chubu_kansai_available_transfer_capacity_reverse_mw,
+  chubu_hokuriku_actual_flow_mw, chubu_hokuriku_available_transfer_capacity_forward_mw,
+  chubu_hokuriku_available_transfer_capacity_reverse_mw, hokuriku_kansai_actual_flow_mw,
+  hokuriku_kansai_available_transfer_capacity_forward_mw, hokuriku_kansai_available_transfer_capacity_reverse_mw,
+  kansai_chugoku_actual_flow_mw, kansai_chugoku_available_transfer_capacity_forward_mw,
+  kansai_chugoku_available_transfer_capacity_reverse_mw, kansai_shikoku_actual_flow_mw,
+  kansai_shikoku_available_transfer_capacity_forward_mw, kansai_shikoku_available_transfer_capacity_reverse_mw,
+  chugoku_shikoku_actual_flow_mw, chugoku_shikoku_available_transfer_capacity_forward_mw,
+  chugoku_shikoku_available_transfer_capacity_reverse_mw, chugoku_kyushu_actual_flow_mw,
+  chugoku_kyushu_available_transfer_capacity_forward_mw, chugoku_kyushu_available_transfer_capacity_reverse_mw,
+  chubu_fence_actual_flow_mw, chubu_fence_available_transfer_capacity_forward_mw, chubu_fence_available_transfer_capacity_reverse_mw,
+  hokuriku_fence_actual_flow_mw, hokuriku_fence_available_transfer_capacity_forward_mw,
+  hokuriku_fence_available_transfer_capacity_reverse_mw, kansai_fence_actual_flow_mw,
+  kansai_fence_available_transfer_capacity_forward_mw, kansai_fence_available_transfer_capacity_reverse_mw<br><br>
+          <span style="font-family: 'Roboto', sans-serif; font-size: 0.8rem; color: #555;"><em>Note: PeriodID runs from 1 to 288 for
+  each day, with one row per five-minute interval.</em></span>
+      </div>
+  </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -467,9 +532,6 @@ back to different dates, so the files do not all start and end on the same date.
                 <a href="weatherData.csv">Weather Data</a>
             </div>
 
-
-
-
 <div style="margin-top: 30px; border-top: 1px solid #ccc; padding-top: 20px; font-size: 0.9rem; color: #666;">
     <p><strong>Weather Data Inventory:</strong> Historical temperature datasets available for download:</p>
     
@@ -480,7 +542,7 @@ back to different dates, so the files do not all start and end on the same date.
 
 
 
-<BR>
+     <BR>
 
 <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin-bottom: 20px;">
         <strong style="color: #003366; font-family: 'Roboto', sans-serif;">Weather Data Schema</strong><br><br>
