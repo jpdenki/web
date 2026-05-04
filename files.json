@@ -43,7 +43,7 @@
         { "file": "weatherData.csv", "cities": ["Sapporo", "Sendai", "Tokyo", "Nagoya", "Kanazawa", "Osaka", "Hiroshima", "Matsuyama", "Fukuoka"] }
       ]
     }
-  }
+  ,
   "interconnector_flows_5min": {
     "description": "Five-minute OCCTO interconnector actual flow and available transfer capacity data from 2025-04-01 onward",
     "files": [
@@ -54,6 +54,6 @@
       }
     ]
   }
-
+}
 
 }
