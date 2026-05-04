@@ -510,6 +510,7 @@
         spot: "DA JEPX Spot Prices",
         intraday: "Intraday Spot Prices",
         generation: "Demand / Generation",
+        interconnector: "Interconnector Flows",
         demand: "Historical Demand",
         weather: "Weather",
         catalog: "Data Catalog",
@@ -519,6 +520,7 @@
         days90: "90 days",
         yearView: "Year",
         full: "Full",
+        fiveMinute: "Five-minute",
         halfHour: "Half-hour",
         hourly: "Hourly",
         daily: "Daily",
@@ -577,6 +579,7 @@
         spot: "DA JEPXスポット価格",
         intraday: "時間前スポット価格",
         generation: "需要・発電",
+        interconnector: "連系線フロー",
         demand: "過去需要",
         weather: "気象",
         catalog: "データ一覧",
@@ -586,6 +589,7 @@
         days90: "90日",
         yearView: "年",
         full: "全期間",
+        fiveMinute: "5分値",
         halfHour: "30分値",
         hourly: "1時間値",
         daily: "日次",
@@ -661,6 +665,28 @@
       { key: "others", en: "Others", ja: "その他", column: "Others" }
     ];
 
+    const INTERCONNECTORS = [
+      { key: "hokkaido_honshu", en: "Hokkaido-Honshu", ja: "北海道-本州", columnPrefix: "hokkaido_honshu" },
+      { key: "tohoku_tokyo", en: "Tohoku-Tokyo", ja: "東北-東京", columnPrefix: "tohoku_tokyo" },
+      { key: "tokyo_chubu_frequency_converter", en: "Tokyo-Chubu FC", ja: "東京-中部FC", columnPrefix: "tokyo_chubu_frequency_converter" },
+      { key: "chubu_kansai", en: "Chubu-Kansai", ja: "中部-関西", columnPrefix: "chubu_kansai" },
+      { key: "chubu_hokuriku", en: "Chubu-Hokuriku", ja: "中部-北陸", columnPrefix: "chubu_hokuriku" },
+      { key: "hokuriku_kansai", en: "Hokuriku-Kansai", ja: "北陸-関西", columnPrefix: "hokuriku_kansai" },
+      { key: "kansai_chugoku", en: "Kansai-Chugoku", ja: "関西-中国", columnPrefix: "kansai_chugoku" },
+      { key: "kansai_shikoku", en: "Kansai-Shikoku", ja: "関西-四国", columnPrefix: "kansai_shikoku" },
+      { key: "chugoku_shikoku", en: "Chugoku-Shikoku", ja: "中国-四国", columnPrefix: "chugoku_shikoku" },
+      { key: "chugoku_kyushu", en: "Chugoku-Kyushu", ja: "中国-九州", columnPrefix: "chugoku_kyushu" },
+      { key: "chubu_fence", en: "Chubu Fence", ja: "中部フェンス", columnPrefix: "chubu_fence" },
+      { key: "hokuriku_fence", en: "Hokuriku Fence", ja: "北陸フェンス", columnPrefix: "hokuriku_fence" },
+      { key: "kansai_fence", en: "Kansai Fence", ja: "関西フェンス", columnPrefix: "kansai_fence" }
+    ];
+
+    const INTERCONNECTOR_METRIC_TYPES = [
+      { key: "actual", en: "Actual Flow", ja: "実潮流", suffix: "actual_flow_mw" },
+      { key: "forward", en: "ATC Forward", ja: "空容量 順方向", suffix: "available_transfer_capacity_forward_mw" },
+      { key: "reverse", en: "ATC Reverse", ja: "空容量 逆方向", suffix: "available_transfer_capacity_reverse_mw" }
+    ];
+
     const COLOR_SET = [
       "#0b766e", "#b7432d", "#b58b00", "#2f6f9f", "#7a5c00",
       "#0b7a46", "#9b3d55", "#4f6f32", "#7a4f9f", "#43515a",
@@ -680,6 +706,7 @@
         spot: "halfHour",
         intraday: "halfHour",
         generation: "halfHour",
+        interconnector: "fiveMinute",
         demand: "hourly",
         weather: "daily"
       },
@@ -689,8 +716,10 @@
       selectedDemandRegions: new Set(["tokyo"]),
       generationRegion: "tokyo",
       weatherRegion: "tokyo",
+      interconnectorMetricType: "actual",
       selectedIntradayMetrics: new Set(["average", "high", "low"]),
       selectedGenerationMetrics: new Set(["areaDemand", "total", "solar", "lng"]),
+      selectedInterconnectors: new Set(["hokkaido_honshu", "tohoku_tokyo", "tokyo_chubu_frequency_converter", "chubu_kansai"]),
       manifest: null,
       catalog: [],
       cache: new Map(),
@@ -848,9 +877,10 @@
       };
     }
 
-    const RESOLUTION_ORDER = ["halfHour", "hourly", "daily", "weekly", "monthly", "quarterly"];
+    const RESOLUTION_ORDER = ["fiveMinute", "halfHour", "hourly", "daily", "weekly", "monthly", "quarterly"];
 
     function sourceResolutionForView(view = state.view) {
+      if (view === "interconnector") return "fiveMinute";
       if (view === "demand") return "hourly";
       if (view === "weather") return "daily";
       return "halfHour";
@@ -882,6 +912,9 @@
       const m = d.getUTCMonth();
       const day = d.getUTCDate();
       const h = d.getUTCHours();
+      if (resolution === "fiveMinute") {
+        return Date.UTC(y, m, day, h, Math.floor(d.getUTCMinutes() / 5) * 5, 0);
+      }
       if (resolution === "halfHour") {
         return Date.UTC(y, m, day, h, Math.floor(d.getUTCMinutes() / 30) * 30, 0);
       }
@@ -934,11 +967,11 @@
     }
 
     function includeTimeForResolution(resolutionKey) {
-      return resolutionKey === "halfHour" || resolutionKey === "hourly";
+      return resolutionKey === "fiveMinute" || resolutionKey === "halfHour" || resolutionKey === "hourly";
     }
 
     function showPointDots(resolutionKey) {
-      return resolutionKey === "halfHour" && (state.range === "1" || state.range === "7");
+      return (resolutionKey === "fiveMinute" && state.range === "1") || (resolutionKey === "halfHour" && (state.range === "1" || state.range === "7"));
     }
 
     function fileUrl(file) {
@@ -1010,6 +1043,9 @@
 
       const weather = dataFiles.weather_data || {};
       for (const item of weather.files || []) rows.push({ file: item.file, group: "weather_data", description: weather.description || "" });
+
+      const interconnector = dataFiles.interconnector_flows_5min || {};
+      for (const item of interconnector.files || []) rows.push({ file: item.file, group: "interconnector_flows_5min", description: item.description || interconnector.description || "" });
 
       const seen = new Set();
       return rows.filter(row => {
@@ -1250,6 +1286,56 @@
       });
     }
 
+    function selectedInterconnectorMetricType() {
+      return INTERCONNECTOR_METRIC_TYPES.find(metric => metric.key === state.interconnectorMetricType) || INTERCONNECTOR_METRIC_TYPES[0];
+    }
+
+    async function loadInterconnectorRows() {
+      const file = "interconnector_flows_5min_From_1Apr2025.csv";
+      state.activeFiles = [file];
+      const dataset = await loadCsv(file);
+      requireColumns(file, dataset.fields, ["datetime", "Date", "PeriodID", "hokkaido_honshu_actual_flow_mw"]);
+      const rows = dataset.rows.map(row => ({
+        t: parseWallTimeMs(row.datetime),
+        period: Number(row.PeriodID),
+        raw: row
+      })).filter(row => Number.isFinite(row.t));
+      return rowsForCurrentRange(completeDayRows(rows, 288));
+    }
+
+    async function renderInterconnector() {
+      const rows = await loadInterconnectorRows();
+      const metricType = selectedInterconnectorMetricType();
+      const selected = INTERCONNECTORS.filter(item => state.selectedInterconnectors.has(item.key));
+      const resolutionKey = activeResolutionForView("interconnector");
+      const series = selected.map((item, index) => ({
+        name: label(item),
+        type: "line",
+        showSymbol: showPointDots(resolutionKey),
+        symbol: "circle",
+        symbolSize: 4,
+        emphasis: { scale: 1.7 },
+        smooth: false,
+        progressive: 4000,
+        progressiveThreshold: 8000,
+        itemStyle: { color: COLOR_SET[index % COLOR_SET.length] },
+        lineStyle: { width: 1.5 },
+        data: buildSeriesData(rows, row => cleanNumber(row.raw[`${item.columnPrefix}_${metricType.suffix}`]), "fiveMinute", resolutionKey, "unitMW")
+      }));
+      renderLineChart({
+        title: `${t("interconnector")} - ${label(metricType)}`,
+        note: chartNote(resolutionKey, t("unitMW")),
+        yAxes: [{ name: t("unitMW") }],
+        series,
+        unitResolver: params => t(params.value[3] || "unitMW"),
+        resolutionKey,
+        sourceText: "interconnector_flows_5min_From_1Apr2025.csv",
+        rows,
+        latest: rows.reduce((acc, row) => Math.max(acc, row.t), null),
+        includeTime: includeTimeForResolution(resolutionKey)
+      });
+    }
+
     async function loadDemandRows() {
       const file = "demand.csv";
       state.activeFiles = [file];
@@ -1428,7 +1514,8 @@
       if (resolutionKey === "quarterly") return `${yyyy} Q${Math.floor(d.getUTCMonth() / 3) + 1}`;
       if (resolutionKey === "daily" || resolutionKey === "weekly") return `${dd}-${month}-${yyyy}`;
       const hh = String(d.getUTCHours()).padStart(2, "0");
-      return `${dd}-${month}-${yyyy}\n${hh}:00`;
+      const mi = String(d.getUTCMinutes()).padStart(2, "0");
+      return `${dd}-${month}-${yyyy}\n${hh}:${mi}`;
     }
 
     function formatTooltipTime(value, includeTime) {
@@ -1438,7 +1525,7 @@
     function renderControls() {
       const years = annualSpotFiles().map(file => Number(file.replace(/\D/g, ""))).filter(Boolean).sort((a, b) => b - a);
       const dateLimits = dateInputLimits();
-      const viewOptions = ["spot", "intraday", "generation", "demand", "weather", "catalog"].map(view => `<option value="${view}" ${state.view === view ? "selected" : ""}>${t(view)}</option>`).join("");
+      const viewOptions = ["spot", "intraday", "generation", "interconnector", "demand", "weather", "catalog"].map(view => `<option value="${view}" ${state.view === view ? "selected" : ""}>${t(view)}</option>`).join("");
       const yearOptions = years.map(year => `<option value="${year}" ${Number(state.year) === year ? "selected" : ""}>${year}</option>`).join("");
       const rangeButtons = ["1", "7", "30", "90", "year", "full"].map(range => `<button type="button" class="button ${state.range === range ? "active" : ""}" data-range="${range}">${range === "1" ? t("day1") : range === "7" ? t("week1") : range === "30" ? t("days30") : range === "90" ? t("days90") : range === "year" ? t("yearView") : t("full")}</button>`).join("");
 
@@ -1485,6 +1572,9 @@
       } else if (state.view === "generation") {
         html += regionSelect("generationRegion", state.generationRegion);
         html += checkboxGroup("metrics", GENERATION_METRICS, state.selectedGenerationMetrics, "generation-metric");
+      } else if (state.view === "interconnector") {
+        html += interconnectorMetricSelect();
+        html += checkboxGroup("source", INTERCONNECTORS, state.selectedInterconnectors, "interconnector-line");
       } else if (state.view === "demand") {
         html += checkboxGroup("regions", REGIONS.filter(region => region.demand), state.selectedDemandRegions, "demand-region");
       } else if (state.view === "weather") {
@@ -1516,6 +1606,16 @@
         <div class="control-group">
           <label class="label" for="${id}">${t("region")}</label>
           <select id="${id}">${options}</select>
+        </div>
+      `;
+    }
+
+    function interconnectorMetricSelect() {
+      const options = INTERCONNECTOR_METRIC_TYPES.map(metric => `<option value="${metric.key}" ${state.interconnectorMetricType === metric.key ? "selected" : ""}>${escapeHtml(label(metric))}</option>`).join("");
+      return `
+        <div class="control-group">
+          <label class="label" for="interconnectorMetricType">${t("metrics")}</label>
+          <select id="interconnectorMetricType">${options}</select>
         </div>
       `;
     }
@@ -1585,6 +1685,7 @@
         if (state.view === "spot") await renderSpot();
         if (state.view === "intraday") await renderIntraday();
         if (state.view === "generation") await renderGeneration();
+        if (state.view === "interconnector") await renderInterconnector();
         if (state.view === "demand") await renderDemand();
         if (state.view === "weather") await renderWeather();
         if (state.view === "catalog") {
@@ -1618,10 +1719,12 @@
       if (target.id === "tooltipToggle") state.tooltipEnabled = target.checked;
       if (target.id === "generationRegion") state.generationRegion = target.value;
       if (target.id === "weatherRegion") state.weatherRegion = target.value;
+      if (target.id === "interconnectorMetricType") state.interconnectorMetricType = target.value;
       if (target.dataset.name === "spot-region") updateSet(state.selectedSpotRegions, target.value, target.checked, "system");
       if (target.dataset.name === "demand-region") updateSet(state.selectedDemandRegions, target.value, target.checked, "tokyo");
       if (target.dataset.name === "intraday-metric") updateSet(state.selectedIntradayMetrics, target.value, target.checked, "average");
       if (target.dataset.name === "generation-metric") updateSet(state.selectedGenerationMetrics, target.value, target.checked, "areaDemand");
+      if (target.dataset.name === "interconnector-line") updateSet(state.selectedInterconnectors, target.value, target.checked, "tohoku_tokyo");
       renderControls();
       renderActive();
     });
