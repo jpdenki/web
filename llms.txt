@@ -61,7 +61,40 @@ Schema logic for `jepxSpot.csv` and `spot_YYYY.csv`:
 - `Sell Bid Volume kWh`, `Buy Bid Volume kWh`, `Contracted Total Volume kWh`: Bid and contracted volumes in kilowatt-hours.
 - `Sell Block Bid Total Volume kWh`, `Sell Block Contracted Total Volume kWh`, `Buy Block Bid Total Volume kWh`, `Buy Block Contracted Total Volume kWh`: Block bid and block contracted volumes in kilowatt-hours.
 
-### B. JEPX Intraday Market
+### B. JEPX Day-Ahead Bidding Curve
+
+Half-year Parquet block files:
+
+- [bidOfferCurveJEPX_2025H1.parquet](https://japanesepower.org/bidOfferCurveJEPX_2025H1.parquet): JEPX day-ahead bidding curve chart points from 2025-01-01 to 2025-06-30.
+- [bidOfferCurveJEPX_2025H2.parquet](https://japanesepower.org/bidOfferCurveJEPX_2025H2.parquet): JEPX day-ahead bidding curve chart points from 2025-07-01 to 2025-12-31.
+- [bidOfferCurveJEPX_2026H1.parquet](https://japanesepower.org/bidOfferCurveJEPX_2026H1.parquet): JEPX day-ahead bidding curve chart points from 2026-01-01 to the latest available date in the data.
+
+These files are ZSTD-compressed Parquet files. They contain one row per plotted Buy or Sell curve point for each delivery date, half-hour period ID, split area group, and curve side. Each delivery day has 48 half-hour periods.
+
+Schema logic for `bidOfferCurveJEPX_*.parquet`:
+
+- `delivery_date`: Delivery date. Original JEPX Japanese field: `電力受渡日`.
+- `period_id`: JEPX half-hour period ID, 1 to 48. Original JEPX Japanese field: `商品コード`.
+- `period_start_jst`: Period start timestamp in Japan Standard Time, calculated from `電力受渡日` and `商品コード`.
+- `period_end_jst`: Period end timestamp in Japan Standard Time, calculated from `電力受渡日` and `商品コード`.
+- `split_area_id`: Normalized split area ID. Original JEPX Japanese field: `分断エリア連番`. Blank system-price IDs are stored as `system_price`.
+- `source_split_area_id`: Raw JEPX split area ID. Original JEPX Japanese field: `分断エリア連番`.
+- `area_group_jp`: Split area group name. Original JEPX Japanese field: `エリアグループ`. Values are stored in English for compatibility.
+- `area_group_en`: Split area group name in English. Original JEPX Japanese field: `エリアグループ`.
+- `curve_side`: Curve side, either `Sell` or `Buy`. Original JEPX Japanese fields: `売入札量累積` and `買入札量累積`.
+- `point_order`: Point order within delivery date, period ID, split area group, and curve side. This is the graph draw order.
+- `volume_mw`: Cumulative bid volume in megawatts. Original JEPX Japanese fields: `売入札量累積(MW)` and `買入札量累積(MW)`.
+- `bidding_price_jpy_per_kwh`: Bidding price in Japanese yen per kilowatt-hour. Original JEPX Japanese field: `入札価格(円/kWh)`.
+
+Interpretation notes:
+
+- `curve_side = Sell` corresponds to the blue sell curve on the JEPX bidding curve chart.
+- `curve_side = Buy` corresponds to the red buy curve on the JEPX bidding curve chart.
+- Split area groups can change by delivery date and period ID. Do not assume the same split area grouping for every period.
+- Join to JEPX day-ahead spot price data using `delivery_date` plus `period_id`.
+- Delivery period timestamps are Japan Standard Time, `JST/UTC+9`.
+
+### C. JEPX Intraday Market
 
 - [intradaySpotPrice.csv](https://japanesepower.org/intradaySpotPrice.csv): JEPX intraday spot market price history.
 
@@ -74,7 +107,7 @@ Schema logic for `intradaySpotPrice.csv`:
 - `Contracted Volume Total kWh`: Contracted volume in kilowatt-hours.
 - `Number of Contracts`: Number of contracts or trades in the period.
 
-### C. Regional Half-Hourly Generation and Demand
+### D. Regional Half-Hourly Generation and Demand
 
 Regional endpoints:
 
@@ -103,7 +136,7 @@ Schema logic for regional `*HalfHourlyData.csv` files:
 
 Coverage note: Each regional ISO provides data back to different dates, so regional files do not all start and end on the same date. Check each file's minimum and maximum dates before comparing regions.
 
-### D. Historical Hourly Demand
+### E. Historical Hourly Demand
 
 - [demand.csv](https://japanesepower.org/demand.csv): Historical and current regional electricity demand data.
 
@@ -117,7 +150,7 @@ Resolution constraint: `demand.csv` is hourly demand data before 2024-03-31. Do 
 
 
 
-### E. OCCTO 5-Minute Interconnector Flows
+### F. OCCTO 5-Minute Interconnector Flows
 
 - [interconnector_flows_5min_From_1Apr2025.csv](https://japanesepower.org/interconnector_flows_5min_From_1Apr2025.csv): OCCTO five-minute interconnector actual flow and available transfer capacity data from 2025-04-01 onward.
 
@@ -155,7 +188,7 @@ Interpretation notes:
 
 
 
-### F. System Weather Observations
+### G. System Weather Observations
 
 - [weatherData.csv](https://japanesepower.org/weatherData.csv): Historical daily maximum and minimum temperatures for the main city in each power region.
 
@@ -171,7 +204,7 @@ Schema logic for `weatherData.csv`:
 - `TMax`: Daily maximum temperature.
 - `TMin`: Daily minimum temperature.
 
-### G. Machine-Readable Manifest
+### H. Machine-Readable Manifest
 
 - [files.json](https://japanesepower.org/files.json): Machine-readable manifest describing the public data files on japanesepower.org.
 
@@ -222,6 +255,7 @@ Agents must use these keys for regional lookups, preserving site-specific spelli
     - Intraday market data: `intradaySpotPrice.csv`
     - Half-hourly regional demand and generation: regional `*HalfHourlyData.csv` files
     - 5-minute interconnector data: `interconnector_flows_5min_From_1Apr2025.csv`
+    - Day-ahead bidding curves: `bidOfferCurveJEPX_2025H1.parquet`, `bidOfferCurveJEPX_2025H2.parquet`, `bidOfferCurveJEPX_2026H1.parquet`
     - Hourly historical demand: `demand.csv`
     - Daily weather data: `weatherData.csv`
     - Machine-readable catalog: `files.json`
@@ -233,6 +267,7 @@ Large-file handling:
 
 - `jepxSpot.csv` is approximately 40 MB according to the download page.
 - For scoped year-specific analysis, use the annual `spot_YYYY.csv` files.
+- JEPX bidding curve data is published as half-year ZSTD Parquet blocks. Prefer the relevant block file instead of loading all bidding curve history.
 - For full-history analysis, prefer streaming or chunked reads, Polars, DuckDB, or other columnar/analytical tooling where appropriate.
 
 Excluded content:

@@ -525,6 +525,39 @@ back to different dates, so the files do not all start and end on the same date.
 
 
 
+<div class="download-section">
+    <h3>JEPX Bid Offer / Bidding Curve Parquet files</h3>
+    <p>
+        JEPX day-ahead bid offer curve data from 1-Jan-2025 onward. These files contain the plotted Buy and Sell bidding curve points for each delivery date, each half-hour period ID, and each split area group. Each day has 48 half-hour periods. Files are ZSTD-compressed Parquet split into half-year blocks.
+    </p>
+
+    <div class="file-grid">
+        <a href="bidOfferCurveJEPX_2025H1.parquet">Bid Offer Curves 2025 H1</a>
+        <a href="bidOfferCurveJEPX_2025H2.parquet">Bid Offer Curves 2025 H2</a>
+        <a href="bidOfferCurveJEPX_2026H1.parquet">Bid Offer Curves 2026 H1 to Latest</a>
+    </div>
+
+    <div style="margin-top: 30px; border-top: 1px solid #ccc; padding-top: 20px; font-size: 0.9rem; color: #666;">
+        <p><strong>JEPX Bid Offer Curve Inventory:</strong> Half-year ZSTD Parquet datasets available for download:</p>
+
+        <ul style="list-style-type: none; padding: 0; margin: 0; line-height: 2;">
+            <li><a href="bidOfferCurveJEPX_2025H1.parquet" style="text-decoration: none; color: #666;">bidOfferCurveJEPX_2025H1.parquet</a> - 2025-01-01 to 2025-06-30</li>
+            <li><a href="bidOfferCurveJEPX_2025H2.parquet" style="text-decoration: none; color: #666;">bidOfferCurveJEPX_2025H2.parquet</a> - 2025-07-01 to 2025-12-31</li>
+            <li><a href="bidOfferCurveJEPX_2026H1.parquet" style="text-decoration: none; color: #666;">bidOfferCurveJEPX_2026H1.parquet</a> - 2026-01-01 to latest available date</li>
+        </ul>
+    </div>
+
+    <div style="background: #eef2f5; padding: 15px; border-left: 4px solid #003366; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin-bottom: 20px; margin-top: 15px;">
+        <strong style="color: #003366; font-family: 'Roboto', sans-serif;">JEPX Bid Offer Curve Schema</strong><br><br>
+        <strong>JP:</strong> 電力受渡日, 商品コード, 電力受渡日 + 商品コードから算出した開始時刻, 電力受渡日 + 商品コードから算出した終了時刻, 分断エリア連番, 分断エリア連番, エリアグループ, エリアグループ, 売入札量累積 / 買入札量累積, グラフ描画順, 売入札量累積(MW) / 買入札量累積(MW), 入札価格(円/kWh)<br><br>
+        <strong>EN:</strong> delivery_date, period_id, period_start_jst, period_end_jst, split_area_id, source_split_area_id, area_group_jp, area_group_en, curve_side, point_order, volume_mw, bidding_price_jpy_per_kwh<br><br>
+        <span style="font-family: 'Roboto', sans-serif; font-size: 0.8rem; color: #555;">
+            <em>Note: curve_side is Sell or Buy. Sell corresponds to the blue sell curve and Buy corresponds to the red buy curve on the JEPX bidding curve chart. Split area groups can change by delivery date and period ID. Join to JEPX spot data using delivery_date plus period_id.</em>
+        </span>
+    </div>
+</div>
+
+
         <div class="download-section">
             <h3>Weather for the Main City in Each Region</h3>
             <p>Daily maximum temperature and daily minimum temperature.</p>
