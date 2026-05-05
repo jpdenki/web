@@ -49,8 +49,7 @@
     "files": [
       {
         "file": "interconnector_flows_5min_From_1Apr2025.csv",
-        "description": "Wide-format 5-minute interconnector actual flow MW, available transfer capacity forward MW, and available
-  transfer capacity reverse MW"
+        "description": "Wide-format 5-minute interconnector actual flow MW, available transfer capacity forward MW, and available transfer capacity reverse MW"
       }
     ]
   }
