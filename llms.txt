@@ -280,3 +280,4 @@ Excluded content:
 - Data is intended for information, quantitative analysis, academic research, and market modeling.
 - Accuracy and availability are not guaranteed by the data sources or hosting resources.
 - For contact or access questions, use [contact.html](https://japanesepower.org/contact.html).
+
